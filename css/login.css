@@ -1,0 +1,21 @@
+/* ==========================================================
+   TRACKLY login page
+   Only things that belong to the login page live here.
+   The split layout and green panel are in auth.css.
+   The login page has two views in one file: welcome (default) and sign in.
+   Until JavaScript is added, login.html#signin shows the sign in view.
+   ========================================================== */
+
+/* Sign in view is hidden until #signin is in the address bar.
+   It sits before the welcome view in the HTML so the last rule can hide the welcome view. */
+#signin {
+    display: none;
+}
+
+#signin:target {
+    display: flex;
+}
+
+#signin:target~#welcome {
+    display: none;
+}

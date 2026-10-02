@@ -1,0 +1,18 @@
+/* ==========================================================
+   TRACKLY sign up page
+   Only things that belong to the sign up page live here.
+   The split layout and green panel are in auth.css.
+   The password strength bar is in components.css (shared with reset password).
+   ========================================================== */
+
+/* ---------- Terms checkbox ---------- */
+.terms {
+    align-items: flex-start;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.terms input {
+    flex-shrink: 0;
+    margin-top: 2px;
+}

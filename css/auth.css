@@ -1,0 +1,192 @@
+/* ==========================================================
+   TRACKLY auth layout
+   Shared by every page that has the green side panel:
+   login, sign up, forgot password and so on.
+   Left: green brand panel with the line drawings.
+   Right: the form panel.
+   Page specific rules live in that page's own CSS file (login.css etc).
+   ========================================================== */
+
+.auth {
+    display: grid;
+    grid-template-columns: minmax(0, 9fr) minmax(0, 11fr);
+    /* TEMP ratio, matches the design roughly */
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+/* ---------- Left brand panel ---------- */
+.auth-brand {
+    position: relative;
+    isolation: isolate;
+    /* keeps the drawings behind the logo and tagline */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 32px;
+    background: var(--color-brand-dark);
+    text-align: center;
+}
+
+/* The faint line drawings (one SVG file, edit assets/images/panel-art.svg).
+   "contain" keeps the whole artwork visible at the same proportions as the design, never cropped. */
+.auth-brand::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: url("../assets/images/panel-art.svg") center / contain no-repeat;
+    pointer-events: none;
+}
+
+.auth-logo {
+    width: clamp(220px, 26vw, 340px);
+    height: auto;
+}
+
+.auth-tagline {
+    font-size: clamp(16px, 1.6vw, 20px);
+    color: var(--color-tagline);
+}
+
+/* ---------- Right form panel ---------- */
+.auth-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    background: var(--color-page-bg);
+}
+
+.auth-content {
+    width: 100%;
+    max-width: 400px;
+}
+
+.view {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ---------- Text blocks ---------- */
+.view-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.view-heading h1 {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-heading);
+}
+
+.view-heading p {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--color-muted);
+}
+
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.stack-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.legal {
+    font-size: 12px;
+    text-align: center;
+    color: var(--color-muted);
+}
+
+.switch-account {
+    font-size: 13px;
+    text-align: center;
+    color: var(--color-muted);
+}
+
+/* ---------- Back arrow and step text (top of form pages) ---------- */
+.step-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.back-btn {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid var(--color-border);
+    border-radius: 50%;
+    background: var(--color-input-bg);
+    color: var(--color-heading);
+}
+
+.back-btn:hover {
+    text-decoration: none;
+    background: #F1F5F9;
+}
+
+.back-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.step-text {
+    font-size: 12px;
+    color: var(--color-muted);
+}
+
+.row-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+}
+
+/* ---------- Phones and small tablets: panels stack ---------- */
+@media (max-width: 800px) {
+    .auth {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+    }
+
+    .auth-brand {
+        padding: 28px 24px;
+    }
+
+    /* Drawings are hidden on phones so the top banner stays clean and light */
+    .auth-brand::before {
+        display: none;
+    }
+
+    .auth-logo {
+        width: 180px;
+    }
+
+    .auth-tagline {
+        font-size: 15px;
+    }
+
+    .auth-panel {
+        align-items: flex-start;
+        padding: 32px 20px 40px;
+    }
+
+    .view-heading h1 {
+        font-size: 28px;
+    }
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trackly dashboard (temporary test page)</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <!-- TEMP: this whole page only proves that login works. Replace it with the designer's dashboard. -->
+  <style>
+    .temp { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+    .temp-card { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 16px; text-align: center; }
+  </style>
+</head>
+<body>
+  <main class="temp">
+    <div class="temp-card" id="page" hidden>
+      <h1>You are signed in</h1>
+      <p>Signed in as <strong id="who"></strong></p>
+      <p>This is a temporary test page. The real dashboard comes next.</p>
+      <button class="btn btn-outline" type="button" id="signout">Sign out</button>
+    </div>
+  </main>
+  <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+/* ==========================================================
+   TRACKLY components
+   Small reusable pieces (buttons, inputs, divider).
+   The other pages (sign up, forgot password, dashboard) reuse these.
+   ========================================================== */
+
+/* ---------- Buttons ---------- */
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: var(--control-height);
+    padding: 0 16px;
+    border: 1.5px solid transparent;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: filter 0.15s ease, background-color 0.15s ease;
+}
+
+.btn:hover {
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--color-button);
+    color: var(--color-button-text);
+}
+
+.btn-primary:hover {
+    filter: brightness(0.95);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--color-heading);
+    border-color: var(--color-brand-dark);
+}
+
+.btn-outline:hover {
+    background: rgba(14, 92, 74, 0.06);
+}
+
+/* Google button: white box with the Google logo */
+.btn-google {
+    background: var(--color-input-bg);
+    color: var(--color-heading);
+    border-color: var(--color-border);
+}
+
+.btn-google:hover {
+    background: #F1F5F9;
+}
+
+.btn-google svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ---------- Form fields ---------- */
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-label);
+}
+
+.input {
+    width: 100%;
+    height: var(--control-height);
+    padding: 0 14px;
+    background: var(--color-input-bg);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius);
+    font-size: 14px;
+}
+
+.input::placeholder {
+    color: var(--color-placeholder);
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--color-link);
+    box-shadow: 0 0 0 3px rgba(0, 217, 150, 0.2);
+}
+
+/* Password box with the show/hide eye on the right */
+.input-wrap {
+    position: relative;
+}
+
+.input-wrap .input {
+    padding-right: 46px;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: 6px;
+    color: var(--color-muted);
+    transform: translateY(-50%);
+}
+
+.toggle-password svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Checkbox with its label text */
+.checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--color-muted);
+    cursor: pointer;
+}
+
+.checkbox input {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: var(--color-link);
+}
+
+/* Error message shown under a form (filled in by JavaScript later) */
+.form-error {
+    font-size: 13px;
+    color: var(--color-error);
+}
+
+/* ---------- Password strength bar ----------
+   JavaScript sets data-level on .strength to 0, 1, 2 or 3.
+   To preview it now, open DevTools and change data-level in the HTML. */
+.strength {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 2px;
+}
+
+.strength-bars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+}
+
+.strength-bars span {
+    height: 4px;
+    border-radius: 999px;
+    background: var(--color-border);
+    transition: background-color 0.2s ease;
+}
+
+.strength[data-level="1"] .strength-bars span:nth-child(-n + 1) {
+    background: var(--color-strength-weak);
+}
+
+.strength[data-level="2"] .strength-bars span:nth-child(-n + 2) {
+    background: var(--color-strength-fair);
+}
+
+.strength[data-level="3"] .strength-bars span {
+    background: var(--color-strength-strong);
+}
+
+.strength-text {
+    font-size: 11px;
+    color: var(--color-muted);
+}
+
+/* ---------- Outlined button with a bright green border (Back to Sign In) ---------- */
+.btn-outline-link {
+    background: transparent;
+    color: var(--color-brand-dark);
+    border-color: var(--color-link);
+}
+
+.btn-outline-link:hover {
+    background: rgba(0, 217, 150, 0.08);
+}
+
+/* ---------- Small text links ---------- */
+.link-button {
+    padding: 0;
+    background: none;
+    border: 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-link);
+}
+
+.link-button:hover {
+    text-decoration: underline;
+}
+
+.link-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    text-decoration: none;
+}
+
+.link-quiet {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-brand-dark);
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Success note (for example after creating an account) */
+.form-success {
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    background: rgba(0, 217, 150, 0.12);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-brand-dark);
+}
+
+/* Buttons while we wait for Firebase */
+.btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+/* ---------- Divider with text in the middle ---------- */
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    color: var(--color-muted);
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--color-border);
+}
+
+/* Small links like Forgot password? and Sign Up */
+.link-strong {
+    font-weight: 600;
+}
