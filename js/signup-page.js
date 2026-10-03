@@ -65,6 +65,11 @@ form.addEventListener("submit", async (event) => {
 /* ---------- Google ---------- */
 googleBtn.addEventListener("click", async () => {
   hideMessage(errorEl);
+  if (!termsInput.checked) {
+    showMessage(errorEl, "Please agree to the Terms of Service and Privacy Policy to continue.");
+    termsInput.focus();
+    return;
+  }
   googleBtn.disabled = true;
   try {
     await signInWithGoogle();

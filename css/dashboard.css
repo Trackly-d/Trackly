@@ -1,0 +1,523 @@
+/* ==========================================================
+   TRACKLY dashboard page
+   The welcome screen a new student sees before adding a course.
+   The sidebar and top bar are in app.css.
+   ========================================================== */
+
+/* Soft blurred shapes in the background (decoration only) */
+.welcome-page::before,
+.welcome-page::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.welcome-page::before {
+  top: 18%;
+  right: -140px;
+  width: 340px;
+  height: 340px;
+  background: var(--color-blob-mint);
+}
+
+.welcome-page::after {
+  bottom: 6%;
+  left: -120px;
+  width: 320px;
+  height: 320px;
+  background: var(--color-blob-lavender);
+}
+
+.welcome {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 560px;
+  margin: auto;
+  text-align: center;
+}
+
+/* ---------- Round illustration ---------- */
+.welcome-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 200px;
+  height: 200px;
+}
+
+.art-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(0, 217, 150, 0.12);
+}
+
+.art-circle {
+  position: absolute;
+  inset: 26px;
+  border-radius: 50%;
+  background: var(--color-icon-circle);
+}
+
+.art-doc {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 64px;
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: var(--color-brand-dark);
+  box-shadow: 0 6px 16px rgba(14, 92, 74, 0.15);
+}
+
+.art-doc svg {
+  width: 28px;
+  height: 28px;
+}
+
+.art-badge {
+  position: absolute;
+  right: -8px;
+  bottom: -8px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-link);
+  color: #FFFFFF;
+}
+
+.art-badge svg {
+  width: 12px;
+  height: 12px;
+}
+
+.art-dot {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.art-dot-dark {
+  top: 14px;
+  right: 22px;
+  width: 8px;
+  height: 8px;
+  background: var(--color-brand-dark);
+}
+
+.art-dot-mint {
+  bottom: 30px;
+  left: 10px;
+  width: 7px;
+  height: 7px;
+  background: var(--color-link);
+}
+
+/* ---------- Text and buttons ---------- */
+.welcome h1 {
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-heading);
+}
+
+.welcome-sub {
+  font-size: clamp(16px, 2vw, 19px);
+  color: var(--color-muted);
+}
+
+.welcome-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.welcome-actions .btn {
+  height: 52px;
+  font-size: 15px;
+}
+
+.welcome-note {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+/* ---------- Three feature cards ---------- */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.feature-card {
+  padding: 14px;
+  border-radius: 10px;
+  background: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(226, 232, 240, 0.6);
+}
+
+.feature-icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  color: var(--color-brand-dark);
+}
+
+.feature-icon .icon {
+  width: 16px;
+  height: 16px;
+}
+
+.tile-mint { background: var(--color-tile-mint); }
+.tile-lavender { background: var(--color-tile-lavender); }
+.tile-blue { background: var(--color-tile-blue); }
+
+.feature-card h3 {
+  margin-bottom: 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.feature-card p {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+@media (max-width: 640px) {
+  .welcome-art {
+    width: 170px;
+    height: 170px;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================
+   MAIN DASHBOARD (shown to everyone except brand new students)
+   ========================================================== */
+
+.dash {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.dash-head h1 {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.dash-sub {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+/* ---------- Four number cards ---------- */
+.dash-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(226, 232, 240, 0.6);
+}
+
+.stat-card-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-heading);
+}
+
+.stat-card.is-progress .stat-card-label { color: var(--color-status-progress-text); }
+.stat-card.is-submitted .stat-card-label { color: var(--color-badge-ok-text); }
+.stat-card.is-overdue .stat-card-label { color: var(--color-badge-due-text); }
+
+.stat-card-value {
+  margin-top: 6px;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-heading);
+}
+
+/* ---------- Two columns ---------- */
+.dash-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.dash-col-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.dash-col-head h2 {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.view-all {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-brand-dark);
+}
+
+.panel {
+  padding: 6px 16px;
+  border-radius: 12px;
+  background: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(226, 232, 240, 0.6);
+}
+
+/* Each list is a real list, so we remove the bullets and the default indent */
+.list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---------- Total Assignments rows ---------- */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.row + .row {
+  border-top: 1px solid #F1F5F9;
+}
+
+.row-main {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.row-chip {
+  --course-color: #94A3B8;
+  flex-shrink: 0;
+  max-width: 96px;
+  padding: 2px 8px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--color-chip-bg);
+  background: color-mix(in srgb, var(--course-color) 20%, #FFFFFF);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-heading);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* One line, then "..." (the full title shows when you hover over it) */
+.row-title,
+.up-title {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.row-side {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 12px;
+}
+
+.row-due {
+  font-size: 11px;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.pill {
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pill-pending { background: var(--color-status-pending-bg); color: var(--color-status-pending-text); }
+.pill-progress { background: var(--color-status-progress-bg); color: var(--color-status-progress-text); }
+.pill-overdue { background: var(--color-badge-due-bg); color: var(--color-badge-due-text); }
+.pill-submitted { background: var(--color-badge-ok-bg); color: var(--color-badge-ok-text); }
+
+/* ---------- Upcoming Deadlines rows ---------- */
+.up-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.up-row + .up-row {
+  border-top: 1px solid #F1F5F9;
+}
+
+.date-tile {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: var(--color-chip-bg);
+}
+
+.date-month {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+}
+
+.date-day {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-heading);
+}
+
+.up-text {
+  min-width: 0;
+}
+
+.up-meta {
+  overflow: hidden;
+  font-size: 12px;
+  color: var(--color-muted);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ---------- Empty states (TEMP until the designer sends hers) ---------- */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 28px 12px;
+  text-align: center;
+}
+
+.empty strong {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.empty p {
+  max-width: 280px;
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+.empty .btn {
+  width: auto;
+  height: 40px;
+  margin-top: 10px;
+  padding: 0 18px;
+}
+
+/* The error box sits in the middle of the page */
+#state-error {
+  margin: auto;
+}
+
+/* ---------- Loading look ---------- */
+.dash-loading {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.sk {
+  border-radius: 12px;
+  background: #ECEFF7;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.sk-head { height: 56px; max-width: 320px; }
+.sk-stats { height: 84px; }
+.sk-panel { height: 240px; }
+
+@keyframes pulse {
+  50% { opacity: 0.55; }
+}
+
+/* ---------- Smaller screens ---------- */
+@media (max-width: 900px) {
+  .dash-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .dash-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dash-head h1 {
+    font-size: 26px;
+  }
+
+  /* Each row gets a second line for the date and status */
+  .row {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .row-side {
+    flex: 1 1 100%;
+    justify-content: space-between;
+  }
+}

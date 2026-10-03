@@ -5,130 +5,132 @@
    ========================================================== */
 
 :root {
-    /* CONFIRMED by the designer */
-    --color-brand-dark: #0E5C4A;
-    /* dark green panel */
-    --color-link: #00D996;
-    /* links like Sign Up, Forgot password? */
-    --color-heading: #0F172A;
-    /* headings (Inter Bold) */
-    --color-muted: #64748B;
-    /* subtitles (Inter Regular) */
-    --color-back-to-signin: #F8FAF9;
-    /* "Back to sign in", used on the forgot password page later */
+  /* CONFIRMED by the designer */
+  --color-brand-dark: #0E5C4A;      /* dark green panel */
+  --color-link: #00D996;            /* links like Sign Up, Forgot password? */
+  --color-heading: #0F172A;         /* headings (Inter Bold) */
+  --color-muted: #64748B;           /* subtitles (Inter Regular) */
+  --color-back-to-signin: #F8FAF9;  /* "Back to sign in", used on the forgot password page later */
 
-    /* TEMP: waiting for the designer to confirm these */
-    --color-button: #00C58E;
-    /* TEMP main green button */
-    --color-button-text: #FFFFFF;
-    /* TEMP text on the green button */
-    --color-page-bg: #F8FAF9;
-    /* TEMP right panel background */
-    --color-input-bg: #FFFFFF;
-    /* TEMP input and Google button fill */
-    --color-border: #E2E8F0;
-    /* TEMP input, divider and Google button borders */
-    --color-placeholder: #94A3B8;
-    /* TEMP placeholder text in inputs */
-    --color-label: #0F172A;
-    /* TEMP small labels (Email, Password) */
-    --color-tagline: #FFFFFF;
-    /* TEMP tagline on the green panel */
-    --color-error: #DC2626;
-    /* TEMP error messages */
-    --color-icon-circle: #B2F5DE;
-    /* TEMP round background behind the envelope icon */
-    --color-strength-weak: #EF4444;
-    /* TEMP password strength bar, weak */
-    --color-strength-fair: #F59E0B;
-    /* TEMP password strength bar, fair (amber, as in the reset design) */
-    --color-strength-strong: #00D996;
-    /* TEMP password strength bar, strong */
+  /* TEMP: waiting for the designer to confirm these */
+  --color-button: #00C58E;          /* TEMP main green button */
+  --color-button-text: #FFFFFF;     /* TEMP text on the green button */
+  --color-page-bg: #F8FAF9;         /* TEMP right panel background */
+  --color-input-bg: #FFFFFF;        /* TEMP input and Google button fill */
+  --color-border: #E2E8F0;          /* TEMP input, divider and Google button borders */
+  --color-placeholder: #94A3B8;     /* TEMP placeholder text in inputs */
+  --color-label: #0F172A;           /* TEMP small labels (Email, Password) */
+  --color-tagline: #FFFFFF;         /* TEMP tagline on the green panel */
+  --color-error: #DC2626;           /* TEMP error messages */
+  --color-icon-circle: #B2F5DE;     /* TEMP round background behind the envelope icon */
 
-    /* TEMP shape and spacing */
-    --radius: 8px;
-    --control-height: 48px;
+  /* TEMP: app screens (dashboard and the pages inside the sidebar layout) */
+  --color-sidebar: #1F6B55;         /* TEMP sidebar green */
+  --color-sidebar-text: rgba(255, 255, 255, 0.85); /* TEMP sidebar link text */
+  --color-app-bg: #F8F8FF;          /* TEMP page background inside the app */
+  --color-blob-mint: rgba(0, 217, 150, 0.14);      /* TEMP soft blurred shape, right */
+  --color-blob-lavender: rgba(129, 140, 248, 0.16); /* TEMP soft blurred shape, left */
+  --color-tile-mint: #D5F7EA;       /* TEMP small icon square, card 1 */
+  --color-tile-lavender: #E6E8FD;   /* TEMP small icon square, card 2 */
+  --color-tile-blue: #DDEBFF;       /* TEMP small icon square, card 3 */
+  --color-badge-due-bg: #FEE2E2;    /* TEMP red "3 due" badge */
+  --color-badge-due-text: #DC2626;  /* TEMP red "3 due" badge text */
+  --color-badge-ok-bg: #D1FAE5;     /* TEMP green "All caught up" badge */
+  --color-badge-ok-text: #047857;   /* TEMP green "All caught up" badge text */
+  --color-chip-bg: #EEF0FF;         /* TEMP room and credits chips, Add Courses tile */
+  --color-chip-text: #475569;       /* TEMP room and credits chip text */
+  --color-status-pending-bg: #E6E8FD;   /* TEMP Pending pill */
+  --color-status-pending-text: #4338CA; /* TEMP Pending pill text */
+  --color-status-progress-bg: #FEF3C7;  /* TEMP In Progress pill */
+  --color-status-progress-text: #B45309; /* TEMP In Progress pill text */
+  --color-strength-weak: #EF4444;   /* TEMP password strength bar, weak */
+  --color-strength-fair: #F59E0B;   /* TEMP password strength bar, fair (amber, as in the reset design) */
+  --color-strength-strong: #00D996; /* TEMP password strength bar, strong */
 
-    --font-main: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  /* TEMP shape and spacing */
+  --radius: 8px;
+  --control-height: 48px;
+
+  --font-main: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html {
-    -webkit-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-    margin: 0;
-    font-family: var(--font-main);
-    font-size: 16px;
-    line-height: 1.5;
-    color: var(--color-heading);
-    background: var(--color-page-bg);
+  margin: 0;
+  font-family: var(--font-main);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-heading);
+  background: var(--color-page-bg);
 }
 
 h1,
 h2,
 h3,
 p {
-    margin: 0;
+  margin: 0;
 }
 
 img,
 svg {
-    display: block;
-    max-width: 100%;
+  display: block;
+  max-width: 100%;
 }
 
 a {
-    color: var(--color-link);
-    text-decoration: none;
+  color: var(--color-link);
+  text-decoration: none;
 }
 
 a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 button,
 input {
-    font: inherit;
-    color: inherit;
+  font: inherit;
+  color: inherit;
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 [hidden] {
-    display: none !important;
+  display: none !important;
 }
 
 /* Visible keyboard focus for everything clickable */
 :focus-visible {
-    outline: 2px solid var(--color-link);
-    outline-offset: 2px;
+  outline: 2px solid var(--color-link);
+  outline-offset: 2px;
 }
 
 /* Text for screen readers only */
 .visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    * {
-        transition: none !important;
-        animation: none !important;
-    }
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
 }

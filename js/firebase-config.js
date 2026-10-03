@@ -16,7 +16,7 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/12.18.0/firebas
 export * from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
 // Database tools (Firestore) the other files need
-export { doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+export { doc, getDoc, setDoc, serverTimestamp, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCTDm-8cf5rKUlP-OCr_00bB6PYMrCPYbc",
