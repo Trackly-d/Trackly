@@ -227,6 +227,25 @@
     text-align: center;
 }
 
+/* Box shown when a page could not load its data */
+.load-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 24px;
+    border-radius: 12px;
+    background: #FFFFFF;
+    text-align: center;
+    font-size: 14px;
+    color: var(--color-muted);
+}
+
+.btn-retry {
+    width: auto;
+    padding: 0 20px;
+}
+
 /* Success note (for example after creating an account) */
 .form-success {
     padding: 10px 12px;

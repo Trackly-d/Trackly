@@ -69,3 +69,22 @@ export function initStrengthMeter(input, strengthEl, textEl) {
     textEl.textContent = text;
   });
 }
+
+/* ---------- Small helpers for building page content ---------- */
+
+/* Builds an element. Text is added with textContent, so nothing a student types can run as code. */
+export function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
+
+export function plural(count, word) {
+  return count + " " + word + (count === 1 ? "" : "s");
+}
+
+/* Only accepts colors like #00D996, so a course color can never carry anything else */
+export function safeColor(value, fallback = "#00D996") {
+  return typeof value === "string" && /^#[0-9a-f]{6}$/i.test(value) ? value : fallback;
+}
