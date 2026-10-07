@@ -17,6 +17,7 @@ import { fetchCourses, fetchAssignments } from "./courses-data.js";
 import { fetchUserRecord, markWelcomeSkippedSafe } from "./users.js";
 import { buildModel, searchItems, formatDue, STATUS_LABELS } from "./assignments.js";
 import { el, plural, safeColor } from "./ui.js";
+import { courseChipLabel } from "./course-labels.js";
 
 const DEMO = new URLSearchParams(window.location.search).get("demo");
 
@@ -70,7 +71,8 @@ function emptyBlock(title, text, withButton) {
 function assignmentRow(item) {
   const row = el("li", "row");
 
-  const chip = el("span", "row-chip", item.course ? (item.course.code || item.course.title) : "No course");
+  const chip = el("span", "row-chip", courseChipLabel(item.course));
+  if (item.course) chip.title = item.course.title;
   chip.style.setProperty("--course-color", item.course ? safeColor(item.course.color) : "#94A3B8");
 
   const title = el("span", "row-title", item.title);

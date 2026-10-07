@@ -1,0 +1,29 @@
+# ==========================================================
+# TRACKLY image worker: Wrangler settings
+# This file tells Wrangler what to deploy and what the Worker is allowed to use.
+# Secrets (like your Pixabay key) are NOT written here. See README.md.
+# ==========================================================
+
+# The name of the Worker. It also becomes part of its address:
+# https://trackly-images.trackly409.workers.dev
+name = "trackly-images"
+
+# The file that holds the code
+main = "index.js"
+
+# Which version of the Cloudflare runtime behaviour to use
+compatibility_date = "2025-10-01"
+
+# KV is a small storage box. The Worker uses it to remember photo searches
+# for 24 hours (Pixabay asks apps to do this, and it makes photos load faster).
+# 1. Run:  npx wrangler kv namespace create CACHE
+# 2. Paste the id it prints in place of the text below.
+[[kv_namespaces]]
+binding = "CACHE"
+id = "7e8995ca26814830aebd684c66183b4a"
+
+# Websites that are allowed to use this Worker, separated by commas.
+# Add your Firebase Hosting address too when you deploy the site,
+# for example https://YOUR-PROJECT.web.app
+[vars]
+ALLOWED_ORIGINS = "https://trackly.ng,https://www.trackly.ng,http://127.0.0.1:5500,http://localhost:5500"

@@ -374,19 +374,6 @@
   white-space: nowrap;
 }
 
-.pill {
-  padding: 2px 8px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.pill-pending { background: var(--color-status-pending-bg); color: var(--color-status-pending-text); }
-.pill-progress { background: var(--color-status-progress-bg); color: var(--color-status-progress-text); }
-.pill-overdue { background: var(--color-badge-due-bg); color: var(--color-badge-due-text); }
-.pill-submitted { background: var(--color-badge-ok-bg); color: var(--color-badge-ok-text); }
-
 /* ---------- Upcoming Deadlines rows ---------- */
 .up-row {
   display: flex;
@@ -435,34 +422,6 @@
   color: var(--color-muted);
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-
-/* ---------- Empty states (TEMP until the designer sends hers) ---------- */
-.empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 28px 12px;
-  text-align: center;
-}
-
-.empty strong {
-  font-size: 15px;
-  font-weight: 700;
-}
-
-.empty p {
-  max-width: 280px;
-  font-size: 13px;
-  color: var(--color-muted);
-}
-
-.empty .btn {
-  width: auto;
-  height: 40px;
-  margin-top: 10px;
-  padding: 0 18px;
 }
 
 /* The error box sits in the middle of the page */

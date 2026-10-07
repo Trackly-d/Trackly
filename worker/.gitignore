@@ -1,0 +1,4 @@
+# Never put these on GitHub
+node_modules/
+.wrangler/
+.dev.vars

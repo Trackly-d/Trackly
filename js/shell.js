@@ -9,6 +9,10 @@
    ========================================================== */
 
 import { requireAuth, logOut, LOGIN_URL } from "./auth.js";
+import { installLeaveGuard, canLeave } from "./leave-guard.js";
+
+// Pages with forms use these to warn about unsaved changes (see leave-guard.js)
+export { setLeaveGuard, refreshLeaveGuard } from "./leave-guard.js";
 
 /* Icons: Feather icon set (free, MIT licence) */
 const ICONS = {
@@ -22,6 +26,7 @@ const ICONS = {
   bell: '<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
   menu: '<line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>',
   logout: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>',
+  chevron: '<polyline points="9 18 15 12 9 6"/>',
   plus: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
   arrow: '<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>',
   checkCircle: '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>'
@@ -87,7 +92,7 @@ function fillUser(user) {
 }
 
 let toastTimer = null;
-function showToast(message) {
+export function showToast(message) {
   const toast = document.getElementById("toast");
   toast.textContent = message;
   toast.hidden = false;
@@ -122,7 +127,10 @@ function wireShell() {
     showToast("Coming soon");
   });
 
+  installLeaveGuard();
+
   document.getElementById("signout").addEventListener("click", async () => {
+    if (!(await canLeave())) return; // unsaved changes: ask first
     await logOut();
     window.location.replace(LOGIN_URL);
   });

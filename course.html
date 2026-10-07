@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Course | Trackly</title>
+  <!-- Signed in pages are private and kept out of Google -->
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles: base, components, the app frame, then this page -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/course.css">
+</head>
+<body>
+  <!-- Hidden until Firebase confirms the student is signed in -->
+  <div class="app-layout" id="app" hidden>
+    <div class="app-backdrop" id="backdrop" hidden></div>
+
+    <!-- Sidebar and top bar are built by js/shell.js -->
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="app-content">
+
+        <!-- LOADING -->
+        <div class="course-loading" id="course-loading" aria-busy="true" aria-label="Loading your course">
+          <div class="sk sk-head"></div>
+          <div class="sk sk-banner"></div>
+          <div class="sk sk-list"></div>
+        </div>
+
+        <!-- THE COURSE: every number and word below is filled in by js/course-page.js.
+             Try the design with sample data: course.html?demo=1 (also ?demo=empty and ?demo=notfound) -->
+        <div class="course-page" id="course-page" hidden>
+
+          <header class="course-head">
+            <a class="course-back" href="courses.html" aria-label="Back to Courses">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </a>
+            <div class="course-titles">
+              <h1 id="course-title">Introduction to Biology</h1>
+              <p class="course-sub" id="course-sub">BIO 101 &middot; Dr. Smith</p>
+            </div>
+            <!-- data-soon shows "Coming soon" until the Add Assignment page is built. Then delete data-soon. -->
+            <a class="btn btn-primary btn-add" id="new-assignment" href="add-assignment.html" data-soon>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              New Assignment
+            </a>
+          </header>
+
+          <!-- The course photo, or a wash of the course color when there is no photo -->
+          <div class="course-banner" id="course-banner">
+            <img id="course-banner-img" alt="" hidden>
+          </div>
+
+          <div class="course-body">
+
+            <!-- LEFT: filters and the assignments -->
+            <section class="course-main" aria-label="Assignments">
+              <div class="filters-row">
+                <div class="filters" role="group" aria-label="Filter assignments">
+                  <button class="filter-chip" type="button" data-filter="all" aria-pressed="true">All</button>
+                  <button class="filter-chip" type="button" data-filter="pending" aria-pressed="false">Pending</button>
+                  <button class="filter-chip" type="button" data-filter="in_progress" aria-pressed="false">In Progress</button>
+                  <button class="filter-chip" type="button" data-filter="submitted" aria-pressed="false">Submitted</button>
+                  <button class="filter-chip" type="button" data-filter="overdue" aria-pressed="false">Overdue</button>
+                </div>
+                <p class="open-count" id="open-count">3 open tasks</p>
+              </div>
+
+              <ul class="task-list" id="task-list"></ul>
+
+              <!-- Shown when the course has no assignments yet (TEMP, needs the designer's version) -->
+              <div class="empty panel-empty" id="task-empty" hidden>
+                <strong>No assignments yet</strong>
+                <p>Add the first assignment for this course and it will show up here.</p>
+                <a class="btn btn-primary" id="new-assignment-empty" href="add-assignment.html" data-soon>New Assignment</a>
+              </div>
+
+              <!-- Shown when a filter or search finds nothing -->
+              <div class="empty panel-empty" id="task-nomatch" hidden>
+                <strong>No matches</strong>
+                <p>No assignments match this filter or search.</p>
+              </div>
+            </section>
+
+            <!-- RIGHT: course details -->
+            <aside class="course-side" aria-label="Course details">
+
+              <section class="side-card" aria-labelledby="info-heading">
+                <div class="side-head">
+                  <h2 id="info-heading">Course Info</h2>
+                  <!-- New: the design had a small info icon here. Edit Course replaces it. -->
+                  <a class="edit-link" id="edit-course" href="edit-course.html">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                    Edit
+                  </a>
+                </div>
+                <dl class="info-list">
+                  <div class="info-row">
+                    <dt>Course Code</dt>
+                    <dd id="info-code">BIO 101</dd>
+                  </div>
+                  <div class="info-row">
+                    <dt>Instructor</dt>
+                    <dd id="info-instructor">Dr. Smith</dd>
+                  </div>
+                  <!-- Term is hidden for now, as agreed -->
+                  <div class="info-row">
+                    <dt>Assignments</dt>
+                    <dd id="info-assignments">4 total &middot; 3 due</dd>
+                  </div>
+                </dl>
+              </section>
+
+              <section class="side-card" aria-labelledby="pace-heading">
+                <div class="pace-head">
+                  <h2 id="pace-heading">Academic Pace</h2>
+                  <span class="pace-value" id="pace-value">25% on track</span>
+                </div>
+                <!-- Only this course's assignments count: submitted divided by total -->
+                <div class="pace-bar" role="progressbar" aria-labelledby="pace-heading" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25" id="pace-bar">
+                  <span style="width: 25%"></span>
+                </div>
+                <p class="pace-note" id="pace-note">1 of 4 assignments submitted across the semester.</p>
+              </section>
+
+            </aside>
+          </div>
+        </div>
+
+        <!-- The course does not exist, or belongs to someone else -->
+        <div class="load-error" id="course-notfound" role="alert" hidden>
+          <p>We could not find that course.</p>
+          <a class="btn btn-outline-link btn-retry" href="courses.html">Back to Courses</a>
+        </div>
+
+        <!-- The page could not load (usually the network) -->
+        <div class="load-error" id="course-error" role="alert" hidden>
+          <p>We could not load this course. Check your connection and try again.</p>
+          <button class="btn btn-outline-link btn-retry" type="button" id="course-retry">Try again</button>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script type="module" src="js/course-page.js"></script>
+</body>
+</html>

@@ -145,3 +145,60 @@ export function searchItems(items, query) {
     .sort(byDue)
     .slice(0, SEARCH_ROWS);
 }
+
+/* ---------- The course page ---------- */
+
+/* "Oct 24" */
+export function shortDate(date) {
+  return date ? date.toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "No due date";
+}
+
+/* Everything the course page needs, from ONLY this course's assignments.
+   The order: overdue first, then the soonest due, then submitted work (newest first). */
+export function buildCourseModel(courseId, assignments, now = new Date()) {
+  const items = assignments
+    .filter((a) => a.courseId === courseId)
+    .map((a) => ({
+      id: a.id,
+      title: a.title || "Untitled assignment",
+      description: a.description || "",
+      due: toDate(a.dueAt),
+      status: effectiveStatus(a, now)
+    }));
+
+  const rank = { overdue: 0, pending: 1, in_progress: 1, submitted: 2 };
+  const time = (item) => (item.due ? item.due.getTime() : null);
+  items.sort((x, y) => {
+    const byRank = rank[x.status] - rank[y.status];
+    if (byRank !== 0) return byRank;
+    const a = time(x);
+    const b = time(y);
+    if (a === b) return 0;
+    if (a === null) return 1; // no date goes last
+    if (b === null) return -1;
+    return x.status === "submitted" ? b - a : a - b;
+  });
+
+  const counts = { pending: 0, in_progress: 0, submitted: 0, overdue: 0 };
+  items.forEach((item) => { counts[item.status] += 1; });
+
+  const total = items.length;
+  return {
+    items,
+    counts,
+    total,
+    openCount: total - counts.submitted, // everything not submitted, overdue included
+    pace: { done: counts.submitted, total, percent: total ? Math.round((counts.submitted / total) * 100) : 0 }
+  };
+}
+
+/* The filter chips and the search box, together */
+export function filterCourseItems(items, filter, query) {
+  const term = (query || "").trim().toLowerCase();
+  return items.filter((item) => {
+    if (filter !== "all" && item.status !== filter) return false;
+    if (!term) return true;
+    const text = [item.title, item.description, STATUS_LABELS[item.status], shortDate(item.due)].join(" ").toLowerCase();
+    return text.includes(term);
+  });
+}

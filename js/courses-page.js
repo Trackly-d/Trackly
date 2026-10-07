@@ -7,7 +7,7 @@
      courses.html?demo=1
    ========================================================== */
 
-import { startApp, icon } from "./shell.js";
+import { startApp, icon, showToast } from "./shell.js";
 import { fetchCourses, fetchAssignments } from "./courses-data.js";
 import { headerImage } from "./images.js";
 import { toDate, dayLabel, deadlineText, effectiveStatus } from "./assignments.js";
@@ -164,7 +164,6 @@ function courseCard(course, stat, now) {
   const foot = el("div", "course-foot");
   const view = el("a", "view-link");
   view.href = "course.html?id=" + encodeURIComponent(course.id);
-  view.setAttribute("data-soon", ""); // shows "Coming soon" until the course page is built
   view.append(document.createTextNode("View"), iconSpan("arrow"));
   foot.append(footerLeft(stat, now), view);
   body.append(foot);
@@ -176,7 +175,6 @@ function courseCard(course, stat, now) {
 function addTile() {
   const tile = el("a", "add-tile");
   tile.href = "add-course.html";
-  tile.setAttribute("data-soon", ""); // delete this line when add-course.html is built
   const circle = el("span", "add-circle");
   circle.setAttribute("aria-hidden", "true");
   circle.innerHTML = icon("plus");
@@ -258,6 +256,12 @@ async function load(user) {
     const summary = summarize(courses, assignments);
     drawSummary(courses, summary);
     drawCourses(courses, summary);
+
+    // Coming back from the Add Course page
+    if (new URLSearchParams(window.location.search).get("added") === "1") {
+      showToast("Course added");
+      window.history.replaceState(null, "", window.location.pathname);
+    }
   } catch (err) {
     console.error("Could not load courses:", err);
     grid.replaceChildren();

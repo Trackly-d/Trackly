@@ -1,0 +1,471 @@
+/* ==========================================================
+   TRACKLY course page
+   The sidebar and top bar are in app.css. Pills and empty states are in components.css.
+   ========================================================== */
+
+.course-page {
+    --course-color: #00D996;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+.course-page[hidden] {
+    display: none;
+}
+
+#course-notfound,
+#course-error {
+    margin: auto;
+}
+
+/* ---------- Loading look ---------- */
+.course-loading {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+.sk {
+    border-radius: 12px;
+    background: #ECEFF7;
+    animation: pulse 1.4s ease-in-out infinite;
+}
+
+.sk-head {
+    height: 48px;
+    max-width: 420px;
+}
+
+.sk-banner {
+    height: 140px;
+}
+
+.sk-list {
+    height: 220px;
+}
+
+@keyframes pulse {
+    50% {
+        opacity: 0.55;
+    }
+}
+
+/* ---------- Title row ---------- */
+.course-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.course-back {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 1px solid var(--color-border);
+    color: var(--color-heading);
+}
+
+.course-back:hover {
+    background: #F1F5F9;
+    text-decoration: none;
+}
+
+.course-back .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.course-titles {
+    flex: 1;
+    min-width: 0;
+}
+
+.course-titles h1 {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.course-sub {
+    margin-top: 2px;
+    font-size: 12px;
+    color: var(--color-muted);
+}
+
+.btn-add {
+    flex-shrink: 0;
+    width: auto;
+    height: 42px;
+    padding: 0 18px;
+}
+
+/* ---------- Banner ---------- */
+.course-banner {
+    position: relative;
+    height: 140px;
+    overflow: hidden;
+    border-radius: 12px;
+    background: var(--color-brand-dark);
+    background: linear-gradient(120deg, color-mix(in srgb, var(--course-color) 35%, #0F172A), var(--course-color));
+}
+
+.course-banner img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* A soft dark wash so the page reads the same with any photo */
+.course-banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.05));
+}
+
+/* ---------- Two columns ---------- */
+.course-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 20px;
+    align-items: start;
+}
+
+.course-main {
+    min-width: 0;
+}
+
+/* ---------- Filter chips ---------- */
+.filters-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.filters {
+    display: flex;
+    gap: 8px;
+    padding-bottom: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.filters::-webkit-scrollbar {
+    display: none;
+}
+
+.filter-chip {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    background: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-heading);
+}
+
+.filter-chip:hover {
+    background: #F1F5F9;
+}
+
+.filter-chip[aria-pressed="true"] {
+    background: var(--color-link);
+    border-color: var(--color-link);
+    font-weight: 600;
+    color: var(--color-brand-dark);
+}
+
+.open-count {
+    flex-shrink: 0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+
+/* ---------- Assignment rows ---------- */
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.task {
+    border-radius: 10px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(226, 232, 240, 0.6);
+}
+
+.task-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.task-link:hover {
+    background: #FAFBFF;
+    text-decoration: none;
+}
+
+.task-main {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.task-chip {
+    flex-shrink: 0;
+    max-width: 90px;
+    padding: 2px 9px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--color-tile-mint);
+    background: color-mix(in srgb, var(--course-color) 22%, #FFFFFF);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-brand-dark);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.task-text {
+    min-width: 0;
+}
+
+/* One line each, then "..." */
+.task-title,
+.task-desc {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.task-title {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.task-desc {
+    margin-top: 2px;
+    font-size: 11px;
+    color: var(--color-muted);
+}
+
+.task-side {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 12px;
+}
+
+.task-due {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--color-muted);
+    white-space: nowrap;
+}
+
+.task-due .icon {
+    width: 13px;
+    height: 13px;
+}
+
+.task-go {
+    display: inline-flex;
+    color: var(--color-muted);
+}
+
+.task-go .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.icon-wrap {
+    display: inline-flex;
+}
+
+/* Empty list messages sit on a white card */
+.panel-empty {
+    border-radius: 12px;
+    background: #FFFFFF;
+}
+
+/* ---------- Right column cards ---------- */
+.course-side {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.side-card {
+    padding: 16px 18px;
+    border-radius: 12px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(226, 232, 240, 0.6);
+}
+
+.side-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.side-head h2,
+.pace-head h2 {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.edit-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-brand-dark);
+}
+
+.edit-link .icon {
+    width: 13px;
+    height: 13px;
+}
+
+.info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+}
+
+.info-row dt {
+    font-size: 11px;
+    color: var(--color-muted);
+}
+
+.info-row dd {
+    margin: 2px 0 0;
+    font-size: 13px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.pace-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.pace-value {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-badge-ok-text);
+}
+
+.pace-bar {
+    height: 6px;
+    margin: 12px 0 10px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--color-tile-lavender);
+}
+
+.pace-bar span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--color-brand-dark);
+}
+
+.pace-note {
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--color-muted);
+}
+
+/* ---------- Tablets and phones ---------- */
+@media (max-width: 900px) {
+    .course-body {
+        grid-template-columns: 1fr;
+    }
+
+    /* Course Info and Academic Pace sit under the list */
+    .course-side {
+        order: 2;
+    }
+}
+
+@media (max-width: 640px) {
+    .course-head {
+        flex-wrap: wrap;
+    }
+
+    .course-titles {
+        flex: 1 1 calc(100% - 60px);
+    }
+
+    .course-titles h1 {
+        font-size: 22px;
+    }
+
+    .btn-add {
+        flex: 1 1 100%;
+    }
+
+    .course-banner {
+        height: 100px;
+    }
+
+    .filters-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    /* Each row gets a second line for the date and status */
+    .task-link {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 12px 14px;
+    }
+
+    .task-side {
+        flex: 1 1 100%;
+        justify-content: space-between;
+    }
+
+    .task-go {
+        margin-left: auto;
+    }
+}

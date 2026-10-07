@@ -1,0 +1,464 @@
+/* ==========================================================
+   TRACKLY Add Course page
+   The sidebar and top bar are in app.css.
+   ========================================================== */
+
+.add-course {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-brand-dark);
+}
+
+.back-link .icon {
+    width: 14px;
+    height: 14px;
+}
+
+.add-head h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.add-head p {
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--color-muted);
+}
+
+.course-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+    margin-top: 8px;
+}
+
+/* ---------- Left card ---------- */
+.cf-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 24px;
+    border-radius: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(226, 232, 240, 0.6);
+}
+
+.label-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    padding: 0;
+}
+
+.label-row .label {
+    font-size: 12px;
+}
+
+.tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+
+.tag-required {
+    color: var(--color-badge-ok-text);
+}
+
+.input-icon {
+    position: relative;
+}
+
+.input-icon .icon {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    width: 16px;
+    height: 16px;
+    color: var(--color-muted);
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.input-filled {
+    padding-left: 40px;
+    background: var(--color-chip-bg);
+    border-color: transparent;
+}
+
+.field-hint {
+    font-size: 11px;
+    color: var(--color-muted);
+}
+
+/* ---------- Color tag ---------- */
+.color-field {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.color-name {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-badge-ok-text);
+}
+
+.swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.swatch {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.swatch input {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.swatch-dot {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--swatch);
+    transition: box-shadow 0.15s ease;
+}
+
+.swatch input:checked+.swatch-dot {
+    box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px var(--swatch);
+}
+
+.swatch input:checked+.swatch-dot::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-heading);
+}
+
+.swatch input:focus-visible+.swatch-dot {
+    outline: 2px solid var(--color-heading);
+    outline-offset: 5px;
+}
+
+.color-hint {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--color-muted);
+}
+
+.color-hint .icon {
+    width: 12px;
+    height: 12px;
+    margin-top: 2px;
+}
+
+/* ---------- Buttons and messages ---------- */
+.save-status {
+    font-size: 13px;
+    color: var(--color-muted);
+}
+
+.cf-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.cf-actions .btn {
+    height: 52px;
+    font-size: 15px;
+}
+
+.cancel-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-heading);
+}
+
+/* ---------- Right column ---------- */
+.cf-side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.preview-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    border-radius: 14px;
+    background: var(--color-chip-bg);
+}
+
+.preview-card {
+    position: relative;
+    padding: 14px;
+    border-radius: 10px;
+    background: #FFFFFF;
+}
+
+.preview-dot {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--preview-color, var(--color-link));
+}
+
+.preview-chip {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: var(--color-link);
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--color-brand-dark);
+}
+
+.preview-title {
+    margin-top: 8px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.preview-instructor {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--color-muted);
+}
+
+.preview-instructor .icon {
+    width: 12px;
+    height: 12px;
+}
+
+.preview-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+    font-size: 10px;
+    color: var(--color-muted);
+}
+
+.preview-link {
+    font-weight: 600;
+    color: var(--color-brand-dark);
+}
+
+.preview-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #FFFFFF;
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--color-muted);
+}
+
+.preview-note .icon {
+    width: 14px;
+    height: 14px;
+    margin-top: 1px;
+    color: var(--color-brand-dark);
+}
+
+/* ---------- Photo box ---------- */
+.image-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.image-drop {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    padding: 0;
+    overflow: hidden;
+    background: var(--color-chip-bg);
+    border: 0;
+    border-radius: 14px;
+}
+
+.image-drop:hover {
+    filter: brightness(0.98);
+}
+
+.image-drop.is-dragover {
+    outline: 2px dashed var(--color-link);
+    outline-offset: -6px;
+}
+
+.image-drop img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.add-circle {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    color: var(--color-brand-dark);
+}
+
+.add-text {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--color-muted);
+}
+
+.image-loading {
+    padding: 0 16px;
+    font-size: 13px;
+    color: var(--color-muted);
+}
+
+.image-info {
+    min-height: 18px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--color-muted);
+}
+
+.image-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+}
+
+.image-actions .link-button {
+    font-size: 13px;
+    color: var(--color-brand-dark);
+}
+
+.image-actions .link-danger {
+    color: var(--color-badge-due-text);
+}
+
+/* ---------- Edit Course: loading and message boxes ---------- */
+.edit-loading {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.sk {
+    border-radius: 12px;
+    background: #ECEFF7;
+    animation: pulse 1.4s ease-in-out infinite;
+}
+
+.sk-head {
+    height: 56px;
+    max-width: 360px;
+}
+
+.sk-form {
+    height: 420px;
+}
+
+@keyframes pulse {
+    50% {
+        opacity: 0.55;
+    }
+}
+
+#edit-notfound,
+#edit-error {
+    margin: auto;
+}
+
+/* ---------- Smaller screens ---------- */
+@media (max-width: 900px) {
+    .course-form {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    /* The photo comes first on a phone, and the example card is hidden */
+    .cf-side {
+        order: -1;
+    }
+
+    .preview-panel {
+        display: none;
+    }
+
+    .image-drop {
+        aspect-ratio: 16 / 9;
+    }
+
+    .cf-card {
+        padding: 20px 16px;
+    }
+}
