@@ -4,24 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Privacy Policy | Trackly</title>
-  <meta name="description" content="How Trackly collects, uses and protects your information, including your Google account details and calendar access.">
+  <meta name="description" content="How Trackly handles your information, including Google Calendar. We do not sell your personal information.">
+  <meta name="robots" content="index, follow">
 
   <!-- Inter font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/legal.css">
 </head>
 <body>
   <!--
-    DRAFT: written by Claude as a starting point, not legal advice.
-    1. Fill in every yellow highlighted detail.
-    2. Make sure every statement matches what Trackly really does when you launch
-       (for example Pexels photos, Cloudinary, and the Google Calendar reminders).
-    3. Have a Nigerian lawyer review this page before launch.
-    4. When you change it, update "Last updated" below and TERMS_VERSION in js/users.js.
+    Public legal page. Written to match what Trackly really does (checked against the code by tests/legal-pages.test.mjs).
+    Not legal advice: a Nigerian lawyer should review it before launch.
+    When you change it: update "Last updated" below AND TERMS_VERSION in js/users.js (they must match).
+    Google also reads this page when it verifies the Calendar permission, so every statement must stay true.
   -->
   <header class="legal-header">
     <a class="legal-logo" href="login.html" aria-label="Trackly home">
@@ -30,78 +29,168 @@
     <a class="legal-back" href="login.html">Back to Trackly</a>
   </header>
 
-  <main class="legal-page">
-    <h1>Privacy Policy</h1>
-    <p class="legal-updated">Last updated: 2 October 2026</p>
+  <div class="legal-wrap">
+    <aside class="legal-side">
+      <details class="legal-toc" open>
+        <summary>On this page</summary>
+        <ol>
+          <li><a href="#s1">Who is responsible for your information</a></li>
+          <li><a href="#s2">Information we collect</a></li>
+          <li><a href="#s3">How we use your information</a></li>
+          <li><a href="#google">Google user data and Google Calendar</a></li>
+          <li><a href="#s5">Who we share information with</a></li>
+          <li><a href="#s6">Why we are allowed to use your information</a></li>
+          <li><a href="#s7">Where your information is kept</a></li>
+          <li><a href="#s8">How long we keep it</a></li>
+          <li><a href="#s9">Your rights</a></li>
+          <li><a href="#s10">Cookies and browser storage</a></li>
+          <li><a href="#s11">Children</a></li>
+          <li><a href="#s12">Changes to this policy</a></li>
+          <li><a href="#s13">Contact us</a></li>
+        </ol>
+      </details>
+    </aside>
 
-    <p>Your privacy matters to us. This policy explains what information Trackly collects, why we collect it, who we share it with, and the choices you have. We do not sell your personal information.</p>
+    <main class="legal-page">
+      <h1>Privacy Policy</h1>
+      <p class="legal-updated">Last updated: 15 October 2026</p>
+      <p>Your privacy matters to us. This policy explains what information Trackly collects, why we collect it, who we share it with, and the choices you have. We do not sell your personal information.</p>
 
-    <h2>1. Who is responsible for your information</h2>
-    <p>Trackly is run by <mark class="placeholder">[Trackly team or company name]</mark>. For privacy questions or requests, email <mark class="placeholder">[support email, for example support@trackly.ng]</mark>.</p>
+      <section class="legal-summary" aria-label="Summary">
+        <h2>In short</h2>
+        <ul>
+          <li>We collect your name, email, courses and assignments so Trackly can work for you.</li>
+          <li>We never sell your information and we do not show ads.</li>
+          <li>If you connect Google Calendar, Trackly only adds and removes its own reminder events. Details are in <a href="#google">section 4</a>.</li>
+          <li>You can switch Google Calendar off in Profile at any time, and ask us to delete your account by email.</li>
+          <li>Service providers (Google Firebase, Cloudinary, Cloudflare and Pixabay) help us run Trackly, as explained in section 5.</li>
+        </ul>
+      </section>
 
-    <h2>2. Information we collect</h2>
-    <ul>
-      <li><strong>Account details:</strong> your full name, email address and, if you sign in with Google, your Google profile photo. Your password is handled by Google Firebase Authentication, so we cannot see it.</li>
-      <li><strong>What you add:</strong> your courses (title, code, instructor, colour and photo), assignments, due dates and reminder settings.</li>
-      <li><strong>Sign up record:</strong> the date you created your account and the date you agreed to our terms.</li>
-      <li><strong>Basic technical data:</strong> information such as device and browser type, which our service providers may collect to keep Trackly working and secure.</li>
-    </ul>
+      <section>
+        <h2 id="s1">1. Who is responsible for your information</h2>
+        <p>Trackly is run by the Trackly team in Nigeria. For privacy questions or requests, email <a href="mailto:trackly409@gmail.com">trackly409@gmail.com</a>.</p>
+      </section>
 
-    <h2>3. How we use your information</h2>
-    <ul>
-      <li>to create your account and keep you signed in;</li>
-      <li>to show your courses and assignments and send the reminders you ask for;</li>
-      <li>to find a suitable photo for your course header;</li>
-      <li>to keep Trackly secure, fix problems and improve it;</li>
-      <li>to answer your questions and meet our legal duties.</li>
-    </ul>
+      <section>
+        <h2 id="s2">2. Information we collect</h2>
+        <ul>
+          <li><strong>Account details:</strong> your full name, email address and, if you sign in with Google, your Google profile photo. Your password is handled by Google Firebase Authentication, so we cannot see it.</li>
+          <li><strong>What you add:</strong> your courses (title, code, instructor, colour and photo), your assignments (title, notes, due date, priority, status and reminder choices), and a profile photo if you upload one.</li>
+          <li><strong>Sign up record:</strong> the date you created your account, and the date and version of the terms you agreed to.</li>
+          <li><strong>Google Calendar details,</strong> only if you connect it: see section 4.</li>
+          <li><strong>Basic technical data:</strong> information such as device and browser type, which our service providers may collect to keep Trackly working and secure.</li>
+        </ul>
+      </section>
 
-    <h2>4. Google user data and Google Calendar</h2>
-    <p>If you connect your Google Calendar, Trackly asks for your permission first. We use that access only to create and manage the reminder events you ask for, and for no other purpose. We do not use Google user data for advertising, and we do not sell it. We do not allow people to read your Google data unless you give permission, it is needed for security or support, or the law requires it.</p>
-    <p>Trackly's use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
-    <p>You can remove Trackly's access at any time in your Google account's security settings.</p>
+      <section>
+        <h2 id="s3">3. How we use your information</h2>
+        <ul>
+          <li>to create your account and keep you signed in;</li>
+          <li>to show your courses and assignments;</li>
+          <li>to add and remove reminder events on your Google Calendar, if you connect it;</li>
+          <li>to find a suitable photo for your course header;</li>
+          <li>to keep Trackly secure, fix problems and improve it;</li>
+          <li>to answer your questions and meet our legal duties.</li>
+        </ul>
+      </section>
 
-    <h2>5. Who we share information with</h2>
-    <p>We share information only with the service providers that help us run Trackly, and only as much as they need:</p>
-    <ul>
-      <li><strong>Google (Firebase):</strong> sign in, our database and hosting.</li>
-      <li><strong>Cloudinary:</strong> delivering and storing images so they load quickly.</li>
-      <li><strong>Cloudflare:</strong> running the services that connect Trackly to other tools.</li>
-      <li><strong>Pexels:</strong> course photos. We send only the subject words of a course, never your name or email.</li>
-    </ul>
-    <p>We may also share information when the law requires it or to protect the rights and safety of Trackly or its users.</p>
+      <section class="legal-google">
+        <h2 id="google">4. Google user data and Google Calendar</h2>
+        <p class="legal-lead">This section explains exactly how Trackly uses Google user data. It only applies if you choose to connect Google Calendar. Signing in with Google is separate: it only gives us your name, email address and profile photo.</p>
+        <h3>What Trackly asks for</h3>
+        <p>When you switch on Google Calendar Reminders in your Profile, Google asks you to allow Trackly to use the permission <code>https://www.googleapis.com/auth/calendar.events.owned</code>. This permission lets an app view, create, change and delete events on calendars you own. It is the only Google Calendar permission we ask for, and we only use the part of it described below.</p>
+        <h3>What Trackly does with it</h3>
+        <ul>
+          <li>Creates reminder events on your main Google Calendar for your assignments: a "Due:" event at the due time with popup reminders, and, if you use the default schedule, a repeating "Work on:" event each morning at 8:00 until the day before the due date. Each event contains the assignment title, the course name, the due time and a link back to the assignment in Trackly.</li>
+          <li>Removes those events when they are no longer needed: when you mark the assignment Submitted, delete it, change something shown in the event, or switch Google Calendar Reminders off.</li>
+          <li>Finds its own events: every event Trackly creates carries a private tag. When you switch the feature off, Trackly searches for events with that tag, and before deleting an event it checks the tag. Trackly does not read, copy, change or delete any other event in your calendar, and it does not access your email, contacts or any other Google data.</li>
+        </ul>
+        <h3>What we store, and where</h3>
+        <ul>
+          <li>A long-lived Google access code (a "refresh token") that lets Trackly keep working after you close the page. It is encrypted and kept in our Cloudflare storage, linked only to your account. It is never stored in your browser or in our database.</li>
+          <li>A short-lived Google access token, kept only in the memory of our server for a few minutes while it is used. It is not saved.</li>
+          <li>In our Firebase database: the ids of the calendar events Trackly created and your time zone (saved with each assignment), a note that Google Calendar is connected, and, briefly, a list of event ids waiting to be removed if Google could not be reached.</li>
+          <li>The events themselves live in your Google Calendar, which Google controls.</li>
+        </ul>
+        <h3>What we never do</h3>
+        <ul>
+          <li>We do not sell Google user data or use it for advertising.</li>
+          <li>We do not share it with anyone except the providers that run Trackly for us (section 5).</li>
+          <li>We do not allow people to read it unless you ask us to, it is needed for security or support, or the law requires it.</li>
+          <li>We do not use it to develop or train artificial intelligence models.</li>
+        </ul>
+        <h3>How to stop</h3>
+        <p>Switch off Google Calendar Reminders in your Profile. Trackly removes the reminders it created, takes back its permission from Google and deletes the stored token. You can also remove Trackly's access at any time in your Google Account's third-party access settings. If you do, Trackly will notice, delete the stored token and ask you to connect again. Reminders that were already in your calendar at that point can be deleted by you in Google Calendar: look for events starting with "Due:" or "Work on:".</p>
+        <p class="legal-limited">Trackly's use and transfer to any other app of information received from Google APIs will adhere to the Google API Services User Data Policy, including the Limited Use requirements.</p>
+      </section>
 
-    <h2>6. Why we are allowed to use your information</h2>
-    <p>Under the Nigeria Data Protection Act 2023, we rely on your consent (when you create an account and agree to our terms), on what we need to provide the service you asked for, and on our legitimate interest in keeping Trackly safe and working.</p>
+      <section>
+        <h2 id="s5">5. Who we share information with</h2>
+        <p>We share information only with the service providers that help us run Trackly, and only as much as they need:</p>
+        <ul>
+          <li><strong>Google (Firebase):</strong> sign in, our database and hosting, and Google Calendar if you connect it.</li>
+          <li><strong>Cloudinary:</strong> storing and delivering images, including photos you upload.</li>
+          <li><strong>Cloudflare:</strong> running the services that connect Trackly to Google Calendar and to photo search, and storing your encrypted Google Calendar token.</li>
+          <li><strong>Pixabay:</strong> course photos. We send only the subject words of a course, never your name or email.</li>
+        </ul>
+        <p>We may also share information when the law requires it or to protect the rights and safety of Trackly or its users. We do not sell your personal information.</p>
+      </section>
 
-    <h2>7. Where your information is kept</h2>
-    <p>Your information is stored on the servers of our service providers, which may be outside Nigeria. We choose providers that use industry standard security, and we take steps to protect your information wherever it is kept.</p>
+      <section>
+        <h2 id="s6">6. Why we are allowed to use your information</h2>
+        <p>Under the Nigeria Data Protection Act 2023, we rely on your consent (when you create an account and agree to our terms), on what we need to provide the service you asked for, and on our legitimate interest in keeping Trackly safe and working.</p>
+      </section>
 
-    <h2>8. How long we keep it</h2>
-    <p>We keep your information while your account is active. When you ask us to delete your account, we delete your personal information, unless we must keep some of it for legal reasons.</p>
+      <section>
+        <h2 id="s7">7. Where your information is kept</h2>
+        <p>Your information is stored on the servers of our service providers (Google, Cloudflare and Cloudinary), which may be outside Nigeria. We choose providers that use industry standard security, and we take steps to protect your information wherever it is kept.</p>
+      </section>
 
-    <h2>9. Your rights</h2>
-    <p>You can ask us to:</p>
-    <ul>
-      <li>show you the information we hold about you;</li>
-      <li>correct information that is wrong;</li>
-      <li>delete your information or close your account;</li>
-      <li>stop or limit how we use your information, or give you a copy of it.</li>
-    </ul>
-    <p>Email <mark class="placeholder">[support email]</mark> and we will respond as soon as we can. If you are not happy with how we handle your information, you may complain to the Nigeria Data Protection Commission.</p>
+      <section>
+        <h2 id="s8">8. How long we keep it</h2>
+        <ul>
+          <li><strong>Your account, courses and assignments:</strong> while your account is active.</li>
+          <li><strong>Your Google Calendar token:</strong> until you switch Google Calendar Reminders off, remove Trackly in your Google Account, or ask us to delete your account.</li>
+          <li><strong>Calendar event ids waiting to be removed:</strong> deleted as soon as the events are removed.</li>
+          <li><strong>Photos you upload:</strong> while your account is active. We remove them when we delete your account.</li>
+          <li><strong>When you ask us to delete your account,</strong> we delete your personal information within 30 days, unless we must keep some of it for legal reasons.</li>
+        </ul>
+      </section>
 
-    <h2>10. Cookies and browser storage</h2>
-    <p>Trackly uses your browser's storage to keep you signed in (if you choose "Remember me") and to remember small settings so the app loads faster. We do not use advertising cookies.</p>
+      <section>
+        <h2 id="s9">9. Your rights</h2>
+        <p>You can ask us to:</p>
+        <ul>
+          <li>show you the information we hold about you;</li>
+          <li>correct information that is wrong;</li>
+          <li>delete your information or close your account;</li>
+          <li>stop or limit how we use your information, or give you a copy of it.</li>
+        </ul>
+        <p>Email <a href="mailto:trackly409@gmail.com">trackly409@gmail.com</a> and we will respond as soon as we can. To delete your account, email us from the address on your account. If you are not happy with how we handle your information, you may complain to the Nigeria Data Protection Commission.</p>
+      </section>
 
-    <h2>11. Children</h2>
-    <p>Trackly is meant for students aged 18 and over. If you are under 18, you need permission from a parent or guardian. If we learn that we hold information about a child without that permission, we will delete it.</p>
+      <section>
+        <h2 id="s10">10. Cookies and browser storage</h2>
+        <p>Trackly uses your browser's storage to keep you signed in (for longer if you choose "Remember me"), to keep a short-lived copy of recent screens so pages load faster (it clears when you close the tab), and to remember a few small settings, such as which list filter you chose. We do not use advertising cookies or third-party analytics tools.</p>
+      </section>
 
-    <h2>12. Changes to this policy</h2>
-    <p>We may update this policy from time to time. When we make an important change, we will tell you in the app or by email.</p>
+      <section>
+        <h2 id="s11">11. Children</h2>
+        <p>Trackly is meant for students aged 18 and over. If you are under 18, you need permission from a parent or guardian. If we learn that we hold information about a child without that permission, we will delete it.</p>
+      </section>
 
-    <h2>13. Contact us</h2>
-    <p>Email <mark class="placeholder">[support email]</mark>.</p>
-  </main>
+      <section>
+        <h2 id="s12">12. Changes to this policy</h2>
+        <p>We may update this policy from time to time. When we make an important change, we will tell you in the app or by email. If we ever want to use Google user data in a new way, we will update this policy and ask for your permission first.</p>
+      </section>
+
+      <section>
+        <h2 id="s13">13. Contact us</h2>
+        <p>Email <a href="mailto:trackly409@gmail.com">trackly409@gmail.com</a>.</p>
+      </section>
+    </main>
+  </div>
 
   <footer class="legal-footer">
     <a href="terms.html">Terms of Service</a>

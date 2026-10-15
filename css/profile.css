@@ -1,0 +1,750 @@
+/* ==========================================================
+   TRACKLY Profile page
+   The sidebar and top bar are in app.css, small shared pieces in components.css.
+   Everything here starts with pf- so no other page is affected.
+   ========================================================== */
+
+.profile {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.pf-page {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.pf-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.pf-head h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.pf-eyebrow {
+    margin-bottom: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+
+.pf-msg {
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    background: var(--color-chip-bg);
+    font-size: 13px;
+    color: var(--color-chip-text);
+}
+
+.pf-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.pf-side {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.pf-card {
+    padding: 22px;
+    border-radius: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(226, 232, 240, 0.6);
+}
+
+.pf-card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.pf-card-title .icon {
+    width: 16px;
+    height: 16px;
+    color: var(--color-brand-dark);
+}
+
+/* ---------- Buttons ---------- */
+.pf-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 18px;
+    border: 1.5px solid transparent;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.pf-btn-small {
+    min-height: 36px;
+    padding: 0 14px;
+    font-size: 12px;
+}
+
+.pf-btn-soft {
+    background: var(--color-tile-lavender);
+    color: var(--color-heading);
+}
+
+.pf-btn-soft:hover {
+    background: #D9DCFB;
+}
+
+.pf-btn-green {
+    background: var(--color-button);
+    color: var(--color-button-text);
+}
+
+.pf-btn-green:hover {
+    filter: brightness(0.95);
+}
+
+.pf-btn-outline {
+    background: #FFFFFF;
+    border-color: var(--color-button);
+    color: var(--color-brand-dark);
+}
+
+.pf-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.pf-link {
+    padding: 4px 0;
+    background: none;
+    border: 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-brand-dark);
+}
+
+.pf-link:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Left card ---------- */
+.pf-me {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+}
+
+.pf-avatar-wrap {
+    position: relative;
+    margin-top: 8px;
+}
+
+.pf-avatar {
+    display: grid;
+    place-items: center;
+    width: 112px;
+    height: 112px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--color-button);
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--color-button-text);
+}
+
+.pf-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pf-camera {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border: 3px solid #FFFFFF;
+    border-radius: 50%;
+    background: var(--color-brand-dark);
+    color: #FFFFFF;
+}
+
+.pf-camera .icon {
+    width: 15px;
+    height: 15px;
+}
+
+.pf-camera:hover {
+    filter: brightness(1.15);
+}
+
+.pf-photo-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    background: var(--color-chip-bg);
+    font-size: 12px;
+    color: var(--color-chip-text);
+}
+
+.pf-photo-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.pf-name {
+    margin-top: 6px;
+    font-size: 20px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.pf-email {
+    font-size: 13px;
+    color: var(--color-muted);
+    overflow-wrap: anywhere;
+}
+
+.pf-badge {
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--color-tile-mint);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-brand-dark);
+}
+
+.pf-since {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    padding-top: 14px;
+    width: 100%;
+    justify-content: center;
+    border-top: 1px solid var(--color-border);
+    font-size: 12px;
+    color: var(--color-muted);
+}
+
+.pf-since .icon {
+    width: 14px;
+    height: 14px;
+}
+
+/* ---------- Rows ---------- */
+.pf-row,
+.pf-pref {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+}
+
+.pf-row {
+    justify-content: space-between;
+}
+
+.pf-card-title+.pf-row,
+.pf-card-title+.pf-pref {
+    border-top: 0;
+}
+
+.pf-row+.pf-row,
+.pf-row+.pf-name-form,
+.pf-name-form+.pf-row,
+.pf-pref+.pf-pref {
+    border-top: 1px solid var(--color-border);
+}
+
+.pf-row-label {
+    font-size: 11px;
+    color: var(--color-muted);
+}
+
+.pf-row-value {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.pf-row-sub {
+    display: block;
+    margin-top: 2px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--color-muted);
+}
+
+.pf-row-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.pf-row-icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--color-chip-bg);
+    color: var(--color-brand-dark);
+}
+
+.pf-row-icon .icon {
+    width: 17px;
+    height: 17px;
+}
+
+.pf-row-button {
+    width: 100%;
+    background: none;
+    border: 0;
+    border-top: 1px solid var(--color-border);
+    text-align: left;
+}
+
+.pf-row-button:hover .pf-row-value {
+    text-decoration: underline;
+}
+
+.pf-chevron {
+    font-size: 22px;
+    color: var(--color-muted);
+}
+
+.pf-verified {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--color-tile-mint);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--color-badge-ok-text);
+}
+
+/* ---------- Name editor ---------- */
+.pf-name-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px 0;
+}
+
+.pf-form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.pf-label {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.pf-input {
+    width: 100%;
+    height: var(--control-height);
+    padding: 0 14px;
+    background: #FFFFFF;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius);
+    font-size: 14px;
+}
+
+.pf-input::placeholder {
+    color: var(--color-placeholder);
+}
+
+.pf-input:focus {
+    outline: none;
+    border-color: var(--color-link);
+    box-shadow: 0 0 0 3px rgba(0, 217, 150, 0.2);
+}
+
+.pf-input.is-invalid {
+    border-color: var(--color-error);
+}
+
+/* ---------- Switches ---------- */
+.pf-switch {
+    position: relative;
+    flex: none;
+    display: inline-block;
+    width: 46px;
+    height: 26px;
+    cursor: pointer;
+}
+
+.pf-switch input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.pf-track {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: #D5D9EC;
+    transition: background 0.15s;
+}
+
+.pf-track::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.25);
+    transition: transform 0.15s;
+}
+
+.pf-switch input:checked+.pf-track {
+    background: var(--color-button);
+}
+
+.pf-switch input:checked+.pf-track::after {
+    transform: translateX(20px);
+}
+
+.pf-switch input:focus-visible+.pf-track {
+    outline: 2px solid var(--color-heading);
+    outline-offset: 2px;
+}
+
+.pf-switch input:disabled {
+    cursor: not-allowed;
+}
+
+.pf-switch input:disabled+.pf-track {
+    opacity: 0.55;
+}
+
+/* ---------- Calendar states ---------- */
+.pf-cal-status {
+    display: none;
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-muted);
+}
+
+.pf-cal-status.pf-ok {
+    color: var(--color-badge-ok-text);
+}
+
+.pf-cal-status.pf-warn {
+    color: var(--color-badge-due-text);
+}
+
+.pf-reconnect {
+    display: none;
+}
+
+#cal-row[data-state="off"] [data-for="off"],
+#cal-row[data-state="connecting"] [data-for="connecting"],
+#cal-row[data-state="on"] [data-for="on"],
+#cal-row[data-state="reconnect"] [data-for="reconnect"] {
+    display: block;
+}
+
+#cal-row[data-state="reconnect"] .pf-reconnect {
+    display: inline-block;
+}
+
+/* ---------- Log out ---------- */
+.pf-logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 48px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--color-tile-lavender);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-badge-due-text);
+}
+
+.pf-logout .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.pf-logout:hover {
+    background: #D9DCFB;
+}
+
+/* ---------- Change Password pop-up: 520px wide, 24px corners, 32px padding ---------- */
+.pf-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: 16px;
+}
+
+.pf-modal[hidden] {
+    display: none;
+}
+
+.pf-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+}
+
+.pf-dialog {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+    padding: 32px;
+    border-radius: 24px;
+    background: #FFFFFF;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.3);
+}
+
+.pf-dialog-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.pf-dialog-head h2 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.pf-close {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: var(--color-muted);
+}
+
+.pf-close:hover {
+    background: var(--color-chip-bg);
+}
+
+.pf-close .icon {
+    width: 20px;
+    height: 20px;
+}
+
+.pf-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.pf-field[hidden] {
+    display: none;
+}
+
+.pf-pw {
+    position: relative;
+}
+
+.pf-pw .pf-input {
+    height: 56px;
+    padding-right: 48px;
+    border-radius: 14px;
+}
+
+.pf-eye {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    background: none;
+    color: var(--color-muted);
+    transform: translateY(-50%);
+}
+
+.pf-eye .icon {
+    width: 20px;
+    height: 20px;
+}
+
+.pf-eye[aria-pressed="true"] {
+    color: var(--color-brand-dark);
+}
+
+.pf-forgot {
+    align-self: flex-start;
+}
+
+.pf-hint {
+    font-size: 12px;
+    color: var(--color-muted);
+}
+
+.pf-dialog-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.pf-dialog-actions .pf-btn {
+    min-height: 52px;
+    border-radius: 14px;
+}
+
+/* ---------- Loading ---------- */
+.pf-loading {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.pf-sk {
+    border-radius: 14px;
+    background: linear-gradient(90deg, #EEF0FF 25%, #F8F8FF 50%, #EEF0FF 75%);
+    background-size: 200% 100%;
+    animation: pf-shimmer 1.4s ease-in-out infinite;
+}
+
+.pf-sk-head {
+    height: 56px;
+    width: 40%;
+}
+
+.pf-sk-card {
+    height: 340px;
+}
+
+@keyframes pf-shimmer {
+    from {
+        background-position: 200% 0;
+    }
+
+    to {
+        background-position: -200% 0;
+    }
+}
+
+/* ---------- Smaller screens ---------- */
+@media (max-width: 900px) {
+    .pf-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .pf-head h1 {
+        font-size: 24px;
+    }
+
+    .pf-card {
+        padding: 18px;
+    }
+
+    .pf-dialog {
+        padding: 22px;
+        border-radius: 20px;
+    }
+
+    .pf-dialog-head h2 {
+        font-size: 20px;
+    }
+
+    .pf-dialog-actions {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* ---------- Add reminders to existing assignments (shown only while Google Calendar is connected) ---------- */
+.pf-pref[hidden] {
+    display: none;
+}
+
+.pf-backfill .pf-btn {
+    flex: none;
+}
+
+.pf-bf-status {
+    display: none;
+    margin-top: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-muted);
+}
+
+.pf-bf-status.pf-ok {
+    color: var(--color-badge-ok-text);
+}
+
+.pf-bf-status.pf-warn {
+    color: var(--color-badge-due-text);
+}
+
+#backfill-row[data-state="working"] [data-for="working"],
+#backfill-row[data-state="done"] [data-for="done"],
+#backfill-row[data-state="problem"] [data-for="problem"] {
+    display: block;
+}
+
+@media (max-width: 640px) {
+    .pf-backfill {
+        flex-wrap: wrap;
+    }
+
+    .pf-backfill .pf-row-text {
+        flex-basis: calc(100% - 52px);
+    }
+
+    .pf-backfill .pf-btn {
+        width: 100%;
+    }
+}

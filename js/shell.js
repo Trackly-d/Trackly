@@ -10,6 +10,7 @@
 
 import { requireAuth, logOut, LOGIN_URL } from "./auth.js";
 import { installLeaveGuard, canLeave } from "./leave-guard.js";
+import { clearAllCache } from "./cache.js";
 
 // Pages with forms use these to warn about unsaved changes (see leave-guard.js)
 export { setLeaveGuard, refreshLeaveGuard } from "./leave-guard.js";
@@ -46,7 +47,7 @@ const NAV = [
   { id: "profile",     label: "Profile",     href: "profile.html",     icon: "user" },
   { id: "settings",    label: "Settings",    href: "settings.html",    icon: "settings" }
 ];
-const BUILT_PAGES = ["dashboard", "courses"];
+const BUILT_PAGES = ["dashboard", "courses", "assignments", "profile", "calendar"];
 
 function renderShell(activePage, options = {}) {
   const links = NAV.map((item) => {
@@ -79,16 +80,40 @@ function renderShell(activePage, options = {}) {
     '<div class="topbar-actions">' +
       '<button class="icon-btn" type="button" id="search-icon-btn" aria-label="Search" data-soon>' + icon("search") + "</button>" +
       '<button class="icon-btn" type="button" aria-label="Notifications" data-soon>' + icon("bell") + "</button>" +
-      '<button class="icon-btn avatar-btn" type="button" aria-label="Your account" data-soon>' + icon("user") + "</button>" +
+      '<a class="icon-btn avatar-btn" href="profile.html" aria-label="Your profile">' + icon("user") + "</a>" +
     "</div>";
 }
 
-/* Shows the student's name and their initials, for example "Alex Rivers" and "AR" */
+/* Shows the student's name and photo (or their initials), for example "Alex Rivers" and "AR".
+   The photo is user.photoURL: their own upload, or the Google photo. If it cannot load, the initials show. */
 function fillUser(user) {
   const name = user.displayName || (user.email ? user.email.split("@")[0] : "Student");
-  const initials = name.trim().split(/\s+/).slice(0, 2).map((word) => word.charAt(0).toUpperCase()).join("");
+  const initials = name.trim().split(/\s+/).slice(0, 2).map((word) => word.charAt(0).toUpperCase()).join("") || "S";
   document.getElementById("user-name").textContent = name;
-  document.getElementById("user-avatar").textContent = initials || "S";
+
+  const avatar = document.getElementById("user-avatar");
+  const topButton = document.querySelector(".avatar-btn");
+  const showFallback = () => {
+    avatar.replaceChildren(document.createTextNode(initials));
+    if (topButton) { topButton.classList.remove("has-photo"); topButton.innerHTML = icon("user"); } // fixed icon markup, not student text
+  };
+
+  if (!user.photoURL) { showFallback(); return; }
+  const makeImage = () => {
+    const img = document.createElement("img");
+    img.alt = "";
+    img.referrerPolicy = "no-referrer";
+    img.src = user.photoURL;
+    img.addEventListener("error", showFallback);
+    return img;
+  };
+  avatar.replaceChildren(makeImage());
+  if (topButton) { topButton.classList.add("has-photo"); topButton.replaceChildren(makeImage()); }
+}
+
+/* Pages call this after the student changes their name or photo */
+export function refreshUser(user) {
+  fillUser(user);
 }
 
 let toastTimer = null;
@@ -131,6 +156,7 @@ function wireShell() {
 
   document.getElementById("signout").addEventListener("click", async () => {
     if (!(await canLeave())) return; // unsaved changes: ask first
+    clearAllCache(); // nothing of this student stays on the device
     await logOut();
     window.location.replace(LOGIN_URL);
   });

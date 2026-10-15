@@ -4,8 +4,18 @@
     "ignore": [
       "firebase.json",
       "**/.*",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "worker/**",
+      "worker-calendar/**",
+      "tests/**",
+      "*.md",
+      "firestore.rules",
+      "firestore.indexes.json"
     ],
     "cleanUrls": true
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   }
 }

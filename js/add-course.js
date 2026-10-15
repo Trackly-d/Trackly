@@ -13,6 +13,7 @@ import { db, collection, doc, setDoc, serverTimestamp } from "./firebase-config.
 import { compressImage, uploadToCloudinary, fetchSuggestions, uploadsEnabled, suggestionsEnabled } from "./images.js";
 import { showMessage, hideMessage } from "./ui.js";
 import { isNewCourseDirty } from "./course-form.js";
+import { invalidateCache } from "./cache.js";
 
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -57,6 +58,7 @@ const state = {
   uploaded: null    // remembers a finished upload, so a retry does not upload twice
 };
 
+let currentUid = "";
 let courseRef = null; // created once, so pressing Save again never makes a second course
 let allowLeave = false; // true once we are leaving on purpose (after saving, or after choosing Leave)
 
@@ -280,6 +282,7 @@ async function onSubmit(event) {
     showMessage(saveStatus, "Saving your course...");
     await withTimeout(setDoc(courseRef, data), 20000, "save-timeout");
 
+    invalidateCache(currentUid); // so My Courses shows the new course straight away
     allowLeave = true;
     window.location.replace("courses.html?added=1");
   } catch (err) {
@@ -298,6 +301,7 @@ async function onSubmit(event) {
 /* ---------- Start ---------- */
 function init(user) {
   // One new course reference for this visit, so a second click on Save never makes a duplicate
+  currentUid = user.uid;
   courseRef = doc(collection(db, "users", user.uid, "courses"));
 
   form.addEventListener("submit", onSubmit);

@@ -50,8 +50,8 @@
               <h1 id="course-title">Introduction to Biology</h1>
               <p class="course-sub" id="course-sub">BIO 101 &middot; Dr. Smith</p>
             </div>
-            <!-- data-soon shows "Coming soon" until the Add Assignment page is built. Then delete data-soon. -->
-            <a class="btn btn-primary btn-add" id="new-assignment" href="add-assignment.html" data-soon>
+            <!-- The Add Assignment page now exists. -->
+            <a class="btn btn-primary btn-add" id="new-assignment" href="add-assignment.html">
               <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
               New Assignment
             </a>
@@ -79,11 +79,16 @@
 
               <ul class="task-list" id="task-list"></ul>
 
+              <!-- Loads the next 20 (hidden when there is nothing more, or while searching) -->
+              <div class="show-more-row">
+                <button class="btn btn-outline-link btn-more" type="button" id="show-more" hidden>Show more</button>
+              </div>
+
               <!-- Shown when the course has no assignments yet (TEMP, needs the designer's version) -->
               <div class="empty panel-empty" id="task-empty" hidden>
                 <strong>No assignments yet</strong>
                 <p>Add the first assignment for this course and it will show up here.</p>
-                <a class="btn btn-primary" id="new-assignment-empty" href="add-assignment.html" data-soon>New Assignment</a>
+                <a class="btn btn-primary" id="new-assignment-empty" href="add-assignment.html">New Assignment</a>
               </div>
 
               <!-- Shown when a filter or search finds nothing -->

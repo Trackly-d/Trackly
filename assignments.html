@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Assignments | Trackly</title>
+  <!-- Signed in pages are private and kept out of Google -->
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles: base, components (rows, chips and pills live here), the app frame, then this page -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/assignments.css">
+</head>
+<body>
+  <!-- Hidden until Firebase confirms the student is signed in -->
+  <div class="app-layout" id="app" hidden>
+    <div class="app-backdrop" id="backdrop" hidden></div>
+
+    <!-- Sidebar and top bar are built by js/shell.js -->
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="app-content">
+
+        <!-- LOADING -->
+        <div class="as-loading" id="as-loading" aria-busy="true" aria-label="Loading your assignments">
+          <div class="sk sk-head"></div>
+          <div class="sk sk-chips"></div>
+          <div class="sk sk-row"></div>
+          <div class="sk sk-row"></div>
+          <div class="sk sk-row"></div>
+        </div>
+
+        <!-- The page could not load (usually the network) -->
+        <div class="load-error" id="as-error" role="alert" hidden>
+          <p>We could not load your assignments. Check your connection and try again.</p>
+          <button class="btn btn-outline-link btn-retry" type="button" id="as-retry">Try again</button>
+        </div>
+
+        <!-- THE PAGE: filled in by js/assignments-page.js.
+             Try the design with sample data: assignments.html?demo=1 (also ?demo=many, ?demo=empty and ?demo=nocourses) -->
+        <div class="assignments-page" id="assignments-page" hidden>
+
+          <header class="as-head">
+            <div>
+              <h1>Assignments</h1>
+              <p class="as-totals" id="as-totals"><span>12 total</span><span>5 pending</span><span>1 overdue</span></p>
+            </div>
+            <!-- The Add Assignment page now exists.
+                 With no courses yet, JavaScript hides this button and shows "Add a course first". -->
+            <a class="btn btn-primary btn-add" id="new-assignment" href="add-assignment.html">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              New Assignment
+            </a>
+          </header>
+
+          <div class="filters-row">
+            <div class="filters" role="group" aria-label="Filter assignments">
+              <button class="filter-chip" type="button" data-filter="all" aria-pressed="true">All</button>
+              <button class="filter-chip" type="button" data-filter="pending" aria-pressed="false">Pending</button>
+              <button class="filter-chip" type="button" data-filter="in_progress" aria-pressed="false">In Progress</button>
+              <button class="filter-chip" type="button" data-filter="submitted" aria-pressed="false">Submitted</button>
+              <button class="filter-chip" type="button" data-filter="overdue" aria-pressed="false">Overdue</button>
+            </div>
+          </div>
+
+          <ul class="task-list" id="task-list"></ul>
+
+          <!-- Loads the next 20 (hidden when there is nothing more, or while searching) -->
+          <div class="show-more-row">
+            <button class="btn btn-outline-link btn-more" type="button" id="show-more" hidden>Show more</button>
+          </div>
+
+          <!-- Shown when the student has no courses yet (TEMP, needs the designer's version) -->
+          <div class="empty panel-empty" id="no-courses" hidden>
+            <strong>Add a course first</strong>
+            <p>Every assignment belongs to a course. Add your first course, then come back to add assignments.</p>
+            <a class="btn btn-primary" href="add-course.html">Add a Course</a>
+          </div>
+
+          <!-- Shown when there are courses but no assignments yet (TEMP, needs the designer's version) -->
+          <div class="empty panel-empty" id="no-assignments" hidden>
+            <strong>No assignments yet</strong>
+            <p>Add your first assignment and it will show up here.</p>
+            <a class="btn btn-primary" id="new-assignment-empty" href="add-assignment.html">New Assignment</a>
+          </div>
+
+          <!-- Shown when a filter or search finds nothing -->
+          <div class="empty panel-empty" id="no-match" hidden>
+            <strong>No matches</strong>
+            <p>No assignments match this filter or search.</p>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script type="module" src="js/assignments-page.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+/* ==========================================================
+   TRACKLY assignments page
+   The sidebar and top bar are in app.css.
+   The rows, filter chips, pills and empty states are shared, in components.css.
+   ========================================================== */
+
+.assignments-page {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+.assignments-page[hidden] {
+    display: none;
+}
+
+/* ---------- Title row ---------- */
+.as-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.as-head h1 {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+/* "12 total · 5 pending · 1 overdue", always on one line */
+.as-totals {
+    display: flex;
+    margin-top: 4px;
+    overflow: hidden;
+    font-size: 12px;
+    color: var(--color-muted);
+    white-space: nowrap;
+}
+
+.as-totals span+span::before {
+    content: "\00B7";
+    margin: 0 6px;
+}
+
+/* ---------- Messages ---------- */
+.as-loading {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+.sk {
+    border-radius: 12px;
+    background: #ECEFF7;
+    animation: pulse 1.4s ease-in-out infinite;
+}
+
+.sk-head {
+    height: 56px;
+    max-width: 360px;
+}
+
+.sk-chips {
+    height: 34px;
+    max-width: 420px;
+}
+
+.sk-row {
+    height: 56px;
+}
+
+@keyframes pulse {
+    50% {
+        opacity: 0.55;
+    }
+}
+
+#as-error {
+    margin: auto;
+}
+
+/* ---------- Smaller screens ---------- */
+@media (max-width: 640px) {
+    .as-head {
+        flex-wrap: wrap;
+    }
+
+    .as-head h1 {
+        font-size: 24px;
+    }
+
+    .as-head .btn-add {
+        flex: 1 1 100%;
+    }
+}

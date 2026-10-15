@@ -1,0 +1,452 @@
+/* ==========================================================
+   TRACKLY Calendar page
+   The sidebar and top bar are in app.css, status pills in components.css.
+   Chip colors are the same as the status pills, so a color means the same thing everywhere.
+   ========================================================== */
+
+.calendar-page {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.cal-page {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.cal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.cal-head h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.cal-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cal-nav-btn {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 10px;
+    background: #FFFFFF;
+    color: var(--color-heading);
+    box-shadow: 0 0 0 1px var(--color-border);
+}
+
+.cal-nav-btn:hover {
+    background: var(--color-chip-bg);
+}
+
+.cal-nav-btn .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.cal-month {
+    min-width: 150px;
+    padding: 8px 18px;
+    border-radius: 10px;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 1px var(--color-border);
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.cal-today-btn {
+    height: 36px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--color-tile-lavender);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-heading);
+}
+
+.cal-today-btn:hover {
+    background: #D9DCFB;
+}
+
+.cal-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 20px;
+    align-items: start;
+}
+
+/* ---------- The month ---------- */
+.cal-board {
+    padding: 16px;
+    border-radius: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(226, 232, 240, 0.6);
+}
+
+.cal-weekdays,
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 6px;
+}
+
+.cal-weekdays {
+    margin-bottom: 8px;
+}
+
+.cal-weekdays span {
+    text-align: center;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+
+.cal-day {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    min-width: 0;
+    min-height: 92px;
+    padding: 6px;
+    border: 1.5px solid transparent;
+    border-radius: 10px;
+    background: #F8F8FF;
+    text-align: left;
+    cursor: pointer;
+}
+
+.cal-day:hover {
+    border-color: var(--color-border);
+}
+
+.cal-day:focus-visible {
+    outline: 2px solid var(--color-heading);
+    outline-offset: 2px;
+}
+
+.cal-day.is-other {
+    background: transparent;
+}
+
+.cal-day.is-other .cal-num {
+    color: var(--color-placeholder);
+}
+
+.cal-day.is-selected {
+    background: #EEF2FF;
+    border-color: var(--color-link);
+}
+
+.cal-num {
+    display: grid;
+    place-items: center;
+    align-self: flex-end;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 4px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.cal-day.is-today .cal-num {
+    background: var(--color-button);
+    color: var(--color-button-text);
+    font-weight: 700;
+}
+
+.cal-chips {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.cal-chip {
+    display: block;
+    min-width: 0;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.cal-chip-text {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.cal-more {
+    padding-left: 2px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--color-muted);
+}
+
+/* Same colors as the status pills */
+.cal-pending {
+    background: var(--color-status-pending-bg);
+    color: var(--color-status-pending-text);
+}
+
+.cal-progress {
+    background: var(--color-status-progress-bg);
+    color: var(--color-status-progress-text);
+}
+
+.cal-overdue {
+    background: var(--color-badge-due-bg);
+    color: var(--color-badge-due-text);
+}
+
+.cal-submitted {
+    background: var(--color-badge-ok-bg);
+    color: var(--color-badge-ok-text);
+}
+
+.cal-empty {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--color-muted);
+}
+
+.cal-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin: 14px 0 0;
+    padding: 12px 4px 0;
+    border-top: 1px solid var(--color-border);
+    list-style: none;
+    font-size: 11px;
+    color: var(--color-muted);
+}
+
+.cal-legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cal-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+/* ---------- The chosen day ---------- */
+.cal-side {
+    padding: 20px;
+    border-radius: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(226, 232, 240, 0.6);
+}
+
+.cal-side h2 {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.cal-side-date {
+    margin-top: 2px;
+    font-size: 12px;
+    color: var(--color-muted);
+}
+
+.cal-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cal-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px 12px 12px 14px;
+    border-left: 4px solid var(--color-status-pending-text);
+    border-radius: 4px 10px 10px 4px;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 1px var(--color-border);
+    color: inherit;
+    text-decoration: none;
+}
+
+.cal-item:hover {
+    background: #F8F8FF;
+    text-decoration: none;
+}
+
+.cal-item-pending {
+    border-left-color: var(--color-status-pending-text);
+}
+
+.cal-item-progress {
+    border-left-color: var(--color-link);
+}
+
+.cal-item-overdue {
+    border-left-color: var(--color-error);
+}
+
+.cal-item-submitted {
+    border-left-color: var(--color-badge-ok-text);
+}
+
+.cal-item-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.cal-course {
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: var(--color-chip-bg);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-chip-text);
+}
+
+.cal-item-title {
+    font-size: 14px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.cal-item-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--color-muted);
+}
+
+.cal-item-time .icon {
+    width: 12px;
+    height: 12px;
+}
+
+.cal-side-empty {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--color-muted);
+}
+
+/* ---------- Loading ---------- */
+.cal-loading {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cal-sk {
+    border-radius: 14px;
+    background: linear-gradient(90deg, #EEF0FF 25%, #F8F8FF 50%, #EEF0FF 75%);
+    background-size: 200% 100%;
+    animation: cal-shimmer 1.4s ease-in-out infinite;
+}
+
+.cal-sk-head {
+    height: 44px;
+    width: 50%;
+}
+
+.cal-sk-board {
+    height: 520px;
+}
+
+@keyframes cal-shimmer {
+    from {
+        background-position: 200% 0;
+    }
+
+    to {
+        background-position: -200% 0;
+    }
+}
+
+/* ---------- Smaller screens ---------- */
+@media (max-width: 900px) {
+    .cal-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* On a phone the chips become small colored dots, so seven days still fit */
+@media (max-width: 640px) {
+    .cal-head h1 {
+        font-size: 24px;
+    }
+
+    .cal-board {
+        padding: 10px;
+    }
+
+    .cal-weekdays,
+    .cal-grid {
+        gap: 3px;
+    }
+
+    .cal-day {
+        min-height: 54px;
+        padding: 4px;
+        align-items: center;
+    }
+
+    .cal-num {
+        align-self: center;
+    }
+
+    .cal-chips {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 3px;
+    }
+
+    .cal-chip {
+        width: 7px;
+        height: 7px;
+        padding: 0;
+        border-radius: 50%;
+    }
+
+    .cal-chip-text,
+    .cal-more {
+        display: none;
+    }
+
+    .cal-month {
+        min-width: 0;
+        padding: 8px 12px;
+    }
+}

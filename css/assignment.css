@@ -1,0 +1,447 @@
+/* ==========================================================
+   TRACKLY single assignment page
+   The sidebar and top bar are in app.css, pills and buttons in components.css.
+   Colors come from base.css (TEMP ones wait for the designer).
+   ========================================================== */
+
+.single-assignment {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.sa-page {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sa-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-brand-dark);
+}
+
+.sa-back .icon {
+    width: 14px;
+    height: 14px;
+}
+
+.sa-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.sa-main,
+.sa-side {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.sa-card {
+    padding: 20px;
+    border-radius: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(226, 232, 240, 0.6);
+}
+
+/* ---------- Header card ---------- */
+.sa-head {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.sa-head-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.sa-course {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--color-tile-mint);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-brand-dark);
+}
+
+.sa-dot {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--dot, var(--color-link));
+}
+
+.sa-unit {
+    font-size: 12px;
+    color: var(--color-muted);
+}
+
+.sa-title {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.sa-head-bottom {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+}
+
+.sa-modified {
+    font-size: 12px;
+    color: var(--color-muted);
+}
+
+/* ---------- Details card ---------- */
+.sa-details {
+    padding: 6px 20px;
+}
+
+.sa-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 0;
+}
+
+.sa-row+.sa-row {
+    border-top: 1px solid var(--color-border);
+}
+
+.sa-row-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--color-muted);
+}
+
+.sa-row-label .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.sa-row-value {
+    font-size: 14px;
+    font-weight: 700;
+    text-align: right;
+}
+
+.sa-priority {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sa-priority-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-brand-dark);
+}
+
+.sa-priority[data-level="low"] .sa-priority-dot {
+    background: var(--color-placeholder);
+}
+
+.sa-priority[data-level="high"] .sa-priority-dot {
+    background: var(--color-error);
+}
+
+/* ---------- Notes and status ---------- */
+.sa-section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.sa-notes-block h2,
+.sa-status-block h2 {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.sa-status-block h2 {
+    margin-bottom: 8px;
+}
+
+.sa-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+
+.sa-notes {
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+/* The markdown renderer (JavaScript step) draws these inside .sa-notes */
+.sa-notes p+p,
+.sa-notes ul,
+.sa-notes ol {
+    margin-top: 10px;
+}
+
+.sa-notes ul,
+.sa-notes ol {
+    padding-left: 20px;
+}
+
+.sa-status {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.sa-status-btn {
+    min-height: 44px;
+    padding: 0 8px;
+    border: 1.5px solid transparent;
+    border-radius: 10px;
+    background: var(--color-chip-bg);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-chip-text);
+}
+
+.sa-status-btn:hover:not(:disabled) {
+    border-color: var(--color-brand-dark);
+}
+
+.sa-status-btn[aria-pressed="true"] {
+    background: var(--color-button);
+    color: var(--color-button-text);
+    font-weight: 600;
+}
+
+/* Overdue: read only. Quiet normally, solid red when the assignment is overdue. */
+.sa-overdue-btn:disabled {
+    cursor: default;
+    opacity: 0.55;
+}
+
+.sa-status.is-overdue .sa-overdue-btn {
+    background: var(--color-error);
+    color: #FFFFFF;
+    font-weight: 600;
+    opacity: 1;
+}
+
+/* An overdue assignment still shows what the student last set, as a thin outline */
+.sa-status.is-overdue .sa-status-btn[aria-pressed="true"] {
+    background: var(--color-chip-bg);
+    color: var(--color-heading);
+    border-color: var(--color-brand-dark);
+}
+
+.sa-status-btn:disabled:not(.sa-overdue-btn) {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.sa-status-msg {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--color-muted);
+}
+
+/* ---------- Right column ---------- */
+.sa-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sa-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.sa-btn:hover {
+    text-decoration: none;
+}
+
+.sa-btn .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.sa-btn-edit {
+    background: var(--color-tile-lavender);
+    color: var(--color-heading);
+}
+
+.sa-btn-edit:hover {
+    background: #D9DCFB;
+}
+
+.sa-btn-delete {
+    background: var(--color-badge-due-bg);
+    color: var(--color-badge-due-text);
+}
+
+.sa-btn-delete:hover {
+    background: #FECACA;
+}
+
+/* Edit is switched off for Overdue and Submitted assignments */
+.sa-btn[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.sa-locked {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--color-muted);
+}
+
+.sa-meta {
+    display: flex;
+    flex-direction: column;
+    margin: 6px 0 0;
+    padding-top: 6px;
+    border-top: 1px solid var(--color-border);
+}
+
+.sa-meta-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 0;
+    font-size: 12px;
+}
+
+.sa-meta dt {
+    color: var(--color-muted);
+}
+
+.sa-meta dd {
+    margin: 0;
+    font-weight: 600;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.sa-info-card {
+    padding: 18px 20px;
+    border-radius: 14px;
+    background: var(--color-chip-bg);
+}
+
+.sa-info-card h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.sa-info-card h2 .icon {
+    width: 16px;
+    height: 16px;
+    color: var(--color-brand-dark);
+}
+
+.sa-info-card p {
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--color-chip-text);
+    overflow-wrap: anywhere;
+}
+
+/* ---------- Loading ---------- */
+.sa-loading {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sa-sk {
+    border-radius: 14px;
+    background: linear-gradient(90deg, #EEF0FF 25%, #F8F8FF 50%, #EEF0FF 75%);
+    background-size: 200% 100%;
+    animation: sa-shimmer 1.4s ease-in-out infinite;
+}
+
+.sa-sk-head {
+    height: 120px;
+}
+
+.sa-sk-card {
+    height: 300px;
+}
+
+@keyframes sa-shimmer {
+    from {
+        background-position: 200% 0;
+    }
+
+    to {
+        background-position: -200% 0;
+    }
+}
+
+/* ---------- Smaller screens ---------- */
+@media (max-width: 900px) {
+    .sa-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .sa-title {
+        font-size: 24px;
+    }
+
+    .sa-status {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .sa-card {
+        padding: 16px;
+    }
+
+    .sa-details {
+        padding: 4px 16px;
+    }
+}

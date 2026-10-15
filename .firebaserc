@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "trackly-d0644"
-  }
+    "default": "trackly-e18d8",
+    "africa": "trackly-e18d8"
+  },
+  "targets": {},
+  "etags": {}
 }

@@ -8,7 +8,8 @@
    ========================================================== */
 
 import { startApp, icon, showToast } from "./shell.js";
-import { fetchCourses, fetchAssignments } from "./courses-data.js";
+import { fetchCourses } from "./courses-data.js";
+import { allStats, courseCounts, courseNextDue } from "./assignments-data.js";
 import { headerImage } from "./images.js";
 import { toDate, dayLabel, deadlineText, effectiveStatus } from "./assignments.js";
 
@@ -238,13 +239,45 @@ function demoData() {
 }
 
 /* ---------- Loading ---------- */
+
+/* The same numbers summarize() works out, but from a few small questions to Firestore
+   (a count and a "next due" per course), not by downloading every assignment. */
+async function realSummary(uid, courses) {
+  const now = new Date();
+  if (courses.length === 0) {
+    return { now, perCourse: new Map(), pendingAll: 0, doneAll: 0, overdueAll: 0, nextAll: null };
+  }
+
+  const [all, rows] = await Promise.all([
+    allStats(uid, now),
+    Promise.all(courses.map(async (course) => {
+      const [counts, next] = await Promise.all([courseCounts(uid, course.id), courseNextDue(uid, course.id)]);
+      return [course.id, { total: counts.total, pending: counts.open, next: next.next === null ? null : new Date(next.next) }];
+    }))
+  ]);
+
+  return {
+    now,
+    perCourse: new Map(rows),
+    pendingAll: rows.reduce((sum, row) => sum + row[1].pending, 0),
+    doneAll: all.submitted,
+    overdueAll: all.overdue,
+    nextAll: all.nextUpcoming === null ? null : new Date(all.nextUpcoming)
+  };
+}
+
 async function load(user) {
   errorBox.hidden = true;
   drawSkeletons();
   try {
-    const { courses, assignments } = DEMO
-      ? demoData()
-      : { courses: await fetchCourses(user.uid), assignments: await fetchAssignments(user.uid) };
+    let courses, summary;
+    if (DEMO) {
+      const demo = demoData();
+      courses = demo.courses;
+      summary = summarize(courses, demo.assignments);
+    } else {
+      courses = await fetchCourses(user.uid);
+    }
 
     // Oldest course first
     courses.sort((x, y) => {
@@ -253,7 +286,7 @@ async function load(user) {
       return (a ? a.getTime() : 0) - (b ? b.getTime() : 0);
     });
 
-    const summary = summarize(courses, assignments);
+    if (!summary) summary = await realSummary(user.uid, courses);
     drawSummary(courses, summary);
     drawCourses(courses, summary);
 

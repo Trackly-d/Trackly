@@ -187,9 +187,6 @@
   height: 16px;
 }
 
-.tile-mint { background: var(--color-tile-mint); }
-.tile-lavender { background: var(--color-tile-lavender); }
-.tile-blue { background: var(--color-tile-blue); }
 
 .feature-card h3 {
   margin-bottom: 4px;
@@ -259,9 +256,17 @@
   color: var(--color-heading);
 }
 
-.stat-card.is-progress .stat-card-label { color: var(--color-status-progress-text); }
-.stat-card.is-submitted .stat-card-label { color: var(--color-badge-ok-text); }
-.stat-card.is-overdue .stat-card-label { color: var(--color-badge-due-text); }
+.stat-card.is-progress .stat-card-label {
+  color: var(--color-status-progress-text);
+}
+
+.stat-card.is-submitted .stat-card-label {
+  color: var(--color-badge-ok-text);
+}
+
+.stat-card.is-overdue .stat-card-label {
+  color: var(--color-badge-due-text);
+}
 
 .stat-card-value {
   margin-top: 6px;
@@ -322,7 +327,7 @@
   padding: 12px 0;
 }
 
-.row + .row {
+.row+.row {
   border-top: 1px solid #F1F5F9;
 }
 
@@ -382,7 +387,7 @@
   padding: 10px 0;
 }
 
-.up-row + .up-row {
+.up-row+.up-row {
   border-top: 1px solid #F1F5F9;
 }
 
@@ -445,12 +450,23 @@
   animation: pulse 1.4s ease-in-out infinite;
 }
 
-.sk-head { height: 56px; max-width: 320px; }
-.sk-stats { height: 84px; }
-.sk-panel { height: 240px; }
+.sk-head {
+  height: 56px;
+  max-width: 320px;
+}
+
+.sk-stats {
+  height: 84px;
+}
+
+.sk-panel {
+  height: 240px;
+}
 
 @keyframes pulse {
-  50% { opacity: 0.55; }
+  50% {
+    opacity: 0.55;
+  }
 }
 
 /* ---------- Smaller screens ---------- */

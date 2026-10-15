@@ -1,0 +1,379 @@
+/* ==========================================================
+   TRACKLY Add Assignment page
+   Self contained on purpose: it does not use add-course.css,
+   so the working Add Course and Edit Course pages cannot be affected.
+   Sidebar and top bar are in app.css, shared pieces in components.css.
+   ========================================================== */
+
+.add-assignment {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.aa-page {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.aa-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-brand-dark);
+}
+
+.aa-back .icon {
+    width: 14px;
+    height: 14px;
+}
+
+.aa-head h1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.aa-head p {
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--color-muted);
+}
+
+/* ---------- The card ---------- */
+.aa-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 24px;
+    border-radius: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(226, 232, 240, 0.6);
+}
+
+.aa-two {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 16px;
+}
+
+.aa-label-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.aa-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+
+.aa-tag-required {
+    color: var(--color-badge-ok-text);
+}
+
+/* ---------- Inputs (soft lavender fill, as in the design) ---------- */
+.aa-input {
+    width: 100%;
+    height: var(--control-height);
+    padding: 0 14px;
+    background: var(--color-chip-bg);
+    border: 1.5px solid transparent;
+    border-radius: var(--radius);
+    font-size: 14px;
+}
+
+.aa-input::placeholder {
+    color: var(--color-placeholder);
+}
+
+.aa-input:focus {
+    outline: none;
+    border-color: var(--color-link);
+    background: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(0, 217, 150, 0.2);
+}
+
+.aa-input.is-invalid {
+    border-color: var(--color-error);
+}
+
+.aa-textarea {
+    height: auto;
+    padding: 12px 14px;
+    line-height: 1.5;
+    resize: vertical;
+}
+
+.aa-icon-wrap,
+.aa-select-wrap {
+    position: relative;
+}
+
+.aa-icon-wrap .icon {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    width: 16px;
+    height: 16px;
+    color: var(--color-muted);
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.aa-input-icon {
+    padding-left: 40px;
+}
+
+/* Course dropdown with the course color dot */
+.aa-select {
+    padding-left: 38px;
+    padding-right: 40px;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+.aa-dot {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--dot, var(--color-link));
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.aa-chevron {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    width: 16px;
+    height: 16px;
+    color: var(--color-muted);
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.aa-hint {
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--color-muted);
+}
+
+/* ---------- Groups: Priority and Reminders ---------- */
+.aa-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.aa-group legend {
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+/* Three way choice: selected one is the green button color */
+.aa-seg {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    padding: 4px;
+    border-radius: 10px;
+    background: var(--color-chip-bg);
+}
+
+.aa-seg-item {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 40px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.aa-seg-item input {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.aa-seg-item:has(input:checked) {
+    background: var(--color-button);
+    color: var(--color-button-text);
+    font-weight: 600;
+}
+
+.aa-seg-item:has(input:focus-visible) {
+    outline: 2px solid var(--color-heading);
+    outline-offset: 2px;
+}
+
+/* Custom reminder choices, only visible when Custom is picked */
+.aa-custom {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.aa-reminder:has(input[name="reminder"][value="custom"]:checked) .aa-custom {
+    display: flex;
+}
+
+.aa-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.aa-chip {
+    position: relative;
+    cursor: pointer;
+}
+
+.aa-chip input {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.aa-chip span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0 14px;
+    border: 1.5px solid var(--color-border);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-chip-text);
+    background: #FFFFFF;
+}
+
+.aa-chip input:checked+span {
+    border-color: var(--color-brand-dark);
+    background: var(--color-brand-dark);
+    color: #FFFFFF;
+}
+
+.aa-chip input:focus-visible+span {
+    outline: 2px solid var(--color-heading);
+    outline-offset: 2px;
+}
+
+.aa-chip input:disabled+span {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* Quiet note: Calendar not connected */
+.aa-note {
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    background: var(--color-chip-bg);
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--color-chip-text);
+}
+
+.aa-note a {
+    font-weight: 600;
+    color: var(--color-brand-dark);
+    text-decoration: underline;
+}
+
+/* ---------- Messages and buttons ---------- */
+.aa-status {
+    font-size: 13px;
+    color: var(--color-muted);
+}
+
+.aa-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin-top: 4px;
+}
+
+.aa-actions .btn {
+    width: 100%;
+}
+
+.aa-cancel {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-heading);
+}
+
+/* ---------- Loading ---------- */
+.aa-loading {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.aa-sk {
+    border-radius: 12px;
+    background: linear-gradient(90deg, #EEF0FF 25%, #F8F8FF 50%, #EEF0FF 75%);
+    background-size: 200% 100%;
+    animation: aa-shimmer 1.4s ease-in-out infinite;
+}
+
+.aa-sk-head {
+    height: 56px;
+    width: 60%;
+}
+
+.aa-sk-card {
+    height: 420px;
+}
+
+@keyframes aa-shimmer {
+    from {
+        background-position: 200% 0;
+    }
+
+    to {
+        background-position: -200% 0;
+    }
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 640px) {
+    .aa-card {
+        padding: 18px;
+    }
+
+    .aa-two {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .aa-head h1 {
+        font-size: 24px;
+    }
+
+    .aa-seg-item {
+        font-size: 12px;
+    }
+}

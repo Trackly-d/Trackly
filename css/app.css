@@ -330,3 +330,28 @@
     padding: 24px 16px 40px;
   }
 }
+
+/* A profile photo inside the round avatars (sidebar and top bar) */
+.avatar {
+  overflow: hidden;
+}
+
+.avatar img,
+.icon-btn.avatar-btn img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.icon-btn.avatar-btn.has-photo {
+  padding: 0;
+  overflow: hidden;
+}
+
+/* The top bar avatar is a link to Profile, so it must not look like a text link */
+.icon-btn.avatar-btn,
+.icon-btn.avatar-btn:hover {
+  text-decoration: none;
+}

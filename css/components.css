@@ -417,3 +417,237 @@
 .link-strong {
     font-weight: 600;
 }
+
+/* ==========================================================
+   SHARED BY THE COURSE PAGE AND THE ASSIGNMENTS PAGE
+   Filter chips, assignment rows, Show more, and the header button.
+   The active chip colors are two settings in base.css, so changing the look
+   on every page is one edit.
+   ========================================================== */
+
+.btn-add {
+    flex-shrink: 0;
+    width: auto;
+    height: 42px;
+    padding: 0 18px;
+}
+
+/* ---------- Filter chips ---------- */
+.filters-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.filters {
+    display: flex;
+    gap: 8px;
+    padding-bottom: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.filters::-webkit-scrollbar {
+    display: none;
+}
+
+.filter-chip {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    background: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-heading);
+}
+
+.filter-chip:hover {
+    background: #F1F5F9;
+}
+
+.filter-chip[aria-pressed="true"] {
+    background: var(--chip-active-bg);
+    border-color: var(--chip-active-bg);
+    font-weight: 600;
+    color: var(--chip-active-text);
+}
+
+/* ---------- Assignment rows ---------- */
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.task {
+    border-radius: 10px;
+    background: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(226, 232, 240, 0.6);
+}
+
+.task-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.task-link:hover {
+    background: #FAFBFF;
+    text-decoration: none;
+}
+
+.task-main {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.task-chip {
+    flex-shrink: 0;
+    max-width: 90px;
+    padding: 2px 9px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--color-tile-mint);
+    background: color-mix(in srgb, var(--course-color) 22%, #FFFFFF);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-brand-dark);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.task-text {
+    min-width: 0;
+}
+
+/* One line each, then "..." */
+.task-title,
+.task-desc {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.task-title {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.task-desc {
+    margin-top: 2px;
+    font-size: 11px;
+    color: var(--color-muted);
+}
+
+.task-side {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 12px;
+}
+
+.task-due {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--color-muted);
+    white-space: nowrap;
+}
+
+.task-due .icon {
+    width: 13px;
+    height: 13px;
+}
+
+.task-go {
+    display: inline-flex;
+    color: var(--color-muted);
+}
+
+.task-go .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.icon-wrap {
+    display: inline-flex;
+}
+
+/* Show more */
+.show-more-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 14px;
+}
+
+.btn-more {
+    width: auto;
+    height: 42px;
+    padding: 0 24px;
+}
+
+/* Empty list messages sit on a white card */
+.panel-empty {
+    border-radius: 12px;
+    background: #FFFFFF;
+}
+
+/* A row's due text: red when overdue, with a check when submitted */
+.task-due.is-overdue {
+    color: var(--color-badge-due-text);
+}
+
+.task-due.is-done .icon {
+    color: var(--color-badge-ok-text);
+}
+
+@media (max-width: 640px) {
+    .filters-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    /* Each row gets a second line for the date and status */
+    .task-link {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 12px 14px;
+    }
+
+    .task-side {
+        flex: 1 1 100%;
+        justify-content: space-between;
+    }
+
+    .task-go {
+        margin-left: auto;
+    }
+}
+
+/* Soft colored squares behind small icons (used on the dashboard and My Courses) */
+.tile-mint {
+    background: var(--color-tile-mint);
+}
+
+.tile-lavender {
+    background: var(--color-tile-lavender);
+}
+
+.tile-blue {
+    background: var(--color-tile-blue);
+}

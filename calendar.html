@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calendar | Trackly</title>
+  <!-- Signed in pages are private and kept out of Google -->
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles: base, components (status pills), the app frame, then this page -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/calendar.css">
+</head>
+<body>
+  <!-- Hidden until Firebase confirms the student is signed in -->
+  <div class="app-layout" id="app" hidden>
+    <div class="app-backdrop" id="backdrop" hidden></div>
+
+    <!-- Sidebar and top bar are built by js/shell.js -->
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="app-content">
+        <div class="calendar-page">
+
+          <!-- LOADING (JavaScript step) -->
+          <div class="cal-loading" id="cal-loading" aria-busy="true" aria-label="Loading your calendar" hidden>
+            <div class="cal-sk cal-sk-head"></div>
+            <div class="cal-sk cal-sk-board"></div>
+          </div>
+
+          <!-- The page could not load (usually the network) -->
+          <div class="load-error" id="cal-error" role="alert" hidden>
+            <p>We could not load your calendar. Check your connection and try again.</p>
+            <button class="btn btn-outline-link btn-retry" type="button" id="cal-retry">Try again</button>
+          </div>
+
+          <!-- THE PAGE. Design views with sample data:
+               calendar.html?state=loading | error | empty | quietday -->
+          <div class="cal-page" id="cal-page" hidden>
+
+            <header class="cal-head">
+              <h1>Calendar</h1>
+              <div class="cal-nav">
+                <button class="cal-nav-btn" type="button" id="cal-prev" aria-label="Previous month">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <span class="cal-month" id="cal-month" aria-live="polite">October 2026</span>
+                <button class="cal-nav-btn" type="button" id="cal-next" aria-label="Next month">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+                <!-- TEMP: not in the Figma, a quick way back to today -->
+                <button class="cal-today-btn" type="button" id="cal-today">Today</button>
+              </div>
+            </header>
+
+            <div class="cal-layout">
+
+              <!-- LEFT: the month -->
+              <section class="cal-board" aria-label="Month view">
+                <div class="cal-weekdays" aria-hidden="true">
+                  <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+                </div>
+
+                <!-- 42 day buttons (6 weeks). JavaScript builds these from the real month. -->
+                <div class="cal-grid" id="cal-grid">
+            <button class="cal-day is-other" type="button" aria-label="Sunday, Sep 27, nothing due" aria-pressed="false"><span class="cal-num">27</span></button>
+            <button class="cal-day is-other" type="button" aria-label="Monday, Sep 28, nothing due" aria-pressed="false"><span class="cal-num">28</span></button>
+            <button class="cal-day is-other" type="button" aria-label="Tuesday, Sep 29, nothing due" aria-pressed="false"><span class="cal-num">29</span></button>
+            <button class="cal-day is-other" type="button" aria-label="Wednesday, Sep 30, nothing due" aria-pressed="false"><span class="cal-num">30</span></button>
+            <button class="cal-day" type="button" aria-label="Thursday, Oct 1, nothing due" aria-pressed="false"><span class="cal-num">1</span></button>
+            <button class="cal-day" type="button" aria-label="Friday, Oct 2, nothing due" aria-pressed="false"><span class="cal-num">2</span></button>
+            <button class="cal-day" type="button" aria-label="Saturday, Oct 3, nothing due" aria-pressed="false"><span class="cal-num">3</span></button>
+            <button class="cal-day" type="button" aria-label="Sunday, Oct 4, nothing due" aria-pressed="false"><span class="cal-num">4</span></button>
+            <button class="cal-day" type="button" aria-label="Monday, Oct 5, nothing due" aria-pressed="false"><span class="cal-num">5</span></button>
+            <button class="cal-day" type="button" aria-label="Tuesday, Oct 6, nothing due" aria-pressed="false"><span class="cal-num">6</span></button>
+            <button class="cal-day" type="button" aria-label="Wednesday, Oct 7, nothing due" aria-pressed="false"><span class="cal-num">7</span></button>
+            <button class="cal-day" type="button" aria-label="Thursday, Oct 8, nothing due" aria-pressed="false"><span class="cal-num">8</span></button>
+            <button class="cal-day" type="button" aria-label="Friday, Oct 9, 1 assignment" aria-pressed="false"><span class="cal-num">9</span><span class="cal-chips"><span class="cal-chip cal-overdue"><span class="cal-chip-text">Cell Structures Quiz</span></span></span></button>
+            <button class="cal-day" type="button" aria-label="Saturday, Oct 10, nothing due" aria-pressed="false"><span class="cal-num">10</span></button>
+            <button class="cal-day" type="button" aria-label="Sunday, Oct 11, nothing due" aria-pressed="false"><span class="cal-num">11</span></button>
+            <button class="cal-day" type="button" aria-label="Monday, Oct 12, nothing due" aria-pressed="false"><span class="cal-num">12</span></button>
+            <button class="cal-day is-today is-selected" type="button" aria-label="Tuesday, Oct 13, 2 assignments" aria-pressed="true"><span class="cal-num">13</span><span class="cal-chips"><span class="cal-chip cal-progress"><span class="cal-chip-text">Chapter 5 Essay</span></span><span class="cal-chip cal-pending"><span class="cal-chip-text">Lab Reflection</span></span></span></button>
+            <button class="cal-day" type="button" aria-label="Wednesday, Oct 14, nothing due" aria-pressed="false"><span class="cal-num">14</span></button>
+            <button class="cal-day" type="button" aria-label="Thursday, Oct 15, nothing due" aria-pressed="false"><span class="cal-num">15</span></button>
+            <button class="cal-day" type="button" aria-label="Friday, Oct 16, 1 assignment" aria-pressed="false"><span class="cal-num">16</span><span class="cal-chips"><span class="cal-chip cal-progress"><span class="cal-chip-text">Linear Regression</span></span></span></button>
+            <button class="cal-day" type="button" aria-label="Saturday, Oct 17, nothing due" aria-pressed="false"><span class="cal-num">17</span></button>
+            <button class="cal-day" type="button" aria-label="Sunday, Oct 18, nothing due" aria-pressed="false"><span class="cal-num">18</span></button>
+            <button class="cal-day" type="button" aria-label="Monday, Oct 19, nothing due" aria-pressed="false"><span class="cal-num">19</span></button>
+            <button class="cal-day" type="button" aria-label="Tuesday, Oct 20, 1 assignment" aria-pressed="false"><span class="cal-num">20</span><span class="cal-chips"><span class="cal-chip cal-pending"><span class="cal-chip-text">Macro Problem Set</span></span></span></button>
+            <button class="cal-day" type="button" aria-label="Wednesday, Oct 21, nothing due" aria-pressed="false"><span class="cal-num">21</span></button>
+            <button class="cal-day" type="button" aria-label="Thursday, Oct 22, 1 assignment" aria-pressed="false"><span class="cal-num">22</span><span class="cal-chips"><span class="cal-chip cal-submitted"><span class="cal-chip-text">Regression Notes</span></span></span></button>
+            <button class="cal-day" type="button" aria-label="Friday, Oct 23, nothing due" aria-pressed="false"><span class="cal-num">23</span></button>
+            <button class="cal-day" type="button" aria-label="Saturday, Oct 24, 3 assignments" aria-pressed="false"><span class="cal-num">24</span><span class="cal-chips"><span class="cal-chip cal-pending"><span class="cal-chip-text">Chapter 6 Essay</span></span><span class="cal-chip cal-pending"><span class="cal-chip-text">Quiz 3</span></span><span class="cal-more">+1 more</span></span></button>
+            <button class="cal-day" type="button" aria-label="Sunday, Oct 25, nothing due" aria-pressed="false"><span class="cal-num">25</span></button>
+            <button class="cal-day" type="button" aria-label="Monday, Oct 26, nothing due" aria-pressed="false"><span class="cal-num">26</span></button>
+            <button class="cal-day" type="button" aria-label="Tuesday, Oct 27, nothing due" aria-pressed="false"><span class="cal-num">27</span></button>
+            <button class="cal-day" type="button" aria-label="Wednesday, Oct 28, nothing due" aria-pressed="false"><span class="cal-num">28</span></button>
+            <button class="cal-day" type="button" aria-label="Thursday, Oct 29, 1 assignment" aria-pressed="false"><span class="cal-num">29</span><span class="cal-chips"><span class="cal-chip cal-pending"><span class="cal-chip-text">Final Project Draft</span></span></span></button>
+            <button class="cal-day" type="button" aria-label="Friday, Oct 30, nothing due" aria-pressed="false"><span class="cal-num">30</span></button>
+            <button class="cal-day" type="button" aria-label="Saturday, Oct 31, nothing due" aria-pressed="false"><span class="cal-num">31</span></button>
+            <button class="cal-day is-other" type="button" aria-label="Sunday, Nov 1, nothing due" aria-pressed="false"><span class="cal-num">1</span></button>
+            <button class="cal-day is-other" type="button" aria-label="Monday, Nov 2, nothing due" aria-pressed="false"><span class="cal-num">2</span></button>
+            <button class="cal-day is-other" type="button" aria-label="Tuesday, Nov 3, nothing due" aria-pressed="false"><span class="cal-num">3</span></button>
+            <button class="cal-day is-other" type="button" aria-label="Wednesday, Nov 4, nothing due" aria-pressed="false"><span class="cal-num">4</span></button>
+            <button class="cal-day is-other" type="button" aria-label="Thursday, Nov 5, nothing due" aria-pressed="false"><span class="cal-num">5</span></button>
+            <button class="cal-day is-other" type="button" aria-label="Friday, Nov 6, nothing due" aria-pressed="false"><span class="cal-num">6</span></button>
+            <button class="cal-day is-other" type="button" aria-label="Saturday, Nov 7, nothing due" aria-pressed="false"><span class="cal-num">7</span></button>
+                </div>
+
+                <p class="cal-empty" id="cal-empty" hidden>Nothing is due this month.</p>
+
+                <ul class="cal-legend" aria-label="Colors">
+                  <li><span class="cal-dot cal-pending"></span>Pending</li>
+                  <li><span class="cal-dot cal-progress"></span>In Progress</li>
+                  <li><span class="cal-dot cal-submitted"></span>Submitted</li>
+                  <li><span class="cal-dot cal-overdue"></span>Overdue</li>
+                </ul>
+              </section>
+
+              <!-- RIGHT: the chosen day. The title says "Today's Schedule" for today, otherwise the weekday. -->
+              <aside class="cal-side" aria-labelledby="cal-side-title">
+                <h2 id="cal-side-title">Today&rsquo;s Schedule</h2>
+                <p class="cal-side-date" id="cal-side-date">Tuesday, Oct 13</p>
+
+                <ul class="cal-list" id="cal-list">
+                  <li>
+                    <a class="cal-item cal-item-progress" href="assignment.html?id=sample">
+                      <span class="cal-item-top">
+                        <span class="cal-course">Biology</span>
+                        <span class="pill pill-progress">In Progress</span>
+                      </span>
+                      <span class="cal-item-title">Chapter 5 Essay</span>
+                      <span class="cal-item-time">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        11:59 PM WAT
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="cal-item cal-item-pending" href="assignment.html?id=sample2">
+                      <span class="cal-item-top">
+                        <span class="cal-course">Biology</span>
+                        <span class="pill pill-pending">Pending</span>
+                      </span>
+                      <span class="cal-item-title">Lab Reflection Notes</span>
+                      <span class="cal-item-time">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        5:00 PM WAT
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+
+                <p class="cal-side-empty" id="cal-side-empty" hidden>Nothing is due this day.</p>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script type="module" src="js/calendar.js"></script>
+</body>
+</html>

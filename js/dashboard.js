@@ -13,9 +13,10 @@
    ========================================================== */
 
 import { startApp } from "./shell.js";
-import { fetchCourses, fetchAssignments } from "./courses-data.js";
+import { fetchCourses } from "./courses-data.js";
+import { dashboardCounts, dashboardLists, searchPool } from "./assignments-data.js";
 import { fetchUserRecord, markWelcomeSkippedSafe } from "./users.js";
-import { buildModel, searchItems, formatDue, STATUS_LABELS } from "./assignments.js";
+import { buildModel, toItems, weekRange, searchItems, formatDue, STATUS_LABELS } from "./assignments.js";
 import { el, plural, safeColor } from "./ui.js";
 import { courseChipLabel } from "./course-labels.js";
 
@@ -34,7 +35,9 @@ const upcomingPanel = document.getElementById("upcoming-panel");
 const skipBtn = document.getElementById("skip-btn");
 const retryBtn = document.getElementById("retry-btn");
 
-let current = null; // { user, model } once the dashboard is drawn
+let current = null; // { user, courses, model, pool } once the dashboard is drawn
+
+const EMPTY_MODEL = { counts: { pending: 0, in_progress: 0, submitted: 0, overdue: 0 }, weekCount: 0, total: [], upcoming: [], totalAll: 0 };
 
 /* ---------- Which of the four things to show ---------- */
 function showView(name) {
@@ -62,7 +65,6 @@ function emptyBlock(title, text, withButton) {
   if (withButton) {
     const button = el("a", "btn btn-primary", "Add Assignment");
     button.href = "add-assignment.html";
-    button.setAttribute("data-soon", ""); // delete this line when the Add Assignment page is built
     box.append(button);
   }
   return box;
@@ -121,19 +123,45 @@ function fillList(panel, rows, build, emptyEl) {
 }
 
 /* ---------- The dashboard ---------- */
-function drawTotal(query) {
+
+/* Up to 200 assignments, loaded the first time the student searches, then filtered on the device */
+async function getPool() {
+  if (current.pool) return current.pool;
+  if (DEMO) {
+    current.pool = current.model.items || [];
+  } else {
+    const raw = await searchPool(current.user.uid, null, 200);
+    current.pool = toItems(current.courses, raw);
+  }
+  return current.pool;
+}
+
+async function drawTotal(query) {
   const model = current.model;
+
   if (query) {
-    const matches = searchItems(model.items, query);
-    fillList(totalPanel, matches, assignmentRow, emptyBlock("No matches", "No assignments match your search.", false));
+    if (!current.pool) {
+      fillList(totalPanel, [], assignmentRow, emptyBlock("Searching...", "Looking through your assignments.", false));
+    }
+    let pool;
+    try {
+      pool = await getPool();
+    } catch (err) {
+      console.error("Could not search:", err);
+      fillList(totalPanel, [], assignmentRow, emptyBlock("Search is not working", "Check your connection and try again.", false));
+      return;
+    }
+    const box = document.getElementById("global-search");
+    if ((box ? box.value.trim() : "") !== query) return; // the student kept typing, a newer search is on its way
+    fillList(totalPanel, searchItems(pool, query), assignmentRow, emptyBlock("No matches", "No assignments match your search.", false));
     return;
   }
-  const noAssignments = model.items.length === 0;
+
   fillList(
     totalPanel,
     model.total,
     assignmentRow,
-    noAssignments
+    model.totalAll === 0
       ? emptyBlock("No assignments yet", "Add your first assignment and it will show up here.", true)
       : emptyBlock("You're all caught up", "Everything is submitted. Nice work.", false)
   );
@@ -202,31 +230,54 @@ function demoData(kind) {
 }
 
 /* ---------- Loading ---------- */
+
+/* Counts and the first few rows only. A student with no courses has nothing to count, so no reads at all. */
+async function loadModel(user, courses) {
+  if (courses.length === 0) return EMPTY_MODEL;
+
+  const now = new Date();
+  const [numbers, lists] = await Promise.all([
+    dashboardCounts(user.uid, now, weekRange(now).end),
+    dashboardLists(user.uid, now)
+  ]);
+  const c = numbers.counts;
+  return {
+    counts: c,
+    weekCount: numbers.week,
+    total: toItems(courses, lists.total, now),
+    upcoming: toItems(courses, lists.upcoming, now).filter((item) => item.due),
+    totalAll: c.pending + c.in_progress + c.submitted + c.overdue
+  };
+}
+
 async function load(user) {
   showView("loading");
   try {
-    let record, courses, assignments;
+    let record, courses, model = null;
+
     if (DEMO) {
-      ({ courses, assignments } = demoData(DEMO));
+      const demo = demoData(DEMO);
+      courses = demo.courses;
       record = { welcomeSkipped: DEMO !== "welcome" };
+      const built = buildModel(courses, demo.assignments);
+      model = { ...built, totalAll: built.items.length };
     } else {
-      [record, courses, assignments] = await Promise.all([
-        fetchUserRecord(user.uid),
-        fetchCourses(user.uid),
-        fetchAssignments(user.uid)
-      ]);
+      [record, courses] = await Promise.all([fetchUserRecord(user.uid), fetchCourses(user.uid)]);
     }
 
-    current = { user, model: buildModel(courses, assignments) };
+    current = { user, courses, model, pool: null };
 
     // A brand new student sees the welcome screen. Everyone else goes straight to the dashboard.
-    const firstTime = !(record && record.welcomeSkipped) && courses.length === 0 && assignments.length === 0;
+    // (A student with no courses cannot have assignments, so we do not count anything for them.)
+    const firstTime = !(record && record.welcomeSkipped) && courses.length === 0;
     if (firstTime) {
       showView("welcome");
-    } else {
-      drawMain();
-      showView("main");
+      return;
     }
+
+    if (!current.model) current.model = await loadModel(user, courses);
+    drawMain();
+    showView("main");
   } catch (err) {
     console.error("Could not load the dashboard:", err);
     showView("error");
@@ -236,9 +287,15 @@ async function load(user) {
 skipBtn.addEventListener("click", async () => {
   if (!current) return;
   skipBtn.disabled = true;
-  if (!DEMO) await markWelcomeSkippedSafe(current.user);
-  drawMain();
-  showView("main");
+  try {
+    if (!DEMO) await markWelcomeSkippedSafe(current.user);
+    if (!current.model) current.model = await loadModel(current.user, current.courses);
+    drawMain();
+    showView("main");
+  } catch (err) {
+    console.error("Could not open the dashboard:", err);
+    showView("error");
+  }
   skipBtn.disabled = false;
 });
 
@@ -251,6 +308,6 @@ startApp("dashboard", (user) => {
 const searchInput = document.getElementById("global-search");
 if (searchInput) {
   searchInput.addEventListener("input", () => {
-    if (current && !views.main.hidden) drawTotal(searchInput.value.trim());
+    if (current && current.model && !views.main.hidden) drawTotal(searchInput.value.trim());
   });
 }

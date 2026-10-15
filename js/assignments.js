@@ -95,16 +95,23 @@ function byDue(x, y) {
   return a - b;
 }
 
-export function buildModel(courses, assignments, now = new Date()) {
+/* Turns raw assignments into rows the pages can draw: a real due date, a status, and the course.
+   The order of the rows is kept as it was given. */
+export function toItems(courses, assignments, now = new Date()) {
   const courseById = new Map(courses.map((c) => [c.id, c]));
-
-  const items = assignments.map((a) => ({
+  return assignments.map((a) => ({
     id: a.id,
     title: a.title || "Untitled assignment",
+    description: a.description || "",
     due: toDate(a.dueAt),
+    submitted: toDate(a.submittedAt), // the day the student marked it Submitted, if saved
     status: effectiveStatus(a, now),
     course: courseById.get(a.courseId) || null
   }));
+}
+
+export function buildModel(courses, assignments, now = new Date()) {
+  const items = toItems(courses, assignments, now);
 
   // Every assignment is counted once
   const counts = { pending: 0, in_progress: 0, submitted: 0, overdue: 0 };
@@ -201,4 +208,53 @@ export function filterCourseItems(items, filter, query) {
     const text = [item.title, item.description, STATUS_LABELS[item.status], shortDate(item.due)].join(" ").toLowerCase();
     return text.includes(term);
   });
+}
+
+/* ---------- The Assignments page ---------- */
+
+/* "Fri Oct 24" */
+export function dueWithDay(date) {
+  if (!date) return "No due date";
+  return date.toLocaleDateString("en-US", { weekday: "short" }) + " " +
+    date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+
+/* The order we use everywhere: overdue first (oldest first), then the soonest due,
+   then submitted work (newest first). Returns a new list. */
+export function sortDefault(items) {
+  const rank = { overdue: 0, pending: 1, in_progress: 1, submitted: 2 };
+  const time = (item) => (item.due ? item.due.getTime() : null);
+  return items.slice().sort((x, y) => {
+    const byRank = rank[x.status] - rank[y.status];
+    if (byRank !== 0) return byRank;
+    const a = time(x);
+    const b = time(y);
+    if (a === b) return 0;
+    if (a === null) return 1; // no date goes last
+    if (b === null) return -1;
+    return x.status === "submitted" ? b - a : a - b;
+  });
+}
+
+/* The filter chip and the search box, together, across every course.
+   Search looks at the title, description, course (code, short name, title), status and date. */
+export function filterAssignmentItems(items, filter, query) {
+  const term = (query || "").trim().toLowerCase();
+  const rows = items.filter((item) => {
+    if (filter !== "all" && item.status !== filter) return false;
+    if (!term) return true;
+    const course = item.course || {};
+    const text = [
+      item.title,
+      item.description,
+      course.code,
+      course.shortName,
+      course.title,
+      STATUS_LABELS[item.status],
+      dueWithDay(item.due),
+      shortDate(item.due)
+    ].join(" ").toLowerCase();
+    return text.includes(term);
+  });
+  return sortDefault(rows);
 }

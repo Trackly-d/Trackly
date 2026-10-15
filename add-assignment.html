@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>New Assignment | Trackly</title>
+  <!-- Signed in pages are private and kept out of Google -->
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles: base, components, the app frame, then this page (self contained, add-course.css is NOT used) -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/add-assignment.css">
+</head>
+<body>
+  <!-- Hidden until Firebase confirms the student is signed in -->
+  <div class="app-layout" id="app" hidden>
+    <div class="app-backdrop" id="backdrop" hidden></div>
+
+    <!-- Sidebar and top bar are built by js/shell.js -->
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="app-content">
+        <div class="add-assignment">
+
+          <!-- LOADING (JavaScript step: shown while the courses load) -->
+          <div class="aa-loading" id="aa-loading" aria-busy="true" aria-label="Loading" hidden>
+            <div class="aa-sk aa-sk-head"></div>
+            <div class="aa-sk aa-sk-card"></div>
+          </div>
+
+          <!-- The page could not load (usually the network) -->
+          <div class="load-error" id="aa-error" role="alert" hidden>
+            <p>We could not load your courses. Check your connection and try again.</p>
+            <button class="btn btn-outline-link btn-retry" type="button" id="aa-retry">Try again</button>
+          </div>
+
+          <!-- No courses yet (TEMP, needs the designer's version) -->
+          <div class="empty panel-empty" id="aa-no-courses" hidden>
+            <strong>Add a course first</strong>
+            <p>Every assignment belongs to a course. Add your first course, then come back to add assignments.</p>
+            <a class="btn btn-primary" href="add-course.html">Add a Course</a>
+          </div>
+
+          <!-- Edit mode: the assignment in ?edit=ID does not exist (TEMP, needs the designer's version) -->
+          <div class="empty panel-empty" id="aa-notfound" hidden>
+            <strong>Assignment not found</strong>
+            <p>It may have been deleted, or the link is not right.</p>
+            <a class="btn btn-primary" href="assignments.html">Back to Assignments</a>
+          </div>
+
+          <!-- THE PAGE. Try other views with: add-assignment.html?state=loading, ?state=error, ?state=nocourses -->
+          <div class="aa-page" id="aa-page" hidden>
+
+            <a class="aa-back" id="back-link" href="assignments.html">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+              <span id="back-text">Back to Assignments</span>
+            </a>
+
+            <header class="aa-head">
+              <h1 id="aa-heading">New Assignment</h1>
+              <p id="aa-subtitle">Add a new assignment to track</p>
+            </header>
+
+            <form class="aa-card" id="assignment-form" novalidate>
+
+              <div class="field">
+                <div class="aa-label-row">
+                  <label class="label" for="a-title">Assignment Title</label>
+                  <span class="aa-tag aa-tag-required">Required</span>
+                </div>
+                <input class="aa-input" type="text" id="a-title" name="title" placeholder="Chapter 5 Essay" maxlength="120" autocomplete="off" required>
+                <p class="form-error" id="err-title" hidden></p>
+              </div>
+
+              <div class="field">
+                <div class="aa-label-row">
+                  <label class="label" for="a-course">Course</label>
+                  <span class="aa-tag aa-tag-required">Required</span>
+                </div>
+                <div class="aa-select-wrap">
+                  <span class="aa-dot" id="course-dot" style="--dot:#00D996" aria-hidden="true"></span>
+                  <select class="aa-input aa-select" id="a-course" name="course" required>
+                    <option value="" disabled>Choose a course</option>
+                    <option value="sample-1" selected>Introduction to Biology</option>
+                    <option value="sample-2">Data Structures</option>
+                  </select>
+                  <svg class="icon aa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <p class="form-error" id="err-course" hidden></p>
+              </div>
+
+              <div class="aa-two">
+                <div class="field">
+                  <div class="aa-label-row">
+                    <label class="label" for="a-date">Due Date</label>
+                    <span class="aa-tag aa-tag-required">Required</span>
+                  </div>
+                  <div class="aa-icon-wrap">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <input class="aa-input aa-input-icon" type="date" id="a-date" name="date" required>
+                  </div>
+                  <p class="form-error" id="err-date" hidden></p>
+                </div>
+                <div class="field">
+                  <div class="aa-label-row">
+                    <label class="label" for="a-time">Due Time</label>
+                    <span class="aa-tag aa-tag-required">Required</span>
+                  </div>
+                  <div class="aa-icon-wrap">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <input class="aa-input aa-input-icon" type="time" id="a-time" name="time" required>
+                  </div>
+                  <p class="form-error" id="err-time" hidden></p>
+                </div>
+              </div>
+
+              <fieldset class="aa-group">
+                <legend class="label">Priority</legend>
+                <div class="aa-seg" role="radiogroup">
+                  <label class="aa-seg-item"><input type="radio" name="priority" value="low"><span>Low</span></label>
+                  <label class="aa-seg-item"><input type="radio" name="priority" value="medium" checked><span>Medium</span></label>
+                  <label class="aa-seg-item"><input type="radio" name="priority" value="high"><span>High</span></label>
+                </div>
+              </fieldset>
+
+              <!-- TEMP reminder control (built by the developer, the designer will restyle it) -->
+              <fieldset class="aa-group aa-reminder" id="reminder-group">
+                <legend class="label">Reminders</legend>
+                <div class="aa-seg" role="radiogroup">
+                  <label class="aa-seg-item"><input type="radio" name="reminder" value="default" checked><span>Default</span></label>
+                  <label class="aa-seg-item"><input type="radio" name="reminder" value="custom"><span>Custom</span></label>
+                  <label class="aa-seg-item"><input type="radio" name="reminder" value="none"><span>None</span></label>
+                </div>
+
+                <!-- Shown only when Custom is chosen. At most 5 can be chosen (limit to be checked with Google). -->
+                <div class="aa-custom" id="custom-reminders">
+                  <p class="aa-hint">Choose up to 5. Your choice replaces the default reminders.</p>
+                  <div class="aa-chips">
+                    <label class="aa-chip"><input type="checkbox" name="remind" value="0"><span>At due time</span></label>
+                    <label class="aa-chip"><input type="checkbox" name="remind" value="30" checked><span>30 min before</span></label>
+                    <label class="aa-chip"><input type="checkbox" name="remind" value="60"><span>1 hour before</span></label>
+                    <label class="aa-chip"><input type="checkbox" name="remind" value="120"><span>2 hours before</span></label>
+                    <label class="aa-chip"><input type="checkbox" name="remind" value="1440"><span>1 day before</span></label>
+                    <label class="aa-chip"><input type="checkbox" name="remind" value="2880"><span>2 days before</span></label>
+                  </div>
+                </div>
+
+                <p class="form-error" id="err-reminder" hidden></p>
+
+                <p class="aa-hint" id="reminder-hint">
+                  Default: one reminder each morning at 8:00 AM, starting the day after you add it, until the day before it is due. On the due day, reminders ring 2 hours, 1 hour and 30 minutes before, and at the due time. They stop once you mark it Submitted.
+                </p>
+
+                <!-- Shown when Google Calendar is not connected -->
+                <p class="aa-note" id="calendar-note" hidden>
+                  Google Calendar is not connected, so reminders will start once you connect it in
+                  <a href="profile.html">Profile</a>.
+                </p>
+              </fieldset>
+
+              <div class="field">
+                <div class="aa-label-row">
+                  <label class="label" for="a-notes">Notes</label>
+                  <span class="aa-tag aa-tag-required">Required</span>
+                </div>
+                <textarea class="aa-input aa-textarea" id="a-notes" name="notes" rows="5" maxlength="2000" placeholder="Add any details..." required></textarea>
+                <p class="aa-hint">Markdown enabled: **bold**, *italic*, lists with - or 1.</p>
+                <p class="form-error" id="err-notes" hidden></p>
+              </div>
+
+              <!-- TEMP: Unit, Topic and Submission Format need the designer's version -->
+              <div class="aa-two">
+                <div class="field">
+                  <div class="aa-label-row">
+                    <label class="label" for="a-unit">Unit</label>
+                    <span class="aa-tag">Optional</span>
+                  </div>
+                  <input class="aa-input" type="text" id="a-unit" name="unit" placeholder="Unit 2" maxlength="30" autocomplete="off">
+                </div>
+                <div class="field">
+                  <div class="aa-label-row">
+                    <label class="label" for="a-topic">Topic</label>
+                    <span class="aa-tag">Optional</span>
+                  </div>
+                  <input class="aa-input" type="text" id="a-topic" name="topic" placeholder="Cell Biology" maxlength="60" autocomplete="off">
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="aa-label-row">
+                  <label class="label" for="a-format">Submission Format</label>
+                  <span class="aa-tag">Optional</span>
+                </div>
+                <input class="aa-input" type="text" id="a-format" name="submissionFormat" placeholder="PDF or Word DOCX" maxlength="60" autocomplete="off">
+              </div>
+
+              <div class="field">
+                <div class="aa-label-row">
+                  <label class="label" for="a-info">Submission Info</label>
+                  <span class="aa-tag">Optional</span>
+                </div>
+                <textarea class="aa-input aa-textarea" id="a-info" name="submissionInfo" rows="3" maxlength="1000" placeholder="Add any details..."></textarea>
+              </div>
+
+              <!-- Messages appear here -->
+              <p class="form-error" id="form-error" role="alert" hidden></p>
+              <p class="aa-status" id="save-status" role="status" hidden></p>
+
+              <div class="aa-actions">
+                <button class="btn btn-primary" type="submit" id="save-btn">
+                  <span id="save-label">Create Assignment</span>
+                </button>
+                <a class="aa-cancel" id="cancel-link" href="assignments.html">Cancel</a>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script type="module" src="js/add-assignment.js"></script>
+</body>
+</html>

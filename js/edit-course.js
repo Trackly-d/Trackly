@@ -15,7 +15,9 @@
 
 import { startApp, setLeaveGuard, refreshLeaveGuard } from "./shell.js";
 import { db, doc, setDoc, serverTimestamp } from "./firebase-config.js";
-import { fetchCourse, fetchAssignments } from "./courses-data.js";
+import { fetchCourse } from "./courses-data.js";
+import { courseCounts } from "./assignments-data.js";
+import { invalidateCache } from "./cache.js";
 import { compressImage, uploadToCloudinary, fetchSuggestions, uploadsEnabled, suggestionsEnabled, headerImage } from "./images.js";
 import { courseChipLabel } from "./course-labels.js";
 import { buildCourseUpdate } from "./course-form.js";
@@ -69,6 +71,7 @@ let courseRef = null;
 let courseUrl = "course.html";
 let originalColor = "#00D996";
 let initial = null;     // what the form held when it opened, to know if anything changed
+let currentUid = "";
 let allowLeave = false; // true once we are leaving on purpose
 
 const state = {
@@ -392,6 +395,7 @@ async function onSubmit(event) {
     // merge keeps everything we are not changing (the date it was created, and so on)
     await withTimeout(setDoc(courseRef, data, { merge: true }), 20000, "save-timeout");
 
+    invalidateCache(currentUid); // so every page shows the change straight away
     allowLeave = true;
     window.location.replace(courseUrl + "&saved=1");
   } catch (err) {
@@ -416,6 +420,7 @@ function demoCourse(kind) {
 /* ---------- Loading ---------- */
 async function load(user) {
   showView("loading");
+  currentUid = user.uid;
   try {
     const found = DEMO ? demoCourse(DEMO) : await fetchCourse(user.uid, COURSE_ID);
     if (!found) {
@@ -427,8 +432,7 @@ async function load(user) {
     let count = null;
     if (!DEMO) {
       try {
-        const all = await fetchAssignments(user.uid);
-        count = all.filter((a) => a.courseId === found.id).length;
+        count = (await courseCounts(user.uid, found.id)).total;
       } catch (err) {
         console.warn("Could not count assignments:", err);
       }

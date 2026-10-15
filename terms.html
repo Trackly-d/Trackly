@@ -4,22 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Terms of Service | Trackly</title>
-  <meta name="description" content="The rules for using Trackly, the assignment tracker that helps students stay on top of their deadlines.">
+  <meta name="description" content="The rules for using Trackly, the student assignment tracker.">
+  <meta name="robots" content="index, follow">
 
   <!-- Inter font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/legal.css">
 </head>
 <body>
   <!--
-    DRAFT: written by Claude as a starting point, not legal advice.
-    1. Fill in every yellow highlighted detail.
-    2. Have a Nigerian lawyer review this page before launch.
-    3. When you change it, update "Last updated" below and TERMS_VERSION in js/users.js.
+    Public legal page. Written to match what Trackly really does (checked against the code by tests/legal-pages.test.mjs).
+    Not legal advice: a Nigerian lawyer should review it before launch.
+    When you change it: update "Last updated" below AND TERMS_VERSION in js/users.js (they must match).
+    Google also reads this page when it verifies the Calendar permission, so every statement must stay true.
   -->
   <header class="legal-header">
     <a class="legal-logo" href="login.html" aria-label="Trackly home">
@@ -28,62 +29,121 @@
     <a class="legal-back" href="login.html">Back to Trackly</a>
   </header>
 
-  <main class="legal-page">
-    <h1>Terms of Service</h1>
-    <p class="legal-updated">Last updated: 2 October 2026</p>
+  <div class="legal-wrap">
+    <aside class="legal-side">
+      <details class="legal-toc" open>
+        <summary>On this page</summary>
+        <ol>
+          <li><a href="#s1">Who we are</a></li>
+          <li><a href="#s2">Your account</a></li>
+          <li><a href="#s3">What Trackly does, and what it does not promise</a></li>
+          <li><a href="#s4">Your content</a></li>
+          <li><a href="#s5">Acceptable use</a></li>
+          <li><a href="#s6">Google sign in and Google Calendar</a></li>
+          <li><a href="#s7">Photos and third-party services</a></li>
+          <li><a href="#s8">Changes and availability</a></li>
+          <li><a href="#s9">Ending your account</a></li>
+          <li><a href="#s10">Limits on our responsibility</a></li>
+          <li><a href="#s11">Changes to these terms</a></li>
+          <li><a href="#s12">Governing law</a></li>
+          <li><a href="#s13">Contact</a></li>
+        </ol>
+      </details>
+    </aside>
 
-    <p>Welcome to Trackly. These terms explain the rules for using Trackly, a tool that helps students keep track of courses, assignments, due dates and reminders. By creating an account or using Trackly, you agree to these terms.</p>
+    <main class="legal-page">
+      <h1>Terms of Service</h1>
+      <p class="legal-updated">Last updated: 15 October 2026</p>
+      <p>Welcome to Trackly. These terms explain the rules for using Trackly, a tool that helps students keep track of courses, assignments, due dates and reminders. By creating an account or using Trackly, you agree to these terms.</p>
 
-    <h2>1. Who we are</h2>
-    <p>Trackly is run by <mark class="placeholder">[Trackly team or company name]</mark> ("Trackly", "we", "us"). You can reach us at <mark class="placeholder">[support email, for example support@trackly.ng]</mark>.</p>
+      <section class="legal-summary" aria-label="Summary">
+        <h2>In short</h2>
+        <ul>
+          <li>Trackly helps you keep track of your work. Reminders help, but they are not a guarantee.</li>
+          <li>Your courses, assignments, notes and photos belong to you.</li>
+          <li>Please use Trackly kindly and lawfully.</li>
+          <li>You can stop using Trackly and ask us to delete your account at any time.</li>
+          <li>How we handle your information, including Google Calendar, is in our <a href="privacy.html">Privacy Policy</a>.</li>
+        </ul>
+      </section>
 
-    <h2>2. Your account</h2>
-    <ul>
-      <li>You must give us correct information when you sign up and keep it up to date.</li>
-      <li>Trackly is meant for students aged 18 and over. If you are under 18, you need permission from a parent or guardian to use it.</li>
-      <li>Keep your password private. You are responsible for what happens under your account.</li>
-      <li>Tell us straight away if you think someone else is using your account.</li>
-    </ul>
+      <section>
+        <h2 id="s1">1. Who we are</h2>
+        <p>Trackly is run by the Trackly team in Nigeria ("Trackly", "we", "us"). You can reach us at <a href="mailto:trackly409@gmail.com">trackly409@gmail.com</a>.</p>
+      </section>
 
-    <h2>3. What Trackly does, and what it does not promise</h2>
-    <p>Trackly helps you organise your courses and assignments and sends reminders. It is a helper, not a guarantee. Reminders can be delayed or fail because of your phone, your internet, your calendar settings or other things outside our control. You stay responsible for your own deadlines, and you should not rely on Trackly as your only reminder for anything important.</p>
+      <section>
+        <h2 id="s2">2. Your account</h2>
+        <ul>
+          <li>You must give us correct information when you sign up and keep it up to date.</li>
+          <li>Trackly is meant for students aged 18 and over. If you are under 18, you need permission from a parent or guardian to use it.</li>
+          <li>Keep your password private. You are responsible for what happens under your account.</li>
+          <li>Tell us straight away if you think someone else is using your account.</li>
+        </ul>
+      </section>
 
-    <h2>4. Your content</h2>
-    <p>The courses, assignments, notes and photos you add to Trackly belong to you. You give us permission to store and process them only so we can run Trackly for you. We do not claim ownership of your work.</p>
+      <section>
+        <h2 id="s3">3. What Trackly does, and what it does not promise</h2>
+        <p>Trackly helps you organise your courses and assignments and sends reminders. It is a helper, not a guarantee. Reminders that appear in Google Calendar are popups that follow your own Calendar notification settings. They can be delayed or fail because of your phone, your internet, your calendar settings or other things outside our control. You stay responsible for your own deadlines, and you should not rely on Trackly as your only reminder for anything important.</p>
+      </section>
 
-    <h2>5. Acceptable use</h2>
-    <p>Please do not:</p>
-    <ul>
-      <li>break the law or use Trackly to harm or harass anyone;</li>
-      <li>try to get into other people's accounts or our systems;</li>
-      <li>upload harmful files or content you have no right to share;</li>
-      <li>overload, copy or interfere with Trackly in ways that stop others using it.</li>
-    </ul>
+      <section>
+        <h2 id="s4">4. Your content</h2>
+        <p>The courses, assignments, notes and photos you add to Trackly belong to you. You give us permission to store and process them only so we can run Trackly for you. We do not claim ownership of your work.</p>
+      </section>
 
-    <h2>6. Google sign in and Google Calendar</h2>
-    <p>You can sign in with Google. If you choose to connect Google Calendar, Trackly will ask for your permission first and will only use it to create and manage reminders you ask for. You can remove this access at any time in your Google account settings. Our <a href="privacy.html">Privacy Policy</a> explains how we handle this information.</p>
+      <section>
+        <h2 id="s5">5. Acceptable use</h2>
+        <p>Please do not:</p>
+        <ul>
+          <li>break the law or use Trackly to harm or harass anyone;</li>
+          <li>try to get into other people's accounts or our systems;</li>
+          <li>upload harmful files or content you have no right to share;</li>
+          <li>overload, copy or interfere with Trackly in ways that stop others using it.</li>
+        </ul>
+      </section>
 
-    <h2>7. Photos and third-party services</h2>
-    <p>Trackly uses services from other companies, such as Google Firebase, Cloudinary, Cloudflare and Pexels. Course header photos may come from Pexels and remain the property of their photographers. These services have their own terms, and we are not responsible for them.</p>
+      <section>
+        <h2 id="s6">6. Google sign in and Google Calendar</h2>
+        <p>You can sign in with Google. If you choose to connect Google Calendar, Trackly asks for your permission first. It then adds reminder events for your assignments to your main calendar, and removes them when they are no longer needed. You can switch this off in your Profile or in your Google Account settings at any time, and you can also delete the events yourself. Our <a href="privacy.html#google">Privacy Policy</a> explains exactly how we handle Google data.</p>
+      </section>
 
-    <h2>8. Changes and availability</h2>
-    <p>We work to keep Trackly running, but we cannot promise it will always be available or free of errors. We may add, change or remove features, and we may pause the service for maintenance.</p>
+      <section>
+        <h2 id="s7">7. Photos and third-party services</h2>
+        <p>Trackly uses services from other companies, such as Google Firebase, Cloudinary, Cloudflare and Pixabay. Course header photos may come from Pixabay and are provided under Pixabay's own licence. These services have their own terms, and we are not responsible for them.</p>
+      </section>
 
-    <h2>9. Ending your account</h2>
-    <p>You can stop using Trackly at any time. To delete your account and your data, email us at <mark class="placeholder">[support email]</mark>. We may suspend or close accounts that break these terms.</p>
+      <section>
+        <h2 id="s8">8. Changes and availability</h2>
+        <p>We work to keep Trackly running, but we cannot promise it will always be available or free of errors. We may add, change or remove features, and we may pause the service for maintenance.</p>
+      </section>
 
-    <h2>10. Limits on our responsibility</h2>
-    <p>Trackly is provided "as is". To the fullest extent the law allows, we are not responsible for losses that come from missed deadlines, failed or late reminders, lost data, or interruptions to the service. Nothing in these terms limits any rights you have under Nigerian law that cannot be limited.</p>
+      <section>
+        <h2 id="s9">9. Ending your account</h2>
+        <p>You can stop using Trackly at any time. To delete your account and your data, email us at <a href="mailto:trackly409@gmail.com">trackly409@gmail.com</a> from the address on your account, and we will do it within 30 days. We may suspend or close accounts that break these terms.</p>
+      </section>
 
-    <h2>11. Changes to these terms</h2>
-    <p>We may update these terms from time to time. When we make an important change, we will tell you in the app or by email. If you keep using Trackly after a change, you accept the updated terms.</p>
+      <section>
+        <h2 id="s10">10. Limits on our responsibility</h2>
+        <p>Trackly is provided "as is". To the fullest extent the law allows, we are not responsible for losses that come from missed deadlines, failed or late reminders, lost data, or interruptions to the service. Nothing in these terms limits any rights you have under Nigerian law that cannot be limited.</p>
+      </section>
 
-    <h2>12. Governing law</h2>
-    <p>These terms are governed by the laws of the Federal Republic of Nigeria.</p>
+      <section>
+        <h2 id="s11">11. Changes to these terms</h2>
+        <p>We may update these terms from time to time. When we make an important change, we will tell you in the app or by email. If you keep using Trackly after a change, you accept the updated terms.</p>
+      </section>
 
-    <h2>13. Contact</h2>
-    <p>Questions about these terms? Email <mark class="placeholder">[support email]</mark>.</p>
-  </main>
+      <section>
+        <h2 id="s12">12. Governing law</h2>
+        <p>These terms are governed by the laws of the Federal Republic of Nigeria.</p>
+      </section>
+
+      <section>
+        <h2 id="s13">13. Contact</h2>
+        <p>Questions about these terms? Email <a href="mailto:trackly409@gmail.com">trackly409@gmail.com</a>.</p>
+      </section>
+    </main>
+  </div>
 
   <footer class="legal-footer">
     <a href="privacy.html">Privacy Policy</a>
