@@ -355,3 +355,32 @@
 .icon-btn.avatar-btn:hover {
   text-decoration: none;
 }
+
+/* The notifications bell: a link, with a dot when something is unread */
+.bell-btn {
+  position: relative;
+  text-decoration: none;
+}
+
+.bell-btn:hover {
+  text-decoration: none;
+}
+
+.bell-btn.is-active {
+  background: var(--color-chip-bg);
+}
+
+.bell-dot {
+  position: absolute;
+  top: 6px;
+  right: 7px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-link);
+  border: 2px solid #FFFFFF;
+}
+
+.bell-dot[hidden] {
+  display: none;
+}

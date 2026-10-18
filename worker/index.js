@@ -8,15 +8,29 @@
      { "query": "biology laboratory microscope",
        "results": [ { "id", "preview", "full", "user", "pageUrl" } ] }
 
+   It also DELETES photos, when a student removes a photo or deletes their account:
+     POST /images/delete   with  { "publicIds": ["folder/name", ...] }  (at most 50)
+   The browser cannot delete from Cloudinary (that needs a secret), so it asks here. Every call must carry the
+   student's Firebase sign in token, which this Worker checks. This part is self contained in this one file,
+   so it works whether you deploy with Wrangler or paste the file into the Cloudflare website.
+
    Settings (Cloudflare dashboard, your Worker, Settings):
-     PIXABAY_KEY      (Secret, required)  your Pixabay API key
-     ALLOWED_ORIGINS  (Variable, optional) websites allowed to ask, separated by commas
-     CACHE            (KV binding, optional but recommended) remembers answers for 24 hours
+     PIXABAY_KEY             (Secret, required)  your Pixabay API key
+     ALLOWED_ORIGINS         (Variable, optional) websites allowed to ask, separated by commas
+     CACHE                   (KV binding, optional but recommended) remembers answers for 24 hours
+   For deleting photos:
+     FIREBASE_PROJECT_ID     (Variable)  trackly-e18d8
+     CLOUDINARY_CLOUD_NAME   (Variable)  your Cloudinary cloud name
+     CLOUDINARY_API_KEY      (Secret)    from the Cloudinary dashboard
+     CLOUDINARY_API_SECRET   (Secret)    from the Cloudinary dashboard
+     IMAGE_FOLDER_PREFIX     (Variable, optional) only delete pictures whose id starts with this, for example "trackly/"
    ========================================================== */
 
 const DEFAULT_ORIGINS = [
   "https://trackly.ng",
   "https://www.trackly.ng",
+  "http://127.0.0.1:5000",
+  "http://localhost:5000",
   "http://127.0.0.1:5500",
   "http://localhost:5500"
 ];
@@ -172,6 +186,96 @@ async function handleImages(url, env, cors) {
   }
 }
 
+/* ---------- Deleting photos ---------- */
+
+/* Checking a Firebase sign in token (the student's proof of who they are).
+   Same rules as the calendar Worker: signature from Google's public keys, audience = our project, issuer, expiry. */
+const JWKS_URL = "https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com";
+let jwks = { keys: [], at: 0 };
+
+function b64decode(text) {
+  const clean = String(text).replace(/-/g, "+").replace(/_/g, "/");
+  const bin = atob(clean + "=".repeat((4 - (clean.length % 4)) % 4));
+  return Uint8Array.from(bin, (c) => c.charCodeAt(0));
+}
+
+async function loadKeys(now) {
+  if (jwks.keys.length && now - jwks.at < 3600 * 1000) return jwks.keys;
+  const res = await fetch(JWKS_URL);
+  if (!res.ok) throw new Error("Could not load Firebase keys");
+  jwks = { keys: (await res.json()).keys || [], at: now };
+  return jwks.keys;
+}
+
+async function verifyFirebaseToken(token, projectId, now = Date.now()) {
+  try {
+    const parts = String(token || "").split(".");
+    if (parts.length !== 3) return null;
+    const decode = new TextDecoder();
+    const header = JSON.parse(decode.decode(b64decode(parts[0])));
+    if (header.alg !== "RS256" || typeof header.kid !== "string") return null;
+    let jwk = (await loadKeys(now)).find((k) => k.kid === header.kid);
+    if (!jwk) { jwks = { keys: [], at: 0 }; jwk = (await loadKeys(now)).find((k) => k.kid === header.kid); }
+    if (!jwk) return null;
+    const key = await crypto.subtle.importKey("jwk", jwk, { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" }, false, ["verify"]);
+    const valid = await crypto.subtle.verify("RSASSA-PKCS1-v1_5", key, b64decode(parts[2]), new TextEncoder().encode(parts[0] + "." + parts[1]));
+    if (!valid) return null;
+    const p = JSON.parse(decode.decode(b64decode(parts[1])));
+    const sec = Math.floor(now / 1000);
+    if (p.aud !== projectId || p.iss !== "https://securetoken.google.com/" + projectId) return null;
+    if (typeof p.exp !== "number" || p.exp <= sec || typeof p.iat !== "number" || p.iat > sec + 300) return null;
+    return typeof p.sub === "string" && p.sub ? { uid: p.sub } : null;
+  } catch (err) {
+    return null;
+  }
+}
+
+const PUBLIC_ID_OK = /^[A-Za-z0-9_\-/.]{1,200}$/;
+const MAX_DELETE = 50;
+
+async function handleDelete(request, env, cors) {
+  if (!env.FIREBASE_PROJECT_ID || !env.CLOUDINARY_CLOUD_NAME || !env.CLOUDINARY_API_KEY || !env.CLOUDINARY_API_SECRET) {
+    return reply({ error: "not_configured" }, 500, cors);
+  }
+  const header = request.headers.get("Authorization") || "";
+  const user = await verifyFirebaseToken(header.startsWith("Bearer ") ? header.slice(7) : "", env.FIREBASE_PROJECT_ID);
+  if (!user) return reply({ error: "sign_in_needed" }, 401, cors);
+
+  const text = await request.text();
+  if (text.length > 8192) return reply({ error: "too_big" }, 413, cors);
+  let body;
+  try { body = JSON.parse(text); } catch (err) { return reply({ error: "bad_request" }, 400, cors); }
+
+  // Picture ids are long and random, and nobody can see another student's, so only the owner can name them.
+  // IMAGE_FOLDER_PREFIX (optional) also keeps this from touching anything outside Trackly's own folder.
+  const prefix = env.IMAGE_FOLDER_PREFIX || "";
+  const ids = body && body.publicIds;
+  const bad = !Array.isArray(ids) || ids.length < 1 || ids.length > MAX_DELETE || ids.some((id) =>
+    typeof id !== "string" || !PUBLIC_ID_OK.test(id) || id.includes("..") || id.startsWith("/") || (prefix && !id.startsWith(prefix)));
+  if (bad) return reply({ error: "bad_request" }, 400, cors);
+
+  const params = new URLSearchParams();
+  ids.forEach((id) => params.append("public_ids[]", id));
+  let res;
+  try {
+    res = await fetch("https://api.cloudinary.com/v1_1/" + encodeURIComponent(env.CLOUDINARY_CLOUD_NAME) + "/resources/image/upload", {
+      method: "DELETE",
+      headers: { Authorization: "Basic " + btoa(env.CLOUDINARY_API_KEY + ":" + env.CLOUDINARY_API_SECRET), "Content-Type": "application/x-www-form-urlencoded" },
+      body: params
+    });
+  } catch (err) {
+    console.error("Cloudinary delete could not be reached");
+    return reply({ error: "cloudinary" }, 502, cors);
+  }
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    console.error("Cloudinary delete failed with status", res.status); // never log the key or the secret
+    return reply({ error: "cloudinary" }, 502, cors);
+  }
+  const outcome = Object.values(data.deleted || {});
+  return reply({ deleted: outcome.filter((v) => v === "deleted").length, notFound: outcome.filter((v) => v === "not_found").length, requested: ids.length }, 200, cors);
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -194,8 +298,8 @@ export default {
         status: 204,
         headers: {
           ...cors,
-          "Access-Control-Allow-Methods": "GET, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
           "Access-Control-Max-Age": "86400"
         }
       });
@@ -203,6 +307,10 @@ export default {
 
     if (request.method === "GET" && url.pathname === "/images") {
       return handleImages(url, env, cors);
+    }
+
+    if (request.method === "POST" && url.pathname === "/images/delete") {
+      return handleDelete(request, env, cors);
     }
 
     return reply({ ok: true, service: "trackly-images" }, 200, cors);

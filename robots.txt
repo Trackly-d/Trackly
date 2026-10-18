@@ -1,0 +1,5 @@
+# Trackly: the public pages may be crawled. Private pages (the app and sign in) are marked noindex inside each page.
+User-agent: *
+Allow: /
+
+Sitemap: https://trackly.ng/sitemap.xml

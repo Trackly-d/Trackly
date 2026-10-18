@@ -4,13 +4,15 @@
    fills in the student's name, and handles the mobile menu and Sign out.
 
    Every private page does just this:
-     import { startApp } from "./shell.js";
+     import { refreshBell } from "./notifications-bell.js";
+import { startApp } from "./shell.js";
      startApp("dashboard");        // the id of the page, see NAV below
    ========================================================== */
 
 import { requireAuth, logOut, LOGIN_URL } from "./auth.js";
 import { installLeaveGuard, canLeave } from "./leave-guard.js";
 import { clearAllCache } from "./cache.js";
+import { refreshBell } from "./notifications-bell.js";
 
 // Pages with forms use these to warn about unsaved changes (see leave-guard.js)
 export { setLeaveGuard, refreshLeaveGuard } from "./leave-guard.js";
@@ -47,7 +49,7 @@ const NAV = [
   { id: "profile",     label: "Profile",     href: "profile.html",     icon: "user" },
   { id: "settings",    label: "Settings",    href: "settings.html",    icon: "settings" }
 ];
-const BUILT_PAGES = ["dashboard", "courses", "assignments", "profile", "calendar"];
+const BUILT_PAGES = ["dashboard", "courses", "assignments", "profile", "calendar", "settings"];
 
 function renderShell(activePage, options = {}) {
   const links = NAV.map((item) => {
@@ -79,9 +81,11 @@ function renderShell(activePage, options = {}) {
       : "") +
     '<div class="topbar-actions">' +
       '<button class="icon-btn" type="button" id="search-icon-btn" aria-label="Search" data-soon>' + icon("search") + "</button>" +
-      '<button class="icon-btn" type="button" aria-label="Notifications" data-soon>' + icon("bell") + "</button>" +
+      '<a class="icon-btn bell-btn" id="bell-btn" href="notifications.html" aria-label="Notifications">' + icon("bell") + '<span class="bell-dot" id="bell-dot" hidden></span></a>' +
       '<a class="icon-btn avatar-btn" href="profile.html" aria-label="Your profile">' + icon("user") + "</a>" +
     "</div>";
+  // On the Notifications page the bell is the highlighted item (nothing in the sidebar is)
+  if (activePage === "notifications") document.getElementById("bell-btn").classList.add("is-active");
 }
 
 /* Shows the student's name and photo (or their initials), for example "Alex Rivers" and "AR".
@@ -109,6 +113,14 @@ function fillUser(user) {
   };
   avatar.replaceChildren(makeImage());
   if (topButton) { topButton.classList.add("has-photo"); topButton.replaceChildren(makeImage()); }
+}
+
+/* Shows or hides the dot on the bell. The Notifications step decides when something is unread. */
+export function setBellDot(on) {
+  const dot = document.getElementById("bell-dot");
+  if (dot) dot.hidden = !on;
+  const bell = document.getElementById("bell-btn");
+  if (bell) bell.setAttribute("aria-label", on ? "Notifications, you have unread notifications" : "Notifications");
 }
 
 /* Pages call this after the student changes their name or photo */
@@ -174,6 +186,7 @@ export function startApp(activePage, onReady, options = {}) {
   requireAuth((user) => {
     fillUser(user);
     document.getElementById("app").hidden = false;
+    refreshBell(user.uid, setBellDot).catch((err) => console.error("Could not check for unread notifications:", err)); // never in the way
     if (onReady && !started) {
       started = true;
       onReady(user);

@@ -12,6 +12,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+  <link rel="canonical" href="https://trackly.ng/privacy">
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/images/favicon-96.png">
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/legal.css">
 </head>
@@ -23,10 +28,10 @@
     Google also reads this page when it verifies the Calendar permission, so every statement must stay true.
   -->
   <header class="legal-header">
-    <a class="legal-logo" href="login.html" aria-label="Trackly home">
-      <img src="assets/images/trackly-logo.png" alt="Trackly" width="1774" height="887">
+    <a class="legal-logo" href="index.html" aria-label="Trackly home">
+      <img src="assets/images/logo.webp" alt="Trackly" width="360" height="114">
     </a>
-    <a class="legal-back" href="login.html">Back to Trackly</a>
+    <a class="legal-back" href="index.html">Back to Trackly</a>
   </header>
 
   <div class="legal-wrap">
@@ -53,7 +58,7 @@
 
     <main class="legal-page">
       <h1>Privacy Policy</h1>
-      <p class="legal-updated">Last updated: 15 October 2026</p>
+      <p class="legal-updated">Last updated: 17 October 2026</p>
       <p>Your privacy matters to us. This policy explains what information Trackly collects, why we collect it, who we share it with, and the choices you have. We do not sell your personal information.</p>
 
       <section class="legal-summary" aria-label="Summary">
@@ -78,6 +83,7 @@
           <li><strong>Account details:</strong> your full name, email address and, if you sign in with Google, your Google profile photo. Your password is handled by Google Firebase Authentication, so we cannot see it.</li>
           <li><strong>What you add:</strong> your courses (title, code, instructor, colour and photo), your assignments (title, notes, due date, priority, status and reminder choices), and a profile photo if you upload one.</li>
           <li><strong>Sign up record:</strong> the date you created your account, and the date and version of the terms you agreed to.</li>
+          <li><strong>Alerts and history:</strong> your alert choices in Settings, a short history of events in your account (such as an assignment being added or marked as submitted), and which notifications you have read.</li>
           <li><strong>Google Calendar details,</strong> only if you connect it: see section 4.</li>
           <li><strong>Basic technical data:</strong> information such as device and browser type, which our service providers may collect to keep Trackly working and secure.</li>
         </ul>
@@ -88,6 +94,7 @@
         <ul>
           <li>to create your account and keep you signed in;</li>
           <li>to show your courses and assignments;</li>
+          <li>to show alerts and a short history in Trackly, such as when an assignment is due soon or overdue;</li>
           <li>to add and remove reminder events on your Google Calendar, if you connect it;</li>
           <li>to find a suitable photo for your course header;</li>
           <li>to keep Trackly secure, fix problems and improve it;</li>
@@ -153,8 +160,10 @@
           <li><strong>Your account, courses and assignments:</strong> while your account is active.</li>
           <li><strong>Your Google Calendar token:</strong> until you switch Google Calendar Reminders off, remove Trackly in your Google Account, or ask us to delete your account.</li>
           <li><strong>Calendar event ids waiting to be removed:</strong> deleted as soon as the events are removed.</li>
-          <li><strong>Photos you upload:</strong> while your account is active. We remove them when we delete your account.</li>
-          <li><strong>When you ask us to delete your account,</strong> we delete your personal information within 30 days, unless we must keep some of it for legal reasons.</li>
+          <li><strong>Your notification history:</strong> for 30 days, then it is removed.</li>
+          <li><strong>Photos you upload:</strong> while your account is active. We remove them when your account is deleted, and when you remove or replace a photo.</li>
+          <li><strong>When you delete your account in Settings,</strong> Trackly removes your Google Calendar reminders, your photos, your courses, assignments and notification history, and your login, straight away.</li>
+          <li><strong>If you ask us by email instead,</strong> we delete your personal information within 30 days, unless we must keep some of it for legal reasons.</li>
         </ul>
       </section>
 
@@ -164,10 +173,10 @@
         <ul>
           <li>show you the information we hold about you;</li>
           <li>correct information that is wrong;</li>
-          <li>delete your information or close your account;</li>
+          <li>delete your information or close your account (you can do this yourself with Delete account in Settings);</li>
           <li>stop or limit how we use your information, or give you a copy of it.</li>
         </ul>
-        <p>Email <a href="mailto:trackly409@gmail.com">trackly409@gmail.com</a> and we will respond as soon as we can. To delete your account, email us from the address on your account. If you are not happy with how we handle your information, you may complain to the Nigeria Data Protection Commission.</p>
+        <p>Email <a href="mailto:trackly409@gmail.com">trackly409@gmail.com</a> and we will respond as soon as we can. To delete your account, use Delete account in Settings, or email us from the address on your account. If you are not happy with how we handle your information, you may complain to the Nigeria Data Protection Commission.</p>
       </section>
 
       <section>
@@ -187,13 +196,14 @@
 
       <section>
         <h2 id="s13">13. Contact us</h2>
-        <p>Email <a href="mailto:trackly409@gmail.com">trackly409@gmail.com</a>.</p>
+        <p>Email <a href="mailto:trackly409@gmail.com">trackly409@gmail.com</a>, or use our <a href="contact.html">contact page</a>.</p>
       </section>
     </main>
   </div>
 
   <footer class="legal-footer">
     <a href="terms.html">Terms of Service</a>
+    <a href="contact.html">Contact</a>
     <a href="signup.html">Create an account</a>
     <a href="login.html#signin">Sign in</a>
   </footer>

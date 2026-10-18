@@ -26,6 +26,8 @@ import { fetchUserRecord } from "./users.js";
 import { createCalendarClient } from "./calendar-client.js";
 import { buildCalendarRequest, eventIdsOf, calendarField, createReminders, removeReminders, reminderNotice } from "./calendar-sync.js";
 import { saveCalendarField, clearCalendarField, queueCleanup } from "./calendar-store.js";
+import { writeActivity, removeActivityFor } from "./notifications-data.js";
+import { activityEntry } from "./notifications-logic.js";
 import { statusChange, editRule, dueDateText, dueTimeText, createdText, modifiedText, unitTopicText, PRIORITY_LABELS } from "./assignment-status.js";
 
 const SAVE_LIMIT_MS = 20000;
@@ -107,7 +109,18 @@ async function restoreCalendar() {
   if (notice) showMessage(statusMsg, "Saved. " + notice);
 }
 
+/* The history on the Notifications page. Never in the student's way. */
+async function noteSubmitted() {
+  try {
+    await writeActivity(uid, activityEntry("submitted", { assignmentId: id, title: a.title, courseTitle: course ? course.title : "" }));
+    invalidateCache(uid);
+  } catch (err) {
+    console.error("Could not save the notification:", err);
+  }
+}
+
 async function afterStatusSaved(change) {
+  if (change.status === "submitted") await noteSubmitted();
   try {
     if (change.status === "submitted") await removeCalendar(true);
     else if (change.submittedAt === "clear") await restoreCalendar();
@@ -118,6 +131,7 @@ async function afterStatusSaved(change) {
 }
 
 async function onDeleted() {
+  try { await removeActivityFor(uid, id); } catch (err) { console.error("Could not tidy the notifications:", err); }
   try { await removeCalendar(false); } catch (err) { console.error("Calendar reminders problem:", err); }
 }
 

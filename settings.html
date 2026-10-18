@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Settings | Trackly</title>
+  <!-- Signed in pages are private and kept out of Google -->
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles: base, components, the app frame, then this page -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/settings.css">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-id" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M15 9h3M15 13h3M6 17c.7-1.5 2-2 3-2s2.3.5 3 2"/></symbol>
+      <symbol id="i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+      <symbol id="i-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+      <symbol id="i-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+      <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></symbol>
+      <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- Hidden until Firebase confirms the student is signed in -->
+  <div class="app-layout" id="app" hidden>
+    <div class="app-backdrop" id="backdrop" hidden></div>
+
+    <!-- Sidebar and top bar are built by js/shell.js -->
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="app-content">
+        <div class="settings-page">
+
+          <!-- LOADING (JavaScript step) -->
+          <div class="st-loading" id="st-loading" aria-busy="true" aria-label="Loading your settings" hidden>
+            <div class="st-sk st-sk-head"></div>
+            <div class="st-sk st-sk-card"></div>
+          </div>
+
+          <!-- The page could not load (usually the network) -->
+          <div class="load-error" id="st-error" role="alert" hidden>
+            <p>We could not load your settings. Check your connection and try again.</p>
+            <button class="btn btn-outline-link btn-retry" type="button" id="st-retry">Try again</button>
+          </div>
+
+          <!-- THE PAGE. Design views with sample data:
+               settings.html?state=loading | error | delete | deletegoogle | deleting -->
+          <div class="st-page" id="st-page" hidden>
+            <header class="st-head">
+              <h1>Settings</h1>
+              <p>Manage your student profile.</p>
+            </header>
+
+            <div class="st-layout">
+              <aside class="st-side">
+                <nav class="st-nav" aria-label="Settings sections">
+                  <a href="#account" class="is-active">Account</a>
+                  <a href="#notifications">Notifications</a>
+                  <a href="#about">About</a>
+                </nav>
+                <p class="st-version"><span>Trackly <span id="st-version">v1.0.0</span></span><span id="st-build">Oct 2026</span></p>
+              </aside>
+
+              <div class="st-main">
+
+                <section class="st-card" id="account" aria-labelledby="st-account-title">
+                  <div class="st-card-head"><h2 id="st-account-title">Account</h2></div>
+            <a class="st-row" href="profile.html">
+              <span class="st-icon"><svg class="icon"><use href="#i-id"/></svg></span>
+              <span class="st-text"><span class="st-label">Profile</span><span class="st-sub" id="st-email">alex@school.edu</span></span>
+              <span class="st-chevron"><svg class="icon"><use href="#i-chev"/></svg></span>
+            </a>
+            <a class="st-row" href="profile.html?open=password">
+              <span class="st-icon"><svg class="icon"><use href="#i-key"/></svg></span>
+              <span class="st-text"><span class="st-label">Change Password</span><span class="st-sub" id="st-password-sub">Update the password you sign in with</span></span>
+              <span class="st-chevron"><svg class="icon"><use href="#i-chev"/></svg></span>
+            </a>
+                  <button class="st-row" type="button" id="st-logout">
+                    <span class="st-icon st-icon-red"><svg class="icon"><use href="#i-out"/></svg></span>
+                    <span class="st-text"><span class="st-label st-red">Log Out</span></span>
+                    <span class="st-tag">Current session</span>
+                  </button>
+                  <button class="st-row st-row-danger" type="button" id="st-delete">
+                    <span class="st-icon st-icon-red"><svg class="icon"><use href="#i-trash"/></svg></span>
+                    <span class="st-text"><span class="st-label st-red">Delete account</span><span class="st-sub">Permanently remove your account and all your data</span></span>
+                    <span class="st-chevron"><svg class="icon"><use href="#i-chev"/></svg></span>
+                  </button>
+                </section>
+
+                <section class="st-card" id="notifications" aria-labelledby="st-notif-title">
+                  <div class="st-card-head"><h2 id="st-notif-title">Notifications</h2><span class="st-tag">Alerts in Trackly</span></div>
+
+                  <div class="st-row st-row-static">
+                    <span class="st-icon"><svg class="icon"><use href="#i-phone"/></svg></span>
+                    <span class="st-text"><span class="st-label">Push Notifications <span class="st-badge">Coming soon</span></span><span class="st-sub">Get alerts on your device</span></span>
+                    <label class="st-switch"><input type="checkbox" role="switch" id="st-push" aria-label="Push Notifications" disabled><span class="st-track"></span></label>
+                  </div>
+
+                  <div class="st-row st-row-static">
+                    <span class="st-icon"><svg class="icon"><use href="#i-bell"/></svg></span>
+                    <span class="st-text"><span class="st-label">Due soon alerts</span><span class="st-sub">See an alert in Trackly before an assignment is due</span></span>
+                    <label class="st-switch"><input type="checkbox" role="switch" id="st-alerts" aria-label="Due soon alerts" checked><span class="st-track"></span></label>
+                  </div>
+
+                  <!-- Hidden while Due soon alerts is off. More than one can be chosen. -->
+                  <div class="st-row st-row-static st-timing" id="st-timing">
+                    <span class="st-icon"><svg class="icon"><use href="#i-clock"/></svg></span>
+                    <span class="st-text">
+                      <span class="st-label" id="st-timing-label">Alert timing</span>
+                      <span class="st-sub">Choose when you want to be alerted before the due time</span>
+                      <span class="st-chips" role="group" aria-labelledby="st-timing-label">
+                        <label class="st-chip"><input type="checkbox" name="timing" value="3"><span>3 hours</span></label>
+                        <label class="st-chip"><input type="checkbox" name="timing" value="24" checked><span>24 hours</span></label>
+                        <label class="st-chip"><input type="checkbox" name="timing" value="48" checked><span>48 hours</span></label>
+                      </span>
+                      <span class="form-error" id="st-timing-error" role="alert" hidden></span>
+                    </span>
+                  </div>
+
+            <a class="st-row" href="notifications.html">
+              <span class="st-icon"><svg class="icon"><use href="#i-bell"/></svg></span>
+              <span class="st-text"><span class="st-label">See your notifications</span><span class="st-sub">Open your list of alerts</span></span>
+              <span class="st-chevron"><svg class="icon"><use href="#i-chev"/></svg></span>
+            </a>
+                </section>
+
+                <section class="st-card" id="about" aria-labelledby="st-about-title">
+                  <div class="st-card-head"><h2 id="st-about-title">About</h2><span class="st-tag">Trackly</span></div>
+            <a class="st-row" href="contact.html">
+              <span class="st-icon"><svg class="icon"><use href="#i-help"/></svg></span>
+              <span class="st-text"><span class="st-label">Help &amp; Support</span><span class="st-sub">Contact us</span></span>
+              <span class="st-chevron"><svg class="icon"><use href="#i-chev"/></svg></span>
+            </a>
+            <a class="st-row" href="privacy.html">
+              <span class="st-icon"><svg class="icon"><use href="#i-shield"/></svg></span>
+              <span class="st-text"><span class="st-label">Privacy Policy</span><span class="st-sub">How we handle your information</span></span>
+              <span class="st-chevron"><svg class="icon"><use href="#i-chev"/></svg></span>
+            </a>
+            <a class="st-row" href="terms.html">
+              <span class="st-icon"><svg class="icon"><use href="#i-file"/></svg></span>
+              <span class="st-text"><span class="st-label">Terms of Service</span><span class="st-sub">The rules for using Trackly</span></span>
+              <span class="st-chevron"><svg class="icon"><use href="#i-chev"/></svg></span>
+            </a>
+                </section>
+              </div>
+            </div>
+          </div>
+
+          <!-- DELETE ACCOUNT (a pop-up). Google only accounts see the Google note instead of the password box. -->
+          <div class="st-modal" id="del-modal" hidden>
+            <div class="st-modal-backdrop" id="del-backdrop"></div>
+            <div class="st-dialog" role="dialog" aria-modal="true" aria-labelledby="del-title">
+              <div class="st-dialog-head">
+                <h2 id="del-title">Delete your account?</h2>
+                <button class="st-close" type="button" id="del-close" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button>
+              </div>
+              <p class="st-warn">This cannot be undone. Trackly will permanently remove:</p>
+              <ul class="st-list">
+                <li>Your profile and sign in</li>
+                <li>Your courses and assignments</li>
+                <li>Your reminders in Google Calendar, if you connected it</li>
+                <li>Photos you uploaded</li>
+              </ul>
+              <form id="del-form" novalidate>
+                <div class="st-field" id="del-password-field">
+                  <label for="del-password">Your password</label>
+                  <input class="st-input" type="password" id="del-password" autocomplete="current-password" placeholder="Enter your password">
+                </div>
+                <p class="st-note" id="del-google-note" hidden>For your safety, you will be asked to sign in with Google again.</p>
+                <div class="st-field">
+                  <label for="del-type">Type DELETE to confirm</label>
+                  <input class="st-input" type="text" id="del-type" autocomplete="off" placeholder="DELETE">
+                </div>
+                <p class="form-error" id="del-error" role="alert" hidden></p>
+                <p class="st-progress" id="del-progress" role="status" hidden>Deleting your account... Removing your reminders</p>
+                <div class="st-dialog-actions">
+                  <button class="st-btn st-btn-outline" type="button" id="del-cancel">Cancel</button>
+                  <button class="st-btn st-btn-danger" type="submit" id="del-confirm">Delete my account</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script type="module" src="js/settings.js"></script>
+</body>
+</html>

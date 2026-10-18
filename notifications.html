@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notifications | Trackly</title>
+  <!-- Signed in pages are private and kept out of Google -->
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles: base, components, the app frame, then this page -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/notifications.css">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></symbol>
+      <symbol id="i-calplus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- Hidden until Firebase confirms the student is signed in -->
+  <div class="app-layout" id="app" hidden>
+    <div class="app-backdrop" id="backdrop" hidden></div>
+
+    <!-- Sidebar and top bar are built by js/shell.js -->
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="app-main">
+      <header class="topbar" id="topbar"></header>
+
+      <main class="app-content">
+        <div class="notifications-page">
+
+          <!-- LOADING (JavaScript step) -->
+          <div class="nt-loading" id="nt-loading" aria-busy="true" aria-label="Loading your notifications" hidden>
+            <div class="nt-sk nt-sk-head"></div>
+            <div class="nt-sk nt-sk-row"></div>
+            <div class="nt-sk nt-sk-row"></div>
+            <div class="nt-sk nt-sk-row"></div>
+          </div>
+
+          <!-- The page could not load (usually the network) -->
+          <div class="load-error" id="nt-error" role="alert" hidden>
+            <p>We could not load your notifications. Check your connection and try again.</p>
+            <button class="btn btn-outline-link btn-retry" type="button" id="nt-retry">Try again</button>
+          </div>
+
+          <!-- THE PAGE. Design views with sample data:
+               notifications.html?state=loading | error | empty | more -->
+          <div class="nt-page" id="nt-page" hidden>
+            <button class="nt-back" type="button" id="nt-back" aria-label="Go back"><svg class="icon"><use href="#i-back"/></svg></button>
+
+            <div class="nt-head">
+              <h1>Notifications</h1>
+              <button class="nt-markall" type="button" id="nt-markall">Mark all as read</button>
+            </div>
+
+            <div class="nt-filters" id="nt-filters" role="group" aria-label="Show">
+              <button class="nt-chip" type="button" data-filter="all" aria-pressed="true">All</button>
+              <button class="nt-chip" type="button" data-filter="unread" aria-pressed="false">Unread</button>
+              <button class="nt-chip" type="button" data-filter="reminders" aria-pressed="false">Reminders</button>
+              <button class="nt-chip" type="button" data-filter="overdue" aria-pressed="false">Overdue</button>
+              <button class="nt-chip" type="button" data-filter="added" aria-pressed="false">Added</button>
+              <button class="nt-chip" type="button" data-filter="submitted" aria-pressed="false">Submitted</button>
+            </div>
+
+            <p class="nt-status" id="nt-status" role="status">4 notifications</p>
+
+            <ul class="nt-list" id="nt-list">
+            <li>
+              <a class="nt-item nt-reminder is-unread" href="assignment.html?id=sample1">
+                <span class="nt-icon"><svg class="icon"><use href="#i-bell"/></svg></span>
+                <span class="nt-body"><span class="nt-title">Chapter 5 Essay is due in 48 hours</span><span class="nt-course">Course: Introduction to Biology</span></span>
+                <span class="nt-meta"><time datetime="2026-10-15T08:00">2h ago</time><span class="nt-dot" role="img" aria-label="Unread"></span></span>
+              </a>
+            </li>
+            <li>
+              <a class="nt-item nt-overdue is-unread" href="assignment.html?id=sample2">
+                <span class="nt-icon"><svg class="icon"><use href="#i-alert"/></svg></span>
+                <span class="nt-body"><span class="nt-title">Cell Structure Lab Report is overdue</span><span class="nt-course">Course: Introduction to Biology</span></span>
+                <span class="nt-meta"><time datetime="2026-10-15T05:00">5h ago</time><span class="nt-dot" role="img" aria-label="Unread"></span></span>
+              </a>
+            </li>
+            <li>
+              <a class="nt-item nt-added" href="assignment.html?id=sample3">
+                <span class="nt-icon"><svg class="icon"><use href="#i-calplus"/></svg></span>
+                <span class="nt-body"><span class="nt-title">Macroeconomics Problem Set added</span><span class="nt-course">Course: Microeconomics</span></span>
+                <span class="nt-meta"><time datetime="2026-10-14T16:20">Yesterday</time></span>
+              </a>
+            </li>
+            <li>
+              <a class="nt-item nt-submitted" href="assignment.html?id=sample4">
+                <span class="nt-icon"><svg class="icon"><use href="#i-check"/></svg></span>
+                <span class="nt-body"><span class="nt-title">Linear Regression Analysis marked as submitted</span><span class="nt-course">Course: Statistics</span></span>
+                <span class="nt-meta"><time datetime="2026-10-12T11:05">Oct 12</time></span>
+              </a>
+            </li>
+            </ul>
+
+            <!-- Shown when there are more than 20. Each press shows 20 more. -->
+            <button class="nt-more" type="button" id="nt-more" hidden>Show more</button>
+
+            <!-- Shown when there is nothing to list (the words change for each filter) -->
+            <div class="nt-empty" id="nt-empty" hidden>
+              <span class="nt-empty-icon"><svg class="icon"><use href="#i-check"/></svg></span>
+              <strong id="nt-empty-title">You are all caught up</strong>
+              <p id="nt-empty-text">New alerts will show up here.</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script type="module" src="js/notifications.js"></script>
+</body>
+</html>

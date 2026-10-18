@@ -28,8 +28,9 @@ for (const [name, t] of Object.entries(text)) {
 for (const [name, html] of Object.entries(pages)) {
   check(name + ": no yellow placeholders left", [/class="placeholder"/.test(html), /\[[A-Za-z ,@.]*(name|email)[A-Za-z ,@.]*\]/i.test(strip(html))], [false, false]);
 }
-const emails = new Set(Object.values(pages).flatMap((h) => h.match(/[\w.+-]+@[\w-]+\.[\w.-]+/g) || []));
-check("one contact email on both pages", emails.size, 1);
+const contactPage = read("contact.html");
+const emails = new Set([...Object.values(pages), contactPage].flatMap((h) => h.match(/[\w.+-]+@[\w-]+\.[\w.-]+/g) || []));
+check("one contact email on the privacy, terms and contact pages", emails.size, 1);
 check("the contact email looks valid", /^[\w.+-]+@[\w-]+\.[\w.-]+$/.test([...emails][0]), true);
 check("the email is a mailto link", pages["privacy.html"].includes('href="mailto:' + [...emails][0] + '"'), true);
 
@@ -47,6 +48,15 @@ check("the privacy page has the Google section anchor", pages["privacy.html"].in
 check("terms link to the Google section", pages["terms.html"].includes('href="privacy.html#google"'), true);
 check("privacy links to the terms", pages["privacy.html"].includes('href="terms.html"'), true);
 check("terms link to the privacy policy", pages["terms.html"].includes('href="privacy.html"'), true);
+
+// ---------- the contact page
+check("contact: every button writes to the same address", [...contactPage.matchAll(/mailto:([^?"]+)/g)].every((m) => m[1] === [...emails][0]), true);
+check("contact: three ways to write, and a plain email line", [(contactPage.match(/class="contact-btn"/g) || []).length, contactPage.includes("write to us directly at")], [3, true]);
+check("contact: tells people never to send a password", /never send us your password/.test(strip(contactPage)), true);
+check("contact: can be found by Google and has its own address", [/name="robots" content="index, follow"/.test(contactPage), contactPage.includes('<link rel="canonical" href="https://trackly.ng/contact">')], [true, true]);
+check("contact: links to the FAQ, privacy and terms", ["index.html#faq", "privacy.html", "terms.html"].every((h) => contactPage.includes('href="' + h + '"')), true);
+check("privacy and terms point to the contact page", Object.values(pages).every((h) => h.includes('href="contact.html"')), true);
+check("contact: makes no promise about how fast we reply", /\b\d+\s*(hours?|days?|working days?)\b/i.test(strip(contactPage)), false);
 
 // ---------- what Google looks for in the privacy policy
 check("Limited Use statement, word for word", text["privacy.html"].includes("Trackly's use and transfer to any other app of information received from Google APIs will adhere to the Google API Services User Data Policy, including the Limited Use requirements."), true);
@@ -82,6 +92,20 @@ check("age rule is 18 and over, or with permission, on both pages", Object.value
 check("deletion takes 30 days on both pages", Object.values(text).every((t) => t.includes("within 30 days")), true);
 check("governing law is Nigeria", text["terms.html"].includes("laws of the Federal Republic of Nigeria"), true);
 check("reminders are not promised as a guarantee", /not a guarantee/.test(text["terms.html"]), true);
+
+// ---------- deleting an account: what the pages say must match what the code does
+const deleteList = /export const DELETE_COLLECTIONS = \[([^\]]+)\]/.exec(read("js/account-delete.js"))[1].match(/"(\w+)"/g).map((s) => s.replace(/"/g, ""));
+const settingsJs = read("js/settings.js");
+check("privacy says you can delete your account in Settings", text["privacy.html"].includes("use Delete account in Settings"), true);
+check("terms say you can delete your account in Settings", text["terms.html"].includes("use Delete account in Settings"), true);
+check("Settings really has the Delete account button and flow", [read("settings.html").includes('id="st-delete"'), settingsJs.includes("deleteAccount(")], [true, true]);
+check("the policy lists what deletion removes: Calendar reminders, photos, courses, assignments, history, login", ["Google Calendar reminders", "your photos", "courses, assignments and notification history", "your login"].every((s) => text["privacy.html"].includes(s)), true);
+check("deletion really covers courses, assignments and the notification history", ["courses", "assignments", "notifications"].every((c) => deleteList.includes(c)), true);
+check("deleting photos really goes through the image Worker", [imageWorker.includes('"/images/delete"'), read("js/image-delete.js").includes("/images/delete")], [true, true]);
+check("removing Calendar reminders really happens on deletion", settingsJs.includes("calendarClient.disconnect()"), true);
+check("the notification history is kept 30 days, as the code does", [text["privacy.html"].includes("for 30 days, then it is removed"), /WINDOW_DAYS = 30/.test(read("js/notifications-logic.js"))], [true, true]);
+check("the policy mentions the alert settings and history it stores", text["privacy.html"].includes("which notifications you have read"), true);
+check("contact page and FAQ tell people they can delete it in Settings", [strip(contactPage).includes("delete it yourself in Settings"), strip(read("index.html")).includes("delete your account yourself in Settings")], [true, true]);
 
 // ---------- house style
 for (const [name, html] of Object.entries(pages)) {

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trackly | Student Assignment Tracker & Due Date Reminders</title>
+  <meta name="description" content="Trackly is a student assignment tracker. Organize your courses, track due dates, and get Google Calendar reminders so you never miss a deadline.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#0E5C4A">
+  <link rel="canonical" href="https://trackly.ng/">
+
+  <!-- Share previews (WhatsApp, X, Facebook, LinkedIn) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Trackly">
+  <meta property="og:url" content="https://trackly.ng/">
+  <meta property="og:title" content="Trackly | Student Assignment Tracker & Due Date Reminders">
+  <meta property="og:description" content="Trackly is a student assignment tracker. Organize your courses, track due dates, and get Google Calendar reminders so you never miss a deadline.">
+  <meta property="og:image" content="https://trackly.ng/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Trackly: one app, every deadline. A student assignment tracker with due date reminders.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Trackly | Student Assignment Tracker & Due Date Reminders">
+  <meta name="twitter:description" content="Trackly is a student assignment tracker. Organize your courses, track due dates, and get Google Calendar reminders so you never miss a deadline.">
+  <meta name="twitter:image" content="https://trackly.ng/assets/images/og-image.png">
+
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/images/favicon-96.png">
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+
+  <!-- Search engines read this to understand what Trackly is -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "WebSite", "@id": "https://trackly.ng/#website", "url": "https://trackly.ng/", "name": "Trackly", "description": "Trackly is a student assignment tracker. Organize your courses, track due dates, and get Google Calendar reminders so you never miss a deadline.", "inLanguage": "en" },
+      { "@type": "Organization", "@id": "https://trackly.ng/#org", "name": "Trackly", "url": "https://trackly.ng/", "logo": "https://trackly.ng/assets/images/apple-touch-icon.png" },
+      { "@type": "WebApplication", "@id": "https://trackly.ng/#app", "name": "Trackly", "url": "https://trackly.ng/", "description": "A student assignment tracker with due date reminders and optional Google Calendar reminders.", "applicationCategory": "EducationalApplication", "operatingSystem": "Any", "browserRequirements": "Requires JavaScript", "inLanguage": "en", "publisher": { "@id": "https://trackly.ng/#org" } }
+    ]
+  }
+  </script>
+
+  <!--
+    SPEED: this page is one file. The styles are inside it, there is no JavaScript, no web fonts and no outside
+    requests. The only image is the small logo. Keep it that way: tests/home-page.test.mjs checks it.
+    Everything this page says about Trackly must be true (Google compares it with your verification form).
+  -->
+  <style>
+:root{--green:#00C58E;--bright:#00D996;--dark:#0E5C4A;--ink:#0F172A;--muted:#475569;--bg:#F8F8FF;--line:#E2E8F0;--chip:#EEF0FF}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:var(--ink);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.skip{position:absolute;left:-999px;top:8px;z-index:10;padding:10px 14px;border-radius:8px;background:var(--ink);color:#fff}
+.skip:focus{left:8px}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.top{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:16px;height:68px}
+.brand img{display:block;width:112px;height:auto}
+.menu{display:none;gap:22px;margin-left:24px}
+.menu a{font-size:15px;font-weight:600;color:var(--muted);text-decoration:none}
+.menu a:hover{color:var(--ink)}
+.actions{display:flex;gap:10px;margin-left:auto}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border:2px solid transparent;border-radius:12px;font-size:15px;font-weight:700;text-decoration:none}
+.btn-primary{background:var(--green);color:#04281F}
+.btn-primary:hover{background:var(--bright)}
+.btn-ghost{border-color:var(--line);background:#fff}
+.btn-ghost:hover{border-color:var(--dark)}
+.btn-lg{min-height:52px;padding:0 28px;font-size:16px}
+.hero{padding:44px 0 56px;background:linear-gradient(180deg,var(--bg),#fff)}
+.hero-grid{display:grid;gap:40px;align-items:center}
+.eyebrow{display:inline-block;margin:0 0 14px;padding:6px 14px;border-radius:999px;background:var(--chip);color:var(--dark);font-size:14px;font-weight:700}
+h1{margin:0 0 16px;font-size:clamp(32px,6vw,52px);font-weight:800;line-height:1.1;letter-spacing:-.02em}
+.lead{margin:0 0 12px;font-size:clamp(18px,2.4vw,21px);color:var(--muted)}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0 14px}
+.fine{margin:0;font-size:14px;color:var(--muted)}
+.mock{display:grid;gap:12px;width:100%;max-width:440px;margin:0 auto}
+.card{padding:16px;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 8px 24px rgba(15,23,42,.06)}
+.card-hot{border-left:5px solid var(--green)}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.tag{padding:3px 8px;border-radius:6px;background:var(--chip);color:#3730A3;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.pill{padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.p-prog{background:#FFF1C2;color:#92400E}
+.p-pend{background:#E0E7FF;color:#3730A3}
+.p-done{background:#D1FAE5;color:#047857}
+.card strong{display:block;font-size:17px}
+.card small{font-size:13px;color:var(--muted)}
+.ping{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:16px;background:var(--dark);color:#fff}
+.ping-dot{flex:none;width:12px;height:12px;border-radius:50%;background:var(--bright)}
+.ping small{display:block;font-size:12px;opacity:.85}
+.ping strong{font-size:15px}
+.cap{margin:4px 0 0;text-align:center;font-size:12px;color:var(--muted)}
+section.block{padding:64px 0;content-visibility:auto;contain-intrinsic-size:auto 640px}
+.alt{background:var(--bg)}
+.sec-head{max-width:640px;margin:0 0 32px}
+h2{margin:0 0 10px;font-size:clamp(26px,4vw,36px);line-height:1.2;letter-spacing:-.01em}
+.sec-head p{margin:0;font-size:18px;color:var(--muted)}
+h3{margin:0 0 6px;font-size:18px}
+.steps{display:grid;gap:16px;margin:0;padding:0;list-style:none;counter-reset:s}
+.steps li{padding:22px;border:1px solid var(--line);border-radius:16px;background:#fff;counter-increment:s}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:36px;height:36px;margin-bottom:12px;border-radius:50%;background:var(--dark);color:#fff;font-weight:700}
+.steps p,.feat p{margin:0;color:var(--muted)}
+.grid{display:grid;gap:16px}
+.feat{padding:22px;border:1px solid var(--line);border-radius:16px;background:#fff}
+.gcal{background:var(--dark);color:#fff}
+.gcal .sec-head p{color:#D1FAE5}
+.gcal-grid{display:grid;gap:16px}
+.gbox{padding:22px;border-radius:16px;background:rgba(255,255,255,.08)}
+.gbox ul{margin:0;padding:0;list-style:none}
+.gbox li{position:relative;margin:0 0 10px;padding-left:26px}
+.gbox li::before{content:"";position:absolute;left:0;top:.55em;width:12px;height:12px;border-radius:50%;background:var(--bright)}
+.gbox.no li::before{background:#FCA5A5}
+.gcal a{font-weight:700;color:#fff}
+.limited{margin:24px 0 0;font-size:14px;color:#D1FAE5}
+.faq{display:grid;gap:12px;max-width:760px}
+details{padding:0 18px;border:1px solid var(--line);border-radius:14px;background:#fff}
+summary{padding:16px 0;font-weight:700;cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";float:right;font-size:20px;line-height:1.2}
+details[open] summary::after{content:"\2212"}
+details p{margin:0 0 16px;color:var(--muted)}
+.final{text-align:center}
+.final .cta{justify-content:center}
+.final p{margin:0 auto;max-width:520px;font-size:18px;color:var(--muted)}
+footer{padding:36px 0;background:var(--ink);color:#CBD5E1}
+.foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.foot nav{display:flex;flex-wrap:wrap;gap:8px 22px}
+.foot a{font-size:14px;font-weight:600;color:#fff}
+.copy{margin:0;font-size:14px}
+@media (min-width:768px){.menu{display:flex}.steps{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:repeat(3,1fr)}.gcal-grid{grid-template-columns:1fr 1fr}}
+@media (min-width:900px){.hero{padding:72px 0 80px}.hero-grid{grid-template-columns:1.1fr .9fr}}
+/* On a phone the top bar keeps only Sign in. Create account stays in the buttons under the headline and in the footer. */
+@media (max-width:600px){.signup-link{display:none}}
+@media (max-width:420px){.btn{padding:0 14px;font-size:14px}.brand img{width:96px}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="top">
+    <div class="wrap bar">
+      <a class="brand" href="index.html" aria-label="Trackly home">
+        <img src="assets/images/logo.webp" alt="Trackly" width="360" height="114" fetchpriority="high">
+      </a>
+      <nav class="menu" aria-label="Page sections">
+        <a href="#how">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#google-calendar">Google Calendar</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="actions">
+        <a class="btn btn-ghost" href="login.html#signin">Sign in</a>
+        <a class="btn btn-primary signup-link" href="signup.html">Create account</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">One app. Every deadline.</p>
+          <h1>Student assignment tracker with due date reminders</h1>
+          <p class="lead">Organize your assignments. Never miss a deadline.</p>
+          <p class="lead">Add your courses, set due dates, and get reminders in your Google Calendar.</p>
+          <div class="cta">
+            <a class="btn btn-primary btn-lg" href="signup.html">Create your account</a>
+            <a class="btn btn-ghost btn-lg" href="login.html#signin">Sign in</a>
+          </div>
+          <p class="fine">Sign in with email or Google. Google Calendar reminders are optional.</p>
+        </div>
+
+        <div aria-hidden="true">
+          <div class="mock">
+            <div class="card card-hot">
+              <div class="card-top"><span class="tag">Biology</span><span class="pill p-prog">In Progress</span></div>
+              <strong>Chapter 5 Essay</strong>
+              <small>Due today, 11:59 PM</small>
+            </div>
+            <div class="card">
+              <div class="card-top"><span class="tag">Statistics</span><span class="pill p-pend">Pending</span></div>
+              <strong>Linear Regression Quiz</strong>
+              <small>Due Friday, 5:00 PM</small>
+            </div>
+            <div class="card">
+              <div class="card-top"><span class="tag">History</span><span class="pill p-done">Submitted</span></div>
+              <strong>Reading Response</strong>
+              <small>Submitted on time</small>
+            </div>
+            <div class="ping">
+              <span class="ping-dot"></span>
+              <div><small>Google Calendar reminder</small><strong>Due: Chapter 5 Essay &middot; in 30 minutes</strong></div>
+            </div>
+            <p class="cap">Illustration with sample data</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 id="how-title">How Trackly works</h2>
+          <p>Three simple steps to stay on top of your work.</p>
+        </div>
+        <ol class="steps">
+          <li><h3>Add your courses</h3><p>Give each course a name, a colour and a photo, so your work is easy to tell apart.</p></li>
+          <li><h3>Add your assignments</h3><p>Set the due date and time, a priority and your notes, all in one short form.</p></li>
+          <li><h3>Get reminded</h3><p>Connect Google Calendar if you like, and Trackly adds reminders to your calendar for you.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="block alt" id="features" aria-labelledby="features-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 id="features-title">Everything you need to keep up with your assignments</h2>
+          <p>Trackly keeps your courses, deadlines and reminders together in one place.</p>
+        </div>
+        <div class="grid">
+          <article class="feat"><h3>Courses in one place</h3><p>Keep every course together, each with its own colour and photo.</p></article>
+          <article class="feat"><h3>Assignments with due dates</h3><p>Track due dates and times, priority and notes. Format your notes with bold, italics and lists.</p></article>
+          <article class="feat"><h3>Clear status</h3><p>Mark work Pending, In Progress or Submitted. Trackly shows Overdue for you when a due time passes.</p></article>
+          <article class="feat"><h3>A month calendar</h3><p>See everything due this month at a glance, and choose a day to see its schedule.</p></article>
+          <article class="feat"><h3>Google Calendar reminders</h3><p>Optional reminders in your own Google Calendar, on the default schedule or times you choose.</p></article>
+          <article class="feat"><h3>Your own account</h3><p>Sign in with email or Google, and add your own profile photo.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="block gcal" id="google-calendar" aria-labelledby="gcal-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 id="gcal-title">Google Calendar reminders, explained</h2>
+          <p>Connecting Google Calendar is your choice. Here is exactly what Trackly does with it.</p>
+        </div>
+        <div class="gcal-grid">
+          <div class="gbox">
+            <h3>What Trackly does</h3>
+            <ul>
+              <li>Adds reminder events for your assignments to your main Google Calendar.</li>
+              <li>Removes them when you mark an assignment Submitted, delete it, or switch reminders off.</li>
+              <li>Works only with the events it created itself.</li>
+            </ul>
+          </div>
+          <div class="gbox no">
+            <h3>What Trackly does not do</h3>
+            <ul>
+              <li>Read or change your other calendar events.</li>
+              <li>Access your email or your contacts.</li>
+              <li>Sell your Google data or use it for advertising.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="limited">You can switch Google Calendar reminders off in Profile at any time. Reminders are Google Calendar popups, so they follow your own Calendar notification settings. <a href="privacy.html#google">Read exactly how we handle Google data</a>.</p>
+        <p class="limited">Trackly's use and transfer to any other app of information received from Google APIs will adhere to the Google API Services User Data Policy, including the Limited Use requirements.</p>
+      </div>
+    </section>
+
+    <section class="block" id="faq" aria-labelledby="faq-title">
+      <div class="wrap">
+        <div class="sec-head"><h2 id="faq-title">Questions and answers</h2></div>
+        <div class="faq">
+        <details><summary>What is Trackly?</summary><p>Trackly is a student assignment tracker. You add your courses and assignments with due dates, follow their status, see them on a month calendar and, if you want, get reminders in Google Calendar.</p></details>
+        <details><summary>Do I need Google Calendar?</summary><p>No. You can use Trackly without it. Connecting Google Calendar is optional and is only needed for reminders.</p></details>
+        <details><summary>How do the reminders work?</summary><p>With the default schedule, Trackly adds a reminder each morning at 8:00, starting the day after you add the assignment, until the day before it is due. On the due day you get alerts 2 hours, 1 hour and 30 minutes before, and at the due time. You can also choose your own reminder times. Reminders are Google Calendar popups, so they follow your own Calendar notification settings and are not a guarantee.</p></details>
+        <details><summary>What happens to my reminders when I submit?</summary><p>When you mark an assignment Submitted, delete it, or switch Google Calendar reminders off, Trackly removes the reminders it added.</p></details>
+        <details><summary>Who can use Trackly?</summary><p>Trackly is meant for students aged 18 and over. If you are under 18, you need permission from a parent or guardian.</p></details>
+        <details><summary>How do I delete my account?</summary><p>You can delete your account yourself in Settings. Or email us through our <a href="contact.html">contact page</a>, and we will delete your account and your data within 30 days.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="block alt final" aria-labelledby="final-title">
+      <div class="wrap">
+        <h2 id="final-title">Ready to stop missing deadlines?</h2>
+        <p>Create your account and add your first course in a minute.</p>
+        <div class="cta">
+          <a class="btn btn-primary btn-lg" href="signup.html">Create your account</a>
+          <a class="btn btn-ghost btn-lg" href="login.html#signin">Sign in</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <p class="copy">&copy; 2026 Trackly. One app. Every deadline.</p>
+      <nav aria-label="Footer">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html#signin">Sign in</a>
+        <a href="signup.html">Create account</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

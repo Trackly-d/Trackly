@@ -25,7 +25,8 @@ import {
 } from "./firebase-config.js";
 import { ensureUserProfile, fetchUserRecord } from "./users.js";
 import { resetPassword, friendlyError } from "./auth.js";
-import { compressImage, uploadToCloudinary, uploadsEnabled } from "./images.js";
+import { compressImage, uploadToCloudinary, uploadsEnabled, IMAGE_WORKER_URL } from "./images.js";
+import { createImageDeleter, publicIdFromUrl } from "./image-delete.js";
 import { confirmDialog } from "./dialog.js";
 import { showMessage, hideMessage } from "./ui.js";
 import { createCalendarClient, calendarErrorMessage } from "./calendar-client.js";
@@ -57,6 +58,13 @@ let calState = "off";     // "on", "off", "reconnect" or "connecting" (busy)
 const client = createCalendarClient({ getToken: () => user.getIdToken() });
 const TIME_ZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
 let backfilling = false;
+const imageDeleter = createImageDeleter({ workerUrl: IMAGE_WORKER_URL, getToken: () => user.getIdToken() });
+
+/* An old photo that is no longer used is removed from Cloudinary. If that fails, nothing is lost for the student. */
+async function removeImagesQuietly(ids) {
+  try { await imageDeleter.deleteImages(ids.filter(Boolean)); } catch (err) { console.error("Could not delete the old photo:", err); }
+}
+const currentPhotoId = () => record.customPhotoPublicId || publicIdFromUrl(record.customPhotoURL);
 
 function show(name) {
   Object.keys(views).forEach((key) => { views[key].hidden = key !== name; });
@@ -189,10 +197,13 @@ async function onPhotoSave() {
   $("photo-save").disabled = true;
   hideMessage($("pf-msg"));
   try {
+    const oldId = currentPhotoId();
     const uploaded = await uploadToCloudinary(pendingPhoto);
-    await withTimeout(updateDoc(userRef, { customPhotoURL: uploaded.url }), SAVE_LIMIT_MS);
+    await withTimeout(updateDoc(userRef, { customPhotoURL: uploaded.url, customPhotoPublicId: uploaded.publicId }), SAVE_LIMIT_MS);
     await withTimeout(updateProfile(user, { photoURL: uploaded.url }), SAVE_LIMIT_MS);
     record.customPhotoURL = uploaded.url;
+    record.customPhotoPublicId = uploaded.publicId;
+    if (oldId && oldId !== uploaded.publicId) removeImagesQuietly([oldId]);
     clearPending();
     refreshUser(user);
     draw();
@@ -225,9 +236,12 @@ async function onPhotoRemove() {
   busy = true;
   hideMessage($("pf-msg"));
   try {
-    await withTimeout(updateDoc(userRef, { customPhotoURL: deleteField() }), SAVE_LIMIT_MS);
+    const oldId = currentPhotoId();
+    await withTimeout(updateDoc(userRef, { customPhotoURL: deleteField(), customPhotoPublicId: deleteField() }), SAVE_LIMIT_MS);
     await withTimeout(updateProfile(user, { photoURL: google || null }), SAVE_LIMIT_MS);
     delete record.customPhotoURL;
+    delete record.customPhotoPublicId;
+    removeImagesQuietly([oldId]);
     refreshUser(user);
     draw();
     showToast("Photo removed");
@@ -497,6 +511,15 @@ async function load() {
   }
   draw();
   show("page");
+
+  // Settings sends "Change Password" here with ?open=password, so the pop-up opens straight away
+  const openParams = new URLSearchParams(window.location.search);
+  if (openParams.get("open") === "password") {
+    openParams.delete("open");
+    const rest = openParams.toString();
+    window.history.replaceState(null, "", window.location.pathname + (rest ? "?" + rest : ""));
+    openPassword();
+  }
   initCalendar(); // handles its own problems, the rest of the page works without it
 }
 

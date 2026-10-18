@@ -27,6 +27,8 @@ import { editRule, dueToInputs } from "./assignment-status.js";
 import { createCalendarClient } from "./calendar-client.js";
 import { buildCalendarRequest, eventIdsOf, needsRebuild, createReminders, removeReminders } from "./calendar-sync.js";
 import { saveCalendarField, clearCalendarField, queueCleanup } from "./calendar-store.js";
+import { writeActivity } from "./notifications-data.js";
+import { activityEntry } from "./notifications-logic.js";
 import { invalidateCache } from "./cache.js";
 import { el, showMessage, hideMessage, safeColor } from "./ui.js";
 import { validateAssignment, buildAssignmentData, buildAssignmentUpdate, todayString, isFormDirty, LIMITS } from "./assignment-form.js";
@@ -301,6 +303,12 @@ async function onSubmit(event) {
     try { reminders = await syncReminders(result.due); } catch (err) { console.error("Reminders problem:", err); }
     const problem = ["notconnected", "reconnect", "failed"].includes(reminders) ? "&reminders=" + reminders : "";
 
+    if (!editId) { // the history on the Notifications page
+      const chosen = courses.find((c) => c.id === values().courseId);
+      try {
+        await writeActivity(uid, activityEntry("added", { assignmentId: ref.id, title: values().title.trim(), courseTitle: chosen ? chosen.title : "" }));
+      } catch (err) { console.error("Could not save the notification:", err); }
+    }
     invalidateCache(uid); // so the lists and numbers show the new assignment straight away
     allowLeave = true;
     const joiner = backHref.includes("?") ? "&" : "?";

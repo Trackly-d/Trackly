@@ -28,19 +28,15 @@ body {
     padding: 20px 24px;
 }
 
-/* The logo PNG has empty space around it, so we crop it to the visible part */
 .legal-logo {
     display: block;
-    width: 124px;
-    aspect-ratio: 3.15 / 1;
-    overflow: hidden;
+    width: 112px;
 }
 
 .legal-logo img {
+    display: block;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 50% 52.6%;
+    height: auto;
 }
 
 .legal-back {
@@ -292,4 +288,47 @@ body {
         box-shadow: none;
         border: 1px solid #CBD5E1;
     }
+}
+
+/* ---------- Contact page: one column, three cards ---------- */
+.legal-wrap-single {
+    grid-template-columns: minmax(0, 720px);
+}
+
+.contact-cards {
+    display: grid;
+    gap: 14px;
+    margin: 24px 0 8px;
+}
+
+.contact-card {
+    padding: 20px 22px;
+    border-radius: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 1px var(--color-border);
+}
+
+.contact-card h2 {
+    margin: 0 0 6px;
+    font-size: 18px;
+}
+
+.contact-card p {
+    margin-bottom: 14px;
+}
+
+.legal-page a.contact-btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 12px;
+    background: var(--color-button);
+    color: #04281F;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.legal-page a.contact-btn:hover {
+    filter: brightness(0.95);
 }
