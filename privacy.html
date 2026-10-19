@@ -117,7 +117,7 @@
         <ul>
           <li>A long-lived Google access code (a "refresh token") that lets Trackly keep working after you close the page. It is encrypted and kept in our Cloudflare storage, linked only to your account. It is never stored in your browser or in our database.</li>
           <li>A short-lived Google access token, kept only in the memory of our server for a few minutes while it is used. It is not saved.</li>
-          <li>In our Firebase database: the ids of the calendar events Trackly created and your time zone (saved with each assignment), a note that Google Calendar is connected, and, briefly, a list of event ids waiting to be removed if Google could not be reached.</li>
+          <li>In our Firebase database: the IDs of the calendar events Trackly created and your time zone (saved with each assignment), a note that Google Calendar is connected, and, briefly, a list of event ids waiting to be removed if Google could not be reached.</li>
           <li>The events themselves live in your Google Calendar, which Google controls.</li>
         </ul>
         <h3>What we never do</h3>
@@ -129,7 +129,7 @@
         </ul>
         <h3>How to stop</h3>
         <p>Switch off Google Calendar Reminders in your Profile. Trackly removes the reminders it created, takes back its permission from Google and deletes the stored token. You can also remove Trackly's access at any time in your Google Account's third-party access settings. If you do, Trackly will notice, delete the stored token and ask you to connect again. Reminders that were already in your calendar at that point can be deleted by you in Google Calendar: look for events starting with "Due:" or "Work on:".</p>
-        <p class="legal-limited">Trackly's use and transfer to any other app of information received from Google APIs will adhere to the Google API Services User Data Policy, including the Limited Use requirements.</p>
+        <p class="legal-limited">Trackly's use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
       </section>
 
       <section>
