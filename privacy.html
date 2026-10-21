@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Privacy Policy | Trackly</title>
-  <meta name="description" content="How Trackly handles your information, including Google Calendar. We do not sell your personal information.">
+  <meta name="description" content="How Trackly handles your information, including Google Calendar, and your data protection rights under the Nigeria Data Protection Act 2023. We do not sell your personal information.">
   <meta name="robots" content="index, follow">
 
   <!-- Inter font -->
@@ -25,6 +25,8 @@
     Public legal page. Written to match what Trackly really does (checked against the code by tests/legal-pages.test.mjs).
     Not legal advice: a Nigerian lawyer should review it before launch.
     When you change it: update "Last updated" below AND TERMS_VERSION in js/users.js (they must match).
+    The terms page shows the same date, so update its "Last updated" line too.
+    Keep exactly 13 numbered sections (the test counts them). Add new points inside the existing sections.
     Google also reads this page when it verifies the Calendar permission, so every statement must stay true.
   -->
   <header class="legal-header">
@@ -45,7 +47,7 @@
           <li><a href="#google">Google user data and Google Calendar</a></li>
           <li><a href="#s5">Who we share information with</a></li>
           <li><a href="#s6">Why we are allowed to use your information</a></li>
-          <li><a href="#s7">Where your information is kept</a></li>
+          <li><a href="#s7">Where your information is kept and how we protect it</a></li>
           <li><a href="#s8">How long we keep it</a></li>
           <li><a href="#s9">Your rights</a></li>
           <li><a href="#s10">Cookies and browser storage</a></li>
@@ -58,8 +60,8 @@
 
     <main class="legal-page">
       <h1>Privacy Policy</h1>
-      <p class="legal-updated">Last updated: 17 October 2026</p>
-      <p>Your privacy matters to us. This policy explains what information Trackly collects, why we collect it, who we share it with, and the choices you have. We do not sell your personal information.</p>
+      <p class="legal-updated">Last updated: 21 October 2026</p>
+      <p>Your privacy matters to us. This policy explains what information Trackly collects, why we collect it, who we share it with, how we protect it, and the choices you have under the Nigeria Data Protection Act 2023. We do not sell your personal information.</p>
 
       <section class="legal-summary" aria-label="Summary">
         <h2>In short</h2>
@@ -67,14 +69,16 @@
           <li>We collect your name, email, courses and assignments so Trackly can work for you.</li>
           <li>We never sell your information and we do not show ads.</li>
           <li>If you connect Google Calendar, Trackly only adds and removes its own reminder events. Details are in <a href="#google">section 4</a>.</li>
-          <li>You can switch Google Calendar off in Profile at any time, and ask us to delete your account by email.</li>
+          <li>You can switch Google Calendar off in Profile at any time, and delete your account yourself in Settings.</li>
           <li>Service providers (Google Firebase, Cloudinary, Cloudflare and Pixabay) help us run Trackly, as explained in section 5.</li>
+          <li>You have rights over your information, including access, correction, deletion and objection. They are explained in <a href="#s9">section 9</a>.</li>
         </ul>
       </section>
 
       <section>
         <h2 id="s1">1. Who is responsible for your information</h2>
-        <p>Trackly is run by the Trackly team in Nigeria. For privacy questions or requests, email <a href="mailto:trackly409@gmail.com">trackly409@gmail.com</a>.</p>
+        <p>Trackly is run by a team of six people in Nigeria. Trackly is not yet a registered company. Under the Nigeria Data Protection Act 2023, the Trackly team is the "data controller" of your information, which means we decide how and why it is used.</p>
+        <p>For privacy and data protection questions or requests, email <a href="mailto:trackly409@gmail.com">trackly409@gmail.com</a>. We have not named a separate Data Protection Officer, so this address reaches the people who handle your information. If the law requires us to register with the Nigeria Data Protection Commission, we will do so.</p>
       </section>
 
       <section>
@@ -100,6 +104,7 @@
           <li>to keep Trackly secure, fix problems and improve it;</li>
           <li>to answer your questions and meet our legal duties.</li>
         </ul>
+        <p>We collect only the information Trackly needs to work, and we use it only for the reasons listed above. We do not use your information to make automated decisions that significantly affect you. Statuses such as Overdue are worked out from the due dates you enter, and they only change what you see inside Trackly.</p>
       </section>
 
       <section class="legal-google">
@@ -146,12 +151,30 @@
 
       <section>
         <h2 id="s6">6. Why we are allowed to use your information</h2>
-        <p>Under the Nigeria Data Protection Act 2023, we rely on your consent (when you create an account and agree to our terms), on what we need to provide the service you asked for, and on our legitimate interest in keeping Trackly safe and working.</p>
+        <p>The Nigeria Data Protection Act 2023, together with the Nigeria Data Protection Commission's General Application and Implementation Directive 2025, says we must have a lawful reason to use your information. We rely on:</p>
+        <ul>
+          <li><strong>Your consent,</strong> which you give when you create an account and agree to our terms, and when you choose to connect Google Calendar;</li>
+          <li><strong>What we need to provide the service you asked for,</strong> such as saving your courses and assignments and showing you alerts;</li>
+          <li><strong>Our legitimate interest</strong> in keeping Trackly safe and working, which never overrides your rights;</li>
+          <li><strong>Our legal duties,</strong> where the law requires us to keep or share certain information.</li>
+        </ul>
+        <p>You can withdraw your consent at any time. For example, you can switch off Google Calendar Reminders in Profile, or delete your account in Settings. Withdrawing consent does not affect what we did before you withdrew it, but we will stop using your information for that purpose.</p>
       </section>
 
       <section>
-        <h2 id="s7">7. Where your information is kept</h2>
-        <p>Your information is stored on the servers of our service providers (Google, Cloudflare and Cloudinary), which may be outside Nigeria. We choose providers that use industry standard security, and we take steps to protect your information wherever it is kept.</p>
+        <h2 id="s7">7. Where your information is kept and how we protect it</h2>
+        <h3>Where it is kept</h3>
+        <p>Your information is stored on the servers of our service providers (Google, Cloudflare and Cloudinary), which may be outside Nigeria. When your information is handled outside Nigeria, it goes only to the providers named in section 5. We choose providers that publish their own data protection commitments and use industry standard security, and we do not send your information to anyone else abroad.</p>
+        <h3>How we protect it</h3>
+        <ul>
+          <li>Your password is handled by Google Firebase Authentication, so we cannot see it.</li>
+          <li>Our database rules let each signed in student read and write only their own records, never another student's.</li>
+          <li>Your Google Calendar token is encrypted, and it is never stored in your browser or in our database.</li>
+          <li>Information moves between your device and Trackly over secure (HTTPS) connections.</li>
+        </ul>
+        <p>No system is completely secure, but we work to keep your information safe and we review how we protect it when we change Trackly.</p>
+        <h3>If something goes wrong</h3>
+        <p>If a breach of personal data happens, we will find out what was affected and act to contain it. Where the law requires, we will tell the Nigeria Data Protection Commission within 72 hours of becoming aware of the breach. If the breach is likely to put you at high risk, we will also tell you without undue delay, in clear language, and explain what you can do to protect yourself.</p>
       </section>
 
       <section>
@@ -169,14 +192,18 @@
 
       <section>
         <h2 id="s9">9. Your rights</h2>
-        <p>You can ask us to:</p>
+        <p>Under the Nigeria Data Protection Act 2023, you can ask us to:</p>
         <ul>
-          <li>show you the information we hold about you;</li>
-          <li>correct information that is wrong;</li>
+          <li>show you the information we hold about you, and tell you how it is used;</li>
+          <li>correct information that is wrong or incomplete;</li>
           <li>delete your information or close your account (you can do this yourself with Delete account in Settings);</li>
-          <li>stop or limit how we use your information, or give you a copy of it.</li>
+          <li>limit how we use your information;</li>
+          <li>stop using your information for a purpose you object to;</li>
+          <li>give you a copy of your information in a common format, so you can move it elsewhere.</li>
         </ul>
-        <p>Email <a href="mailto:trackly409@gmail.com">trackly409@gmail.com</a> and we will respond as soon as we can. To delete your account, use Delete account in Settings, or email us from the address on your account. If you are not happy with how we handle your information, you may complain to the Nigeria Data Protection Commission.</p>
+        <p>You can also withdraw your consent at any time (see section 6). You have the right not to be subject to decisions made only by automated means that significantly affect you, and Trackly does not make such decisions.</p>
+        <p>Email <a href="mailto:trackly409@gmail.com">trackly409@gmail.com</a> and we will respond to your request within 30 days. We may first need to check that the request really comes from you, so please write from the address on your account. To delete your account, use Delete account in Settings, or email us from the address on your account.</p>
+        <p>If you are not happy with how we handle your information, please tell us first so we can try to put it right. You also have the right to complain to the Nigeria Data Protection Commission (<a href="https://ndpc.gov.ng">ndpc.gov.ng</a>).</p>
       </section>
 
       <section>
@@ -186,7 +213,8 @@
 
       <section>
         <h2 id="s11">11. Children</h2>
-        <p>Trackly is meant for students aged 18 and over. If you are under 18, you need permission from a parent or guardian. If we learn that we hold information about a child without that permission, we will delete it.</p>
+        <p>Trackly is meant for students aged 18 and over. Secondary school students under 18 may use Trackly only with permission from a parent or guardian. If you are under 18, you need permission from a parent or guardian before you create an account.</p>
+        <p>We take extra care with the information of children. We collect only what Trackly needs to work, we never use it for advertising, and we never sell it. If we learn that we hold information about a child without that permission, we will delete it. A parent or guardian can email us to see, correct or delete their child's information.</p>
       </section>
 
       <section>
