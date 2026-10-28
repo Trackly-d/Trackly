@@ -19,12 +19,20 @@
 
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/legal.css">
+  <!-- App install and push (PWA) -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#0E5C4A">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Trackly">
 </head>
 <body>
   <!--
     Public legal page. Written to match what Trackly really does (checked against the code by tests/legal-pages.test.mjs).
     Not legal advice: a Nigerian lawyer should review it before launch.
     When you change it: update "Last updated" below AND TERMS_VERSION in js/users.js (they must match).
+    The terms page shows the same date, so update its "Last updated" line too.
+    Keep exactly 13 numbered sections (the test counts them). Add new points inside the existing sections.
     Google also reads this page when it verifies the Calendar permission, so every statement must stay true.
   -->
   <header class="legal-header">
@@ -58,7 +66,7 @@
 
     <main class="legal-page">
       <h1>Terms of Service</h1>
-      <p class="legal-updated">Last updated: 21 October 2026</p>
+      <p class="legal-updated">Last updated: 26 October 2026</p>
       <p>Welcome to Trackly. These terms explain the rules for using Trackly, a tool that helps students keep track of courses, assignments, due dates and reminders. By creating an account or using Trackly, you agree to these terms.</p>
 
       <section class="legal-summary" aria-label="Summary">
@@ -89,7 +97,7 @@
 
       <section>
         <h2 id="s3">3. What Trackly does, and what it does not promise</h2>
-        <p>Trackly helps you organise your courses and assignments and sends reminders. It is a helper, not a guarantee. Reminders that appear in Google Calendar are popups that follow your own Calendar notification settings. They can be delayed or fail because of your phone, your internet, your calendar settings or other things outside our control. You stay responsible for your own deadlines, and you should not rely on Trackly as your only reminder for anything important.</p>
+        <p>Trackly helps you organise your courses and assignments and sends reminders. It is a helper, not a guarantee. Reminders that appear in Google Calendar are popups that follow your own Calendar notification settings. They can be delayed or fail because of your phone, your internet, your calendar settings or other things outside our control. The same is true of push notifications, which also depend on your browser and phone allowing them. You stay responsible for your own deadlines, and you should not rely on Trackly as your only reminder for anything important.</p>
       </section>
 
       <section>
@@ -115,7 +123,7 @@
 
       <section>
         <h2 id="s7">7. Photos and third-party services</h2>
-        <p>Trackly uses services from other companies, such as Google Firebase, Cloudinary, Cloudflare and Pixabay. Course header photos may come from Pixabay and are provided under Pixabay's own licence. These services have their own terms, and we are not responsible for them.</p>
+        <p>Trackly uses services from other companies, such as Google Firebase, Cloudinary, Cloudflare and Pixabay, and your browser's own push service if you switch on push notifications. Course header photos may come from Pixabay and are provided under Pixabay's own licence. These services have their own terms, and we are not responsible for them.</p>
       </section>
 
       <section>
@@ -156,5 +164,6 @@
     <a href="signup.html">Create an account</a>
     <a href="login.html#signin">Sign in</a>
   </footer>
+  <script type="module" src="/js/pwa.js"></script>
 </body>
 </html>

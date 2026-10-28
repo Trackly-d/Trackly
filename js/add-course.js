@@ -9,6 +9,9 @@
    ========================================================== */
 
 import { startApp, setLeaveGuard, refreshLeaveGuard } from "./shell.js";
+import { writeActivity } from "./notifications-data.js";
+import { activityEntry } from "./notifications-logic.js";
+import { notifyPush } from "./push-sync.js";
 import { db, collection, doc, setDoc, serverTimestamp } from "./firebase-config.js";
 import { compressImage, uploadToCloudinary, fetchSuggestions, uploadsEnabled, suggestionsEnabled } from "./images.js";
 import { showMessage, hideMessage } from "./ui.js";
@@ -59,6 +62,7 @@ const state = {
 };
 
 let currentUid = "";
+let currentUser = null;
 let courseRef = null; // created once, so pressing Save again never makes a second course
 let allowLeave = false; // true once we are leaving on purpose (after saving, or after choosing Leave)
 
@@ -282,6 +286,10 @@ async function onSubmit(event) {
     showMessage(saveStatus, "Saving your course...");
     await withTimeout(setDoc(courseRef, data), 20000, "save-timeout");
 
+    // The history on the Notifications page, and a push to the other devices. Neither can lose the save.
+    try { await writeActivity(currentUid, activityEntry("course_added", { courseId: courseRef.id, title: data.title })); } catch (err) { console.error("Could not save the notification:", err); }
+    await notifyPush(currentUser, "course_added", { id: courseRef.id, title: data.title });
+
     invalidateCache(currentUid); // so My Courses shows the new course straight away
     allowLeave = true;
     window.location.replace("courses.html?added=1");
@@ -302,6 +310,7 @@ async function onSubmit(event) {
 function init(user) {
   // One new course reference for this visit, so a second click on Save never makes a duplicate
   currentUid = user.uid;
+  currentUser = user;
   courseRef = doc(collection(db, "users", user.uid, "courses"));
 
   form.addEventListener("submit", onSubmit);

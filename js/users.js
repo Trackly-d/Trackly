@@ -13,7 +13,7 @@ import { db, doc, getDoc, setDoc, serverTimestamp } from "./firebase-config.js";
 
 /* The date of the Terms of Service and Privacy Policy students agree to.
    Change this whenever you change those pages (use the "Last updated" date). */
-export const TERMS_VERSION = "2026-10-21";
+export const TERMS_VERSION = "2026-10-26";
 
 const flagKey = (uid) => "trackly_profile_ok_" + uid;
 

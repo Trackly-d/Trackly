@@ -19,12 +19,20 @@
 
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/legal.css">
+  <!-- App install and push (PWA) -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#0E5C4A">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Trackly">
 </head>
 <body>
   <!--
     Public legal page. Written to match what Trackly really does (checked against the code by tests/legal-pages.test.mjs).
     Not legal advice: a Nigerian lawyer should review it before launch.
     When you change it: update "Last updated" below AND TERMS_VERSION in js/users.js (they must match).
+    The terms page shows the same date, so update its "Last updated" line too.
+    Keep exactly 13 numbered sections (the test counts them). Add new points inside the existing sections.
     Google also reads this page when it verifies the Calendar permission, so every statement must stay true.
   -->
   <header class="legal-header">
@@ -34,7 +42,7 @@
     <a class="legal-back" href="index.html">Back to Trackly</a>
   </header>
 
-    <div class="legal-wrap legal-wrap-single">
+  <div class="legal-wrap legal-wrap-single">
     <main class="legal-page contact-page">
       <h1>Contact Trackly</h1>
       <p class="legal-updated">Questions, problems or requests? Email us and we will reply as soon as we can.</p>
@@ -86,5 +94,6 @@
     <a href="signup.html">Create an account</a>
     <a href="login.html#signin">Sign in</a>
   </footer>
+  <script type="module" src="/js/pwa.js"></script>
 </body>
 </html>

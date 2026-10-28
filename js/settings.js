@@ -24,6 +24,7 @@ import { showMessage, hideMessage } from "./ui.js";
 import { passwordMode } from "./profile-rules.js";
 import { deleteAccount, deleteMessage, validateDeleteForm, DELETE_COLLECTIONS } from "./account-delete.js";
 import { createCalendarClient } from "./calendar-client.js";
+import { createPushController, removePushData } from "./push.js";
 import { createImageDeleter, collectImageIds } from "./image-delete.js";
 import { IMAGE_WORKER_URL } from "./images.js";
 import { APP_VERSION, BUILD_MONTH } from "./app-info.js";
@@ -39,6 +40,7 @@ let settings = { alertsEnabled: true, alertHours: [48, 24] };
 let busy = false;
 let deleting = false;
 let deleteMode = "change";
+let pushController = null;
 
 const calendarClient = createCalendarClient({ getToken: () => user.getIdToken() });
 const imageDeleter = createImageDeleter({ workerUrl: IMAGE_WORKER_URL, getToken: () => user.getIdToken() });
@@ -79,6 +81,7 @@ async function onAlertChange(event) {
     await saveAlertSettings(uid, check.value);
     settings = check.value;
     invalidateCache(uid); // so the bell and the Notifications page use the new choice
+    pushController.alertsChanged(); // push uses the same alert times
   } catch (err) {
     console.error("Could not save the alert settings:", err);
     showToast("Could not save. Check your connection.");
@@ -152,6 +155,7 @@ async function onDeleteSubmit(event) {
           const record = await readUserDoc();
           if (record.calendar && record.calendar.connected) await calendarClient.disconnect(); // removes the reminders, revokes access
         },
+        removePush: async () => removePushData(user, await readUserDoc()),
         removePhotos: async () => {
           const [courses, record] = await Promise.all([
             getDocs(collection(db, "users", uid, "courses")),
@@ -222,7 +226,8 @@ function init(signedIn) {
 
   $("st-retry").addEventListener("click", load);
   watchSections();
-  load();
+  pushController = createPushController({ user, getAlerts: () => settings, say: showToast });
+  load().then(() => pushController.init());
 }
 
 startApp("settings", init);

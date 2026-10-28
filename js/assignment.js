@@ -28,6 +28,7 @@ import { buildCalendarRequest, eventIdsOf, calendarField, createReminders, remov
 import { saveCalendarField, clearCalendarField, queueCleanup } from "./calendar-store.js";
 import { writeActivity, removeActivityFor } from "./notifications-data.js";
 import { activityEntry } from "./notifications-logic.js";
+import { notifyPush, watchPush, unwatchPush } from "./push-sync.js";
 import { statusChange, editRule, dueDateText, dueTimeText, createdText, modifiedText, unitTopicText, PRIORITY_LABELS } from "./assignment-status.js";
 
 const SAVE_LIMIT_MS = 20000;
@@ -119,8 +120,30 @@ async function noteSubmitted() {
   }
 }
 
+/* Started: the history, and a push to the other devices */
+async function noteStarted() {
+  try {
+    await writeActivity(uid, activityEntry("started", { assignmentId: id, title: a.title, courseTitle: course ? course.title : "" }));
+    invalidateCache(uid);
+  } catch (err) {
+    console.error("Could not save the notification:", err);
+  }
+}
+
+const courseNameOf = () => (course ? course.title : "");
+
 async function afterStatusSaved(change) {
-  if (change.status === "submitted") await noteSubmitted();
+  if (change.status === "submitted") {
+    await noteSubmitted();
+    await notifyPush(authUser, "submitted", { id, title: a.title, courseName: courseNameOf() });
+    await unwatchPush(authUser, id); // nothing left to remind about
+  } else {
+    if (change.status === "in_progress") {
+      await noteStarted();
+      await notifyPush(authUser, "started", { id, title: a.title, courseName: courseNameOf() });
+    }
+    if (change.submittedAt === "clear") await watchPush(authUser, [{ record: { ...a, id }, courseName: courseNameOf() }]); // open again: alerts come back
+  }
   try {
     if (change.status === "submitted") await removeCalendar(true);
     else if (change.submittedAt === "clear") await restoreCalendar();
@@ -132,6 +155,8 @@ async function afterStatusSaved(change) {
 
 async function onDeleted() {
   try { await removeActivityFor(uid, id); } catch (err) { console.error("Could not tidy the notifications:", err); }
+  await notifyPush(authUser, "deleted", { id, title: a.title, courseName: courseNameOf() });
+  await unwatchPush(authUser, id);
   try { await removeCalendar(false); } catch (err) { console.error("Calendar reminders problem:", err); }
 }
 

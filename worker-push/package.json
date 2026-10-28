@@ -1,0 +1,14 @@
+{
+  "name": "trackly-push",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "@cloudflare/workerd-windows-64": "^1.20261028.1",
+    "wrangler": "^4"
+  }
+}

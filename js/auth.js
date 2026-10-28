@@ -73,7 +73,18 @@ export function completePasswordReset(code, newPassword) {
   return confirmPasswordReset(auth, code, newPassword);
 }
 
-export function logOut() {
+/* This device stops receiving this student's pushes first (so the next person on a shared computer gets none).
+   It waits 3 seconds at most, and a problem there never stops the sign out. */
+export async function logOut() {
+  const user = auth.currentUser;
+  if (user) {
+    try {
+      const push = await import("./push.js");
+      await Promise.race([push.detachThisDevice(user), new Promise((resolve) => setTimeout(resolve, 3000))]);
+    } catch (err) {
+      console.error("Push clean up skipped:", err);
+    }
+  }
   return signOut(auth);
 }
 

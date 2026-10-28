@@ -46,7 +46,8 @@ check("the organization logo file exists: " + graph[1].logo.replace("https://tra
 
 // ---------- speed
 const scripts = html.match(/<script[\s>]/g) || [];
-check("no JavaScript, only the structured data block", [scripts.length, /<script(?![^>]*ld\+json)/.test(html)], [1, false]);
+// the only script besides the structured data is the app install script (it registers the service worker and shows the install button)
+check("no JavaScript, only the structured data block and the install script", [scripts.length, [...html.matchAll(/<script(?![^>]*ld\+json)[^>]*>/g)].map((m) => m[0])], [2, ['<script type="module" src="/js/pwa.js">']]);
 check("no stylesheet files, fonts or imports to wait for", [/<link[^>]*rel="stylesheet"/.test(html), /@import|@font-face|fonts\.googleapis/.test(html)], [false, false]);
 const outside = [...html.matchAll(/(?:src|href)="(https?:[^"]+)"/g)].map((m) => m[1]);
 check("the only outside address is the canonical link", outside, ["https://trackly.ng/"]);
@@ -114,7 +115,7 @@ for (const [page, loc] of [["privacy.html", "https://trackly.ng/privacy"], ["ter
 
 // ---------- the 404 page (shown at any depth, so everything starts with /)
 const nf = read("404.html");
-check("404 is private and has no outside requests", [/name="robots" content="noindex"/.test(nf), /<script/.test(nf), /<link[^>]*rel="stylesheet"/.test(nf), /(?:src|href)="https?:/.test(nf)], [true, false, false, false]);
+check("404 is private, has only the install script, and no outside requests", [/name="robots" content="noindex"/.test(nf), [...nf.matchAll(/<script[^>]*>/g)].map((m) => m[0]).join("") === '<script type="module" src="/js/pwa.js">', /<link[^>]*rel="stylesheet"/.test(nf), /(?:src|href)="https?:/.test(nf)], [true, true, false, false]);
 check("404 links start with a slash so they work at any depth", [...nf.matchAll(/(?:src|href)="([^"]+)"/g)].map((m) => m[1]).filter((v) => !v.startsWith("/")), []);
 check("404 links to the home page and the images exist", [nf.includes('href="/"'), exists("assets/images/logo.webp"), nf.includes("Error 404")], [true, true, true]);
 check("404 is small", size("404.html") < 8000, true);

@@ -59,7 +59,7 @@ check("privacy and terms point to the contact page", Object.values(pages).every(
 check("contact: makes no promise about how fast we reply", /\b\d+\s*(hours?|days?|working days?)\b/i.test(strip(contactPage)), false);
 
 // ---------- what Google looks for in the privacy policy
-check("Limited Use statement, word for word", text["privacy.html"].includes("Trackly's use and transfer to any other app of information received from Google APIs will adhere to the Google API Services User Data Policy, including the Limited Use requirements."), true);
+check("Limited Use statement, word for word", text["privacy.html"].replace(/\s+([,.;:])/g, "$1").includes("Trackly's use and transfer to any other app of information received from Google APIs will adhere to the Google API Services User Data Policy, including the Limited Use requirements."), true);
 for (const phrase of ["do not sell Google user data", "or use it for advertising", "do not use it to develop or train artificial intelligence models", "How to stop", "What we store, and where", "What Trackly does with it"]) {
   check("privacy says: " + phrase, text["privacy.html"].includes(phrase), true);
 }

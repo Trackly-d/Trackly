@@ -136,6 +136,11 @@ footer{padding:36px 0;background:var(--ink);color:#CBD5E1}
 @media (max-width:600px){.signup-link{display:none}}
 @media (max-width:420px){.btn{padding:0 14px;font-size:14px}.brand img{width:96px}}
   </style>
+  <!-- App install and push (PWA) -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Trackly">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -298,5 +303,6 @@ footer{padding:36px 0;background:var(--ink);color:#CBD5E1}
       </nav>
     </div>
   </footer>
+  <script type="module" src="/js/pwa.js"></script>
 </body>
 </html>

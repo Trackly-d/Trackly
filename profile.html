@@ -17,6 +17,13 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/profile.css">
+  <!-- App install and push (PWA) -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#0E5C4A">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Trackly">
 </head>
 <body>
   <!-- Icons used on this page, drawn once and reused -->
@@ -256,5 +263,6 @@
   <div class="toast" id="toast" role="status" hidden></div>
 
   <script type="module" src="js/profile.js"></script>
+  <script type="module" src="/js/pwa.js"></script>
 </body>
 </html>

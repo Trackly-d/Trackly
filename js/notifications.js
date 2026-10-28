@@ -23,7 +23,8 @@ import {
 const STATE = new URLSearchParams(window.location.search).get("state");
 const $ = (id) => document.getElementById(id);
 const views = { loading: $("nt-loading"), error: $("nt-error"), page: $("nt-page") };
-const ICON = { reminder: "bell", overdue: "alert", added: "calplus", submitted: "check" };
+const ICON = { reminder: "bell", overdue: "alert", added: "calplus", submitted: "check", started: "play", edited: "edit", course_added: "book", course_edited: "book" };
+const isCourse = (item) => item.type === "course_added" || item.type === "course_edited";
 
 let uid = "";
 let input = null;
@@ -54,8 +55,8 @@ function icon(name) {
 
 function row(item) {
   const li = el("li");
-  const link = el("a", "nt-item nt-" + item.type + (item.unread ? " is-unread" : ""));
-  link.href = "assignment.html?id=" + encodeURIComponent(item.assignmentId);
+  const link = el("a", "nt-item nt-" + (isCourse(item) ? "coursenew" : item.type) + (item.unread ? " is-unread" : ""));
+  link.href = isCourse(item) ? "course.html?id=" + encodeURIComponent(item.courseId) : "assignment.html?id=" + encodeURIComponent(item.assignmentId);
   link.dataset.key = item.key;
 
   const badge = el("span", "nt-icon");

@@ -17,6 +17,13 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/settings.css">
+  <!-- App install and push (PWA) -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#0E5C4A">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Trackly">
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -105,14 +112,70 @@
                   </button>
                 </section>
 
-                <section class="st-card" id="notifications" aria-labelledby="st-notif-title">
-                  <div class="st-card-head"><h2 id="st-notif-title">Notifications</h2><span class="st-tag">Alerts in Trackly</span></div>
+                <!-- PUSH CARD. Its data-push (off, asking, on, blocked, unsupported, ios or error) is set by js/push.js -->
+                <section class="st-card" id="push" aria-labelledby="st-push-title" data-push="off">
+                  <div class="st-card-head"><h2 id="st-push-title">Push notifications</h2><span class="st-tag">This device</span></div>
 
                   <div class="st-row st-row-static">
                     <span class="st-icon"><svg class="icon"><use href="#i-phone"/></svg></span>
-                    <span class="st-text"><span class="st-label">Push Notifications <span class="st-badge">Coming soon</span></span><span class="st-sub">Get alerts on your device</span></span>
-                    <label class="st-switch"><input type="checkbox" role="switch" id="st-push" aria-label="Push Notifications" disabled><span class="st-track"></span></label>
+                    <span class="st-text"><span class="st-label">Push notifications</span><span class="st-sub">Get alerts on this device, even when Trackly is closed</span></span>
+                    <label class="st-switch"><input type="checkbox" role="switch" id="st-push" aria-label="Push notifications"><span class="st-track"></span></label>
                   </div>
+
+                  <!-- One message at a time, chosen by the card's data-push -->
+                  <p class="st-note st-note-asking" role="status">Waiting for your answer. Choose Allow in the box your browser just showed.</p>
+                  <p class="st-note st-note-blocked" role="alert">Notifications are blocked for Trackly in this browser. Allow them in your browser's site settings, then come back and switch this on.</p>
+                  <p class="st-note st-note-unsupported">This browser cannot receive push notifications. Chrome, Edge, Firefox and Safari can.</p>
+                  <p class="st-note st-note-ios">On iPhone and iPad, install Trackly first: tap Share, then Add to Home Screen, and open Trackly from its icon. It needs iOS 16.4 or newer.</p>
+                  <p class="st-note st-note-error" role="alert">We could not switch push on. Check your connection and try again.</p>
+
+                  <!-- Shown only while push is on -->
+                  <div class="st-push-types" id="st-push-types">
+                    <p class="st-sub st-push-intro">Things you do on this device are sent to your other devices, never to this one. Deadline alerts go to every device.</p>
+                  <h3 class="st-group">Deadlines</h3>
+                  <div class="st-row st-row-static st-type">
+                    <span class="st-text"><span class="st-label">Due soon</span><span class="st-sub">Uses the times you choose in Due soon alerts below</span></span>
+                    <label class="st-switch"><input type="checkbox" role="switch" id="st-push-due" aria-label="Due soon" checked><span class="st-track"></span></label>
+                  </div>
+                  <div class="st-row st-row-static st-type">
+                    <span class="st-text"><span class="st-label">Overdue</span></span>
+                    <label class="st-switch"><input type="checkbox" role="switch" id="st-push-overdue" aria-label="Overdue" checked><span class="st-track"></span></label>
+                  </div>
+                  <h3 class="st-group">Assignments</h3>
+                  <div class="st-row st-row-static st-type">
+                    <span class="st-text"><span class="st-label">Assignment added</span></span>
+                    <label class="st-switch"><input type="checkbox" role="switch" id="st-push-added" aria-label="Assignment added" checked><span class="st-track"></span></label>
+                  </div>
+                  <div class="st-row st-row-static st-type">
+                    <span class="st-text"><span class="st-label">Assignment started</span></span>
+                    <label class="st-switch"><input type="checkbox" role="switch" id="st-push-started" aria-label="Assignment started"><span class="st-track"></span></label>
+                  </div>
+                  <div class="st-row st-row-static st-type">
+                    <span class="st-text"><span class="st-label">Assignment submitted</span></span>
+                    <label class="st-switch"><input type="checkbox" role="switch" id="st-push-submitted" aria-label="Assignment submitted" checked><span class="st-track"></span></label>
+                  </div>
+                  <div class="st-row st-row-static st-type">
+                    <span class="st-text"><span class="st-label">Assignment edited</span></span>
+                    <label class="st-switch"><input type="checkbox" role="switch" id="st-push-edited" aria-label="Assignment edited"><span class="st-track"></span></label>
+                  </div>
+                  <div class="st-row st-row-static st-type">
+                    <span class="st-text"><span class="st-label">Assignment deleted</span></span>
+                    <label class="st-switch"><input type="checkbox" role="switch" id="st-push-deleted" aria-label="Assignment deleted"><span class="st-track"></span></label>
+                  </div>
+                  <h3 class="st-group">Courses</h3>
+                  <div class="st-row st-row-static st-type">
+                    <span class="st-text"><span class="st-label">Course added</span></span>
+                    <label class="st-switch"><input type="checkbox" role="switch" id="st-push-course-added" aria-label="Course added"><span class="st-track"></span></label>
+                  </div>
+                  <div class="st-row st-row-static st-type">
+                    <span class="st-text"><span class="st-label">Course edited</span></span>
+                    <label class="st-switch"><input type="checkbox" role="switch" id="st-push-course-edited" aria-label="Course edited"><span class="st-track"></span></label>
+                  </div>
+                  </div>
+                </section>
+
+                <section class="st-card" id="notifications" aria-labelledby="st-notif-title">
+                  <div class="st-card-head"><h2 id="st-notif-title">Notifications</h2><span class="st-tag">Alerts in Trackly</span></div>
 
                   <div class="st-row st-row-static">
                     <span class="st-icon"><svg class="icon"><use href="#i-bell"/></svg></span>
@@ -207,5 +270,6 @@
   <div class="toast" id="toast" role="status" hidden></div>
 
   <script type="module" src="js/settings.js"></script>
+  <script type="module" src="/js/pwa.js"></script>
 </body>
 </html>

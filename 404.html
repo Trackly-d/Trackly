@@ -40,6 +40,12 @@ p{margin:0 0 24px;font-size:18px;color:var(--muted)}
 .logo{display:block;width:140px;height:auto;margin:0 auto 32px}
 .row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
   </style>
+  <!-- App install and push (PWA) -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Trackly">
 </head>
 <body>
   <main>
@@ -54,5 +60,6 @@ p{margin:0 0 24px;font-size:18px;color:var(--muted)}
       </div>
     </div>
   </main>
+  <script type="module" src="/js/pwa.js"></script>
 </body>
 </html>

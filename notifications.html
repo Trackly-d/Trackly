@@ -17,6 +17,13 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/notifications.css">
+  <!-- App install and push (PWA) -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#0E5C4A">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Trackly">
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -26,6 +33,9 @@
       <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></symbol>
       <symbol id="i-calplus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/></symbol>
       <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
     </defs>
   </svg>
 
@@ -73,11 +83,27 @@
               <button class="nt-chip" type="button" data-filter="overdue" aria-pressed="false">Overdue</button>
               <button class="nt-chip" type="button" data-filter="added" aria-pressed="false">Added</button>
               <button class="nt-chip" type="button" data-filter="submitted" aria-pressed="false">Submitted</button>
+              <button class="nt-chip" type="button" data-filter="updates" aria-pressed="false">Updates</button>
+              <button class="nt-chip" type="button" data-filter="courses" aria-pressed="false">Courses</button>
             </div>
 
             <p class="nt-status" id="nt-status" role="status">4 notifications</p>
 
             <ul class="nt-list" id="nt-list">
+            <li>
+              <a class="nt-item nt-edited is-unread" href="assignment.html?id=sample5">
+                <span class="nt-icon"><svg class="icon"><use href="#i-edit"/></svg></span>
+                <span class="nt-body"><span class="nt-title">Cell Structure Lab Report edited</span><span class="nt-course">Course: Introduction to Biology</span></span>
+                <span class="nt-meta"><time datetime="2026-10-15T09:40">20m ago</time><span class="nt-dot" role="img" aria-label="Unread"></span></span>
+              </a>
+            </li>
+            <li>
+              <a class="nt-item nt-started is-unread" href="assignment.html?id=sample6">
+                <span class="nt-icon"><svg class="icon"><use href="#i-play"/></svg></span>
+                <span class="nt-body"><span class="nt-title">Chapter 5 Essay started</span><span class="nt-course">Course: Introduction to Biology</span></span>
+                <span class="nt-meta"><time datetime="2026-10-15T08:55">1h ago</time><span class="nt-dot" role="img" aria-label="Unread"></span></span>
+              </a>
+            </li>
             <li>
               <a class="nt-item nt-reminder is-unread" href="assignment.html?id=sample1">
                 <span class="nt-icon"><svg class="icon"><use href="#i-bell"/></svg></span>
@@ -106,6 +132,13 @@
                 <span class="nt-meta"><time datetime="2026-10-12T11:05">Oct 12</time></span>
               </a>
             </li>
+            <li>
+              <a class="nt-item nt-coursenew" href="course.html?id=sample7">
+                <span class="nt-icon"><svg class="icon"><use href="#i-book"/></svg></span>
+                <span class="nt-body"><span class="nt-title">Statistics course added</span><span class="nt-course">Course: Statistics</span></span>
+                <span class="nt-meta"><time datetime="2026-10-10T09:00">Oct 10</time></span>
+              </a>
+            </li>
             </ul>
 
             <!-- Shown when there are more than 20. Each press shows 20 more. -->
@@ -126,5 +159,6 @@
   <div class="toast" id="toast" role="status" hidden></div>
 
   <script type="module" src="js/notifications.js"></script>
+  <script type="module" src="/js/pwa.js"></script>
 </body>
 </html>

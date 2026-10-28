@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>You are offline | Trackly</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0E5C4A">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <!--
+    OFFLINE PAGE. The service worker (added in the JavaScript step) shows this page when a page cannot load because
+    there is no internet. It has NO JavaScript on purpose: "Try again" is a normal link, so it always works.
+    Inline styles and absolute links (starting with /) because it can be shown at any address.
+  -->
+  <style>
+    :root{--ink:#0F172A;--muted:#64748B;--brand:#0E5C4A;--btn:#00C58E;--bg:#F8F8FF;--border:#E2E8F0}
+    *,*::before,*::after{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+    .off-card{width:100%;max-width:420px;padding:36px 28px;text-align:center;background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:0 8px 30px rgba(15,23,42,.06)}
+    .off-logo{display:block;margin:0 auto 22px}
+    .off-icon{display:grid;place-items:center;width:64px;height:64px;margin:0 auto 18px;border-radius:50%;background:#D5F7EA;color:var(--brand)}
+    .off-icon svg{width:30px;height:30px}
+    h1{margin:0 0 8px;font-size:22px;line-height:1.25}
+    p{margin:0 0 10px;font-size:15px;color:var(--muted)}
+    .off-btn{display:inline-block;margin-top:14px;min-height:48px;padding:12px 28px;border-radius:8px;background:var(--btn);color:#fff;font-weight:600;font-size:15px;text-decoration:none}
+    .off-btn:hover{background:var(--brand)}
+    .off-btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+    .off-note{margin-top:18px;font-size:13px}
+    @media (max-width:640px){body{padding:16px}.off-card{padding:28px 20px}}
+  </style>
+</head>
+<body>
+  <main class="off-card">
+    <img class="off-logo" src="/assets/images/logo.webp" alt="Trackly" width="360" height="114" style="width:150px;height:auto">
+    <div class="off-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.58 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+    </div>
+    <h1>You are offline</h1>
+    <p>Trackly needs the internet to load your courses and assignments. Check your connection, then try again.</p>
+    <a class="off-btn" href="/dashboard">Try again</a>
+    <p class="off-note">Alerts you switched on will arrive as soon as your device is back online.</p>
+  </main>
+</body>
+</html>

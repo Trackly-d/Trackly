@@ -29,6 +29,7 @@ import { buildCalendarRequest, eventIdsOf, needsRebuild, createReminders, remove
 import { saveCalendarField, clearCalendarField, queueCleanup } from "./calendar-store.js";
 import { writeActivity } from "./notifications-data.js";
 import { activityEntry } from "./notifications-logic.js";
+import { notifyPush, watchPush } from "./push-sync.js";
 import { invalidateCache } from "./cache.js";
 import { el, showMessage, hideMessage, safeColor } from "./ui.js";
 import { validateAssignment, buildAssignmentData, buildAssignmentUpdate, todayString, isFormDirty, LIMITS } from "./assignment-form.js";
@@ -303,12 +304,19 @@ async function onSubmit(event) {
     try { reminders = await syncReminders(result.due); } catch (err) { console.error("Reminders problem:", err); }
     const problem = ["notconnected", "reconnect", "failed"].includes(reminders) ? "&reminders=" + reminders : "";
 
-    if (!editId) { // the history on the Notifications page
-      const chosen = courses.find((c) => c.id === values().courseId);
-      try {
-        await writeActivity(uid, activityEntry("added", { assignmentId: ref.id, title: values().title.trim(), courseTitle: chosen ? chosen.title : "" }));
-      } catch (err) { console.error("Could not save the notification:", err); }
-    }
+    // The history on the Notifications page, and a push to the student's other devices. Neither can ever lose the save.
+    const chosen = courses.find((c) => c.id === values().courseId);
+    const courseTitle = chosen ? chosen.title : "";
+    const savedTitle = values().title.trim();
+    const kind = editId ? "edited" : "added";
+    try {
+      await writeActivity(uid, activityEntry(kind, { assignmentId: ref.id, title: savedTitle, courseTitle }));
+    } catch (err) { console.error("Could not save the notification:", err); }
+    await notifyPush(authUser, kind, { id: ref.id, title: savedTitle, courseName: courseTitle });
+    await watchPush(authUser, [{
+      record: { id: ref.id, title: savedTitle, dueAt: result.due, createdAt: editing ? editing.createdAt : new Date(), status: editing ? editing.status : "pending" },
+      courseName: courseTitle
+    }]);
     invalidateCache(uid); // so the lists and numbers show the new assignment straight away
     allowLeave = true;
     const joiner = backHref.includes("?") ? "&" : "?";

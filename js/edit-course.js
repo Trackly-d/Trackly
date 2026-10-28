@@ -14,6 +14,9 @@
    ========================================================== */
 
 import { startApp, setLeaveGuard, refreshLeaveGuard } from "./shell.js";
+import { writeActivity } from "./notifications-data.js";
+import { activityEntry } from "./notifications-logic.js";
+import { notifyPush } from "./push-sync.js";
 import { db, doc, setDoc, serverTimestamp } from "./firebase-config.js";
 import { fetchCourse } from "./courses-data.js";
 import { courseCounts } from "./assignments-data.js";
@@ -72,6 +75,7 @@ let courseUrl = "course.html";
 let originalColor = "#00D996";
 let initial = null;     // what the form held when it opened, to know if anything changed
 let currentUid = "";
+let currentUser = null;
 let allowLeave = false; // true once we are leaving on purpose
 
 const state = {
@@ -395,6 +399,11 @@ async function onSubmit(event) {
     // merge keeps everything we are not changing (the date it was created, and so on)
     await withTimeout(setDoc(courseRef, data, { merge: true }), 20000, "save-timeout");
 
+    // The history on the Notifications page, and a push to the other devices. Neither can lose the save.
+    const savedTitle = data.title || course.title;
+    try { await writeActivity(currentUid, activityEntry("course_edited", { courseId: courseRef.id, title: savedTitle })); } catch (err) { console.error("Could not save the notification:", err); }
+    await notifyPush(currentUser, "course_edited", { id: courseRef.id, title: savedTitle });
+
     invalidateCache(currentUid); // so every page shows the change straight away
     allowLeave = true;
     window.location.replace(courseUrl + "&saved=1");
@@ -421,6 +430,7 @@ function demoCourse(kind) {
 async function load(user) {
   showView("loading");
   currentUid = user.uid;
+  currentUser = user;
   try {
     const found = DEMO ? demoCourse(DEMO) : await fetchCourse(user.uid, COURSE_ID);
     if (!found) {

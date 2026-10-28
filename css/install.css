@@ -1,0 +1,56 @@
+/* ==========================================================
+   TRACKLY install button (shared by every page, class prefix ins-)
+   A small floating pill in the bottom right corner, and on iPhone a "how to install" sheet.
+   Colours come from css/base.css. The button is hidden once Trackly is installed.
+   Layers: toast is 60, this button is 45, the sheet is 90, dialogs are 100.
+   ========================================================== */
+
+.ins-btn {
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 45;
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 44px; padding: 0 18px 0 14px;
+  border: 0; border-radius: 999px;
+  background: var(--color-brand-dark); color: #FFFFFF;
+  font: 600 14px/1 var(--font-main);
+  box-shadow: 0 6px 20px rgba(14, 92, 74, 0.35);
+  cursor: pointer;
+}
+.ins-btn:hover { background: #0B4A3B; }
+.ins-btn:focus-visible { outline: 2px solid var(--color-heading); outline-offset: 3px; }
+.ins-btn .icon { width: 18px; height: 18px; }
+.ins-btn[hidden] { display: none; }
+
+.ins-backdrop { position: fixed; inset: 0; z-index: 85; background: rgba(15, 23, 42, 0.45); }
+.ins-backdrop[hidden] { display: none; }
+
+.ins-sheet {
+  position: fixed; left: 50%; bottom: 0; z-index: 90;
+  width: 100%; max-width: 440px; max-height: 90vh; overflow-y: auto;
+  padding: 22px 22px calc(22px + env(safe-area-inset-bottom, 0px));
+  background: #FFFFFF; border-radius: 20px 20px 0 0;
+  box-shadow: 0 -10px 40px rgba(15, 23, 42, 0.2);
+  transform: translateX(-50%);
+}
+.ins-sheet[hidden] { display: none; }
+.ins-sheet-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+.ins-sheet h2 { margin: 0; font-size: 18px; line-height: 1.3; color: var(--color-heading); }
+.ins-close { display: grid; place-items: center; flex: none; width: 36px; height: 36px; border: 0; border-radius: 50%; background: var(--color-chip-bg); color: var(--color-heading); cursor: pointer; }
+.ins-close:focus-visible { outline: 2px solid var(--color-heading); outline-offset: 2px; }
+.ins-close .icon { width: 16px; height: 16px; }
+.ins-lead { margin: 0 0 16px; font-size: 14px; color: var(--color-muted); }
+
+.ins-steps { display: flex; flex-direction: column; gap: 12px; margin: 0 0 16px; padding: 0; list-style: none; counter-reset: ins; }
+.ins-steps li { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--color-heading); counter-increment: ins; }
+.ins-steps li::before { content: counter(ins); display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--color-tile-mint); color: var(--color-brand-dark); font-size: 13px; font-weight: 700; }
+.ins-steps .icon { width: 18px; height: 18px; vertical-align: -4px; color: var(--color-brand-dark); }
+.ins-note { margin: 0; padding: 12px 14px; border-radius: var(--radius); background: var(--color-chip-bg); font-size: 13px; line-height: 1.5; color: var(--color-chip-text); }
+.ins-done { width: 100%; min-height: var(--control-height); margin-top: 16px; border: 0; border-radius: var(--radius); background: var(--color-button); color: var(--color-button-text); font: 600 15px var(--font-main); cursor: pointer; }
+.ins-done:focus-visible { outline: 2px solid var(--color-heading); outline-offset: 2px; }
+
+@media (max-width: 640px) {
+  .ins-btn { right: 12px; }
+  .ins-sheet { max-width: none; }
+}

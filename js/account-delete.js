@@ -3,7 +3,7 @@
    The steps, in order, and what to do when one of them goes wrong. The page hands in the real functions.
 
      1. check the student's sign in again (a password, or Google)
-     2. remove the reminders from Google Calendar
+     2. remove the reminders from Google Calendar, then the push notification data
      3. remove the photos
      4. delete courses, assignments and the rest of the data
      5. delete the login itself
@@ -37,11 +37,12 @@ export function validateDeleteForm({ typed = "", password = "" }, mode) {
 
 export const TOLERATED_CALENDAR = ["reconnect", "not_connected"]; // nothing more we can remove: carry on
 
-/* deps: { reauth, removeCalendar, removePhotos, removeData, removeLogin }, all async. onProgress(text, number, total). */
+/* deps: { reauth, removeCalendar, removePush, removePhotos, removeData, removeLogin }, all async. onProgress(text, number, total). */
 export async function deleteAccount({ deps, onProgress }) {
   const plan = [
     { step: "reauth", label: "Checking your sign in...", run: deps.reauth },
     { step: "calendar", label: "Removing your Google Calendar reminders...", run: deps.removeCalendar, tolerate: (err) => Boolean(err && TOLERATED_CALENDAR.includes(err.code)) },
+    { step: "push", label: "Removing your push notifications...", run: deps.removePush },
     { step: "photos", label: "Removing your photos...", run: deps.removePhotos },
     { step: "data", label: "Deleting your courses, assignments and settings...", run: deps.removeData },
     { step: "login", label: "Deleting your account...", run: deps.removeLogin }
@@ -68,6 +69,7 @@ export function deleteMessage(error) {
     if (code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") return "";
     return passwordError(code) || "We could not confirm your sign in. Please try again.";
   }
+  if (step === "push") return "We could not remove your push notifications. Check your connection and try again.";
   if (step === "calendar") return "We could not remove your Google Calendar reminders. Check your connection and try again.";
   if (step === "photos") return "We could not remove your photos. Check your connection and try again.";
   if (step === "data") return "We could not delete all of your data. Check your connection and try again.";
