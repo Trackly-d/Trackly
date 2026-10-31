@@ -237,7 +237,7 @@ export function sortDefault(items) {
 }
 
 /* The filter chip and the search box, together, across every course.
-   Search looks at the title, description, course (code, short name, title), status and date. */
+   Search looks at the title, description, course (code, title), status and date. */
 export function filterAssignmentItems(items, filter, query) {
   const term = (query || "").trim().toLowerCase();
   const rows = items.filter((item) => {
@@ -248,7 +248,6 @@ export function filterAssignmentItems(items, filter, query) {
       item.title,
       item.description,
       course.code,
-      course.shortName,
       course.title,
       STATUS_LABELS[item.status],
       dueWithDay(item.due),

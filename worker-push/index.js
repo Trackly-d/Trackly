@@ -4,7 +4,7 @@
 
    Two jobs:
      1. EVENTS: the website says "something happened" (an assignment was added, submitted, edited...). The Worker pushes it
-        to the student's OTHER devices (never the one that did it).
+        to ALL the student's devices, including the one that did it.
      2. TIMED ALERTS: the website tells the Worker which assignments are open. Every minute (a cron trigger) the Worker sends the
         "due soon" and "overdue" pushes whose time has come. Times come from js/push-logic.js, the same rules as the in-app alerts.
 
@@ -17,7 +17,7 @@
      POST /push/unsubscribe   forget this device         { endpoint }
      POST /push/prefs         { alertsEnabled, alertHours, types }
      POST /push/watch         { items: [{ assignmentId, title, courseName, dueAt, createdAt, status }] } (status "closed" forgets it)
-     POST /push/event         { kind, id, title, courseName, endpoint }
+     POST /push/event         { kind, id, title, courseName }
      POST /push/delete-all    forget everything about this student
 
    Needs (see README.md):  D1 binding DB, secret VAPID_PRIVATE_JWK, settings FIREBASE_PROJECT_ID, VAPID_PUBLIC_KEY, VAPID_SUBJECT, ALLOWED_ORIGINS
@@ -159,9 +159,7 @@ async function event(request, env, cors, user) {
   if (!prefs.types[body.kind]) return reply({ sent: 0 }, 200, cors);
 
   const message = pushText(body.kind, { id: body.id, name: cleanText(body.title, 120), courseName: cleanText(body.courseName, 80) });
-  const own = validEndpoint(body.endpoint) ? await endpointHash(body.endpoint) : "";
   const devices = (await env.DB.prepare("SELECT endpoint_hash, endpoint, p256dh, auth FROM device WHERE uid = ?").bind(user.uid).all()).results
-    .filter((d) => d.endpoint_hash !== own)
     .slice(0, MAX_EVENT_DEVICES);
 
   const vapid = await vapidFor(env);

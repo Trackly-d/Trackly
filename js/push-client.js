@@ -67,7 +67,7 @@ export function createPushClient({ workerUrl = PUSH_WORKER_URL, getToken, fetchF
     async watch(items) {
       for (let i = 0; i < items.length; i += 25) await post("/push/watch", { items: items.slice(i, i + 25) }, { keepalive: true });
     },
-    /* { kind, id, title, courseName, endpoint } */
+    /* { kind, id, title, courseName } */
     event: (payload) => post("/push/event", payload, { keepalive: true }),
     deleteAll: () => post("/push/delete-all", {})
   };

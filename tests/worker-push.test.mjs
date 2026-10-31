@@ -165,13 +165,14 @@ check("saving the same device again does not make a copy", (await call("/push/su
 // an event goes to the OTHER device only
 await call("/push/prefs", { alertsEnabled: true, alertHours: [48, 24], types: { added: true, edited: false } });
 pushCalls.length = 0;
-let r = await call("/push/event", { kind: "added", id: "a1", title: "Chapter 5 Essay", courseName: "Biology", endpoint: PHONE });
-check("an event is sent to the other device only", [r.data.sent, pushCalls.map((c) => c.url)], [1, [LAPTOP]]);
-const msg = JSON.parse(laptop.decrypt(pushCalls[0].body).text);
+let r = await call("/push/event", { kind: "added", id: "a1", title: "Chapter 5 Essay", courseName: "Biology" });
+check("an event is sent to every device, the one that did it too", [r.data.sent, pushCalls.map((c) => c.url).sort()], [2, [LAPTOP, PHONE].sort()]);
+check("both devices get the same readable message", [JSON.parse(phone.decrypt(pushCalls.find((c) => c.url === PHONE).body).text).t, JSON.parse(laptop.decrypt(pushCalls.find((c) => c.url === LAPTOP).body).text).t], ["Chapter 5 Essay added", "Chapter 5 Essay added"]);
+const msg = JSON.parse(laptop.decrypt(pushCalls.find((c) => c.url === LAPTOP).body).text);
 check("the message reads well and opens the assignment", [msg.t, msg.b, msg.u], ["Chapter 5 Essay added", "Course: Biology", "/assignment.html?id=a1"]);
 check("the push is signed with our key", /^vapid t=.+, k=.+$/.test(pushCalls[0].headers.Authorization), true);
 pushCalls.length = 0;
-r = await call("/push/event", { kind: "edited", id: "a1", title: "x", endpoint: PHONE });
+r = await call("/push/event", { kind: "edited", id: "a1", title: "x" });
 check("a kind that is switched off sends nothing", [r.data.sent, pushCalls.length], [0, 0]);
 check("an unknown kind is refused", (await call("/push/event", { kind: "hack", id: "a1" })).data.error, "bad_kind");
 check("an odd id is refused", (await call("/push/event", { kind: "added", id: "../x" })).data.error, "bad_id");
@@ -183,7 +184,7 @@ check("another student has no devices, so nothing is sent", [r.data.sent, pushCa
 
 // a push service says the device is gone: forget it
 pushStatus[LAPTOP] = 410;
-await call("/push/event", { kind: "added", id: "a2", title: "T", endpoint: PHONE });
+await call("/push/event", { kind: "added", id: "a2", title: "T" });
 pushStatus[LAPTOP] = 0;
 check("a device the push service no longer knows is forgotten", d1.db.prepare("SELECT COUNT(*) AS n FROM device").get().n, 1);
 await call("/push/subscribe", { subscription: laptop.sub(LAPTOP) });

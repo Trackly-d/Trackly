@@ -26,7 +26,6 @@ const $ = (id) => document.getElementById(id);
 const form = $("course-form");
 const titleInput = $("course-title");
 const codeInput = $("course-code");
-const shortInput = $("course-short");
 const instructorInput = $("course-instructor");
 const colorName = $("color-name");
 const formError = $("form-error");
@@ -100,7 +99,6 @@ function isDirty() {
   return isNewCourseDirty({
     title: titleInput.value.trim(),
     code: codeInput.value.trim(),
-    shortName: shortInput.value.trim(),
     instructor: instructorInput.value.trim(),
     color: form.querySelector('input[name="color"]:checked').value
   }, state.kind);
@@ -270,7 +268,6 @@ async function onSubmit(event) {
   }
 
   const code = codeInput.value.trim();
-  const shortName = shortInput.value.trim();
   const instructor = instructorInput.value.trim();
   const color = form.querySelector('input[name="color"]:checked').value;
 
@@ -280,7 +277,6 @@ async function onSubmit(event) {
 
     const data = { title, color, createdAt: serverTimestamp(), ...photoFields };
     if (code) data.code = code;
-    if (shortName) data.shortName = shortName;
     if (instructor) data.instructor = instructor;
 
     showMessage(saveStatus, "Saving your course...");

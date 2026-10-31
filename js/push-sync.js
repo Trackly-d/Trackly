@@ -2,7 +2,7 @@
    TRACKLY push hooks for the pages
    Small helpers the pages call right after they save something. They NEVER throw and never hold up the student for
    long (3 seconds at most), because a push is a bonus, never a reason to lose or delay a save.
-     notifyPush(user, kind, { id, title, courseName })   tell the student's OTHER devices
+     notifyPush(user, kind, { id, title, courseName })   tell ALL the student's devices (this one too)
      watchPush(user, items)                              keep the due soon and overdue alerts up to date
    Both do nothing at all unless this student has turned push on (users/{uid}.pushEnabled), so students who never use push
    cost nothing. The answer is remembered for 10 minutes.
@@ -32,23 +32,11 @@ function withCap(promise) {
   return Promise.race([promise, new Promise((resolve) => setTimeout(resolve, CAP_MS))]);
 }
 
-/* This device's own push address, so the Worker can leave this device out (it did the thing itself) */
-async function thisEndpoint() {
-  try {
-    if (!("serviceWorker" in navigator)) return "";
-    const registration = await navigator.serviceWorker.getRegistration();
-    const sub = registration && (await registration.pushManager.getSubscription());
-    return sub ? sub.endpoint : "";
-  } catch (err) {
-    return "";
-  }
-}
-
 export async function notifyPush(user, kind, { id, title, courseName = "" }) {
   try {
     if (!(await pushIsOn(user.uid))) return;
     const client = createPushClient({ getToken: () => user.getIdToken() });
-    await withCap(client.event({ kind, id, title, courseName, endpoint: await thisEndpoint() }));
+    await withCap(client.event({ kind, id, title, courseName }));
   } catch (err) {
     console.error("Push problem:", err && err.code ? err.code : err);
   }

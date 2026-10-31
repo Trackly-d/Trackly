@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Who are you? | Trackly</title>
+  <meta name="description" content="Tell Trackly whether you are a higher institution or a secondary school student.">
+  <!-- Account pages are kept out of Google on purpose. The public home page (index.html) is the one built to rank. -->
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles: base, components, then the consent screens -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/consent.css">
+  <!-- App install and push (PWA) -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#0E5C4A">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Trackly">
+</head>
+<body class="cs-page">
+  <!--
+    WHO ARE YOU? The first step for a new student. Higher Institution goes straight to sign up.
+    Secondary School goes to the parental consent screen first.
+  -->
+  <a class="cs-back" href="index.html" aria-label="Back to the home page"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a>
+  <main>
+    <img class="cs-logo" src="assets/images/logo.webp" alt="Trackly" width="360" height="114">
+    <h1 class="cs-title-light">Who are you?</h1>
+    <p class="cs-lead-light">We'll customize your experience based on your level.</p>
+    <div class="cs-choices">
+      <a class="cs-choice" href="signup.html">
+        <span class="cs-choice-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></span>
+        <strong>Higher Institution</strong>
+        <span>University, Polytechnic, or College student</span>
+      </a>
+      <a class="cs-choice" href="parental-consent.html">
+        <span class="cs-choice-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="15" y2="16"/></svg></span>
+        <strong>Secondary School</strong>
+        <span>Junior or Senior Secondary student</span>
+      </a>
+    </div>
+  </main>
+  <script type="module" src="/js/pwa.js"></script>
+</body>
+</html>

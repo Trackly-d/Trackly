@@ -83,8 +83,8 @@ export function validateAssignment(values, now = new Date(), courseIds = null, o
     }
   }
 
-  if (v.notes.length < LIMITS.notesMin) errors.notes = "Add a few notes about the assignment.";
-  else if (v.notes.length > LIMITS.notesMax) errors.notes = "Keep the notes under " + LIMITS.notesMax + " characters.";
+  if (v.notes.length < LIMITS.notesMin) errors.notes = "Add the assignment question or a few notes.";
+  else if (v.notes.length > LIMITS.notesMax) errors.notes = "Keep the assignment question and notes under " + LIMITS.notesMax + " characters.";
 
   if (v.reminderMode === "custom") {
     if (v.remindMinutes.length === 0) errors.reminder = "Choose at least one reminder, or pick None.";

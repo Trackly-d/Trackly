@@ -32,7 +32,7 @@ check("past day refused", validateAssignment({ ...good, date: "2026-10-11" }, no
 check("earlier today refused", validateAssignment({ ...good, date: "2026-10-12", time: "09:00" }, now, courses).errors.time, "That time has already passed today. Choose a later time.");
 check("exactly now refused", Boolean(validateAssignment({ ...good, date: "2026-10-12", time: "10:00" }, now, courses).errors.time), true);
 check("later today fine", validateAssignment({ ...good, date: "2026-10-12", time: "10:01" }, now, courses).ok, true);
-check("notes required", validateAssignment({ ...good, notes: "   " }, now, courses).errors.notes, "Add a few notes about the assignment.");
+check("notes required", validateAssignment({ ...good, notes: "   " }, now, courses).errors.notes, "Add the assignment question or a few notes.");
 check("notes too long", Boolean(validateAssignment({ ...good, notes: "x".repeat(2001) }, now, courses).errors.notes), true);
 check("custom with nothing chosen", validateAssignment({ ...good, reminderMode: "custom", remindMinutes: [] }, now, courses).errors.reminder, "Choose at least one reminder, or pick None.");
 check("custom with six refused", Boolean(validateAssignment({ ...good, reminderMode: "custom", remindMinutes: [0, 30, 60, 120, 1440, 2880] }, now, courses).errors.reminder), true);

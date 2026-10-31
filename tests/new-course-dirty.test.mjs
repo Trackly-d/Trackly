@@ -1,0 +1,13 @@
+const { isNewCourseDirty } = await import("../js/course-form.js");
+let failed = 0;
+const check = (name, got, want) => { const ok = got === want; if (!ok) failed++; console.log(ok ? "PASS" : "FAIL", name, ok ? "" : "got " + got + " want " + want); };
+const blank = { title: "", code: "", instructor: "", color: "#00D996" };
+check("untouched form is clean", isNewCourseDirty(blank, "none"), false);
+check("typed a title", isNewCourseDirty({ ...blank, title: "B" }, "none"), true);
+check("typed only a code", isNewCourseDirty({ ...blank, code: "BIO" }, "none"), true);
+check("typed only an instructor", isNewCourseDirty({ ...blank, instructor: "Dr" }, "none"), true);
+check("changed the color", isNewCourseDirty({ ...blank, color: "#EF4444" }, "none"), true);
+check("color in lower case is still the default", isNewCourseDirty({ ...blank, color: "#00d996" }, "none"), false);
+check("picked their own photo", isNewCourseDirty(blank, "upload"), true);
+check("a suggested photo", isNewCourseDirty(blank, "suggested"), true);
+console.log(failed ? failed + " FAILED" : "ALL PASSED");

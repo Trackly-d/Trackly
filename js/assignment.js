@@ -173,7 +173,7 @@ function inlineNodes(nodes) {
 function renderNotes(box, text) {
   box.replaceChildren();
   const blocks = parseMarkdown(text);
-  if (!blocks.length) { box.append(el("p", "", "No notes.")); return; }
+  if (!blocks.length) { box.append(el("p", "", "No assignment question or notes.")); return; }
   blocks.forEach((block) => {
     if (block.t === "p") {
       const p = el("p");

@@ -45,7 +45,6 @@ const views = {
 const form = $("course-form");
 const titleInput = $("course-title");
 const codeInput = $("course-code");
-const shortInput = $("course-short");
 const instructorInput = $("course-instructor");
 const colorName = $("color-name");
 const formError = $("form-error");
@@ -109,7 +108,6 @@ function formValues() {
   return {
     title: titleInput.value.trim(),
     code: codeInput.value.trim(),
-    shortName: shortInput.value.trim(),
     instructor: instructorInput.value.trim(),
     color: selectedColor()
   };
@@ -119,14 +117,13 @@ function isDirty() {
   const v = formValues();
   const photoChanged = state.kind !== (state.hadPhoto ? "current" : "none");
   return photoChanged ||
-    v.title !== initial.title || v.code !== initial.code || v.shortName !== initial.shortName ||
+    v.title !== initial.title || v.code !== initial.code ||
     v.instructor !== initial.instructor || v.color !== initial.color;
 }
 
 function fillForm() {
   titleInput.value = course.title || "";
   codeInput.value = course.code || "";
-  shortInput.value = course.shortName || "";
   instructorInput.value = course.instructor || "";
 
   originalColor = safeColor(course.color);

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parental consent | Trackly</title>
+  <meta name="description" content="A parent or guardian must approve a Trackly account for students under 18.">
+  <!-- Account pages are kept out of Google on purpose. The public home page (index.html) is the one built to rank. -->
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles: base, components, then the consent screens -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/consent.css">
+  <!-- App install and push (PWA) -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#0E5C4A">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Trackly">
+</head>
+<body class="cs-page">
+  <!--
+    PARENTAL CONSENT (the student's screen). The student types a parent or guardian email, ticks the box, and we email that
+    person an approval link. The account can be created only after they approve.
+    Views of the card (design only): parental-consent.html?state=form | off | invalid | sending | error | sent | approved | declined | expired
+  -->
+  <a class="cs-back" href="who-are-you.html" aria-label="Back to Who are you?"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></a>
+  <main>
+    <img class="cs-logo" src="assets/images/logo.webp" alt="Trackly" width="360" height="114">
+    <section class="cs-card" data-states="form off invalid sending error sent approved declined expired" data-view="form" data-state="form" aria-live="polite">
+
+      <!-- FORM -->
+      <div class="cs-view cs-v-form">
+        <div class="cs-card-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h1>Parental Consent Required</h1>
+        <p class="cs-lead">If you're under 18, a parent or guardian needs to approve your Trackly account.</p>
+        <div class="cs-info"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><p>We'll email an approval link to your parent or guardian. You can create your account once they approve. Until then, we keep only their email address and the time of your request. This helps us follow the Nigeria Data Protection Act 2023.</p></div>
+        <p class="cs-banner" role="alert">We could not send the email. Check the address and try again.</p>
+        <div class="cs-field">
+          <label class="cs-label" for="parent-email">Parent or Guardian Email</label>
+          <input class="cs-input" id="parent-email" type="email" inputmode="email" autocomplete="off" placeholder="parent@example.com">
+          <p class="cs-error" role="alert">Enter a valid email address.</p>
+        </div>
+        <label class="cs-check"><input type="checkbox" id="parent-aware"><span>I confirm that my parent or guardian is aware of this account request.</span></label>
+        <button class="cs-btn cs-btn-main" type="button"><span class="cs-idle">Send approval link</span><span class="cs-busy">Sending...</span></button>
+        <a class="cs-link" href="index.html">No, take me home</a>
+        <a class="cs-link is-quiet" href="signup.html">Already 18 or older? Sign up directly</a>
+        <p class="cs-note">Your parent gets one email. The link works for 7 days.</p>
+      </div>
+
+      <!-- SENT: waiting for the parent -->
+      <div class="cs-view cs-v-sent">
+        <div class="cs-card-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <h1>Check your parent's email</h1>
+        <p class="cs-lead">We sent an approval link to <strong>p***@gmail.com</strong>. Ask them to open it and tap Approve. This page updates by itself as soon as they do.</p>
+        <div class="cs-info"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><p>Nothing is created yet. If the email does not arrive, check the spam folder.</p></div>
+        <button class="cs-btn is-ghost" type="button">Send the link again</button>
+        <a class="cs-link" href="parental-consent.html">Use a different email</a>
+        <a class="cs-link is-quiet" href="index.html">Back to home</a>
+      </div>
+
+      <!-- APPROVED -->
+      <div class="cs-view cs-v-approved">
+        <div class="cs-card-icon is-good"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <h1>Your parent approved</h1>
+        <p class="cs-lead">Thank you for waiting. You can now create your Trackly account.</p>
+        <a class="cs-btn" href="signup.html">Continue To Sign Up</a>
+      </div>
+
+      <!-- DECLINED -->
+      <div class="cs-view cs-v-declined">
+        <div class="cs-card-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+        <h1>Your parent declined</h1>
+        <p class="cs-lead">We can't create a Trackly account for you right now. Nothing has been saved.</p>
+        <a class="cs-btn" href="index.html">Back to home</a>
+      </div>
+
+      <!-- EXPIRED -->
+      <div class="cs-view cs-v-expired">
+        <div class="cs-card-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <h1>That link has expired</h1>
+        <p class="cs-lead">Approval links work for 7 days. You can start again and we'll send a new one.</p>
+        <a class="cs-btn" href="parental-consent.html">Start again</a>
+      </div>
+    </section>
+    <p class="cs-lead-light" style="margin-top:18px">Design preview: <strong id="cs-state">form</strong></p>
+  </main>
+  <script type="module" src="js/consent-design.js"></script>
+  <script type="module" src="/js/pwa.js"></script>
+</body>
+</html>

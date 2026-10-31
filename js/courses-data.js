@@ -5,7 +5,7 @@
 
    Where the data lives (each student only sees their own, see firestore.rules):
      users/{uid}/courses/{courseId}
-        title (required), code, shortName, instructor, color (like "#00D996"),
+        title (required), code, instructor, color (like "#00D996"),
         imageUrl, location (like "Hall C, Rm 204"), credits (like "4.0 Credits"), createdAt
      users/{uid}/assignments/{assignmentId}
         courseId, title, description (required), dueAt (a date, required),

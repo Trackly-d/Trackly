@@ -280,7 +280,7 @@ function demoData(kind) {
     { id: "d1", code: "BIO 101", title: "Introduction to Biology", color: "#00D996" },
     { id: "d2", code: "ECO 201", title: "Microeconomics", color: "#3B82F6" },
     { id: "d3", code: "STAT 210", title: "Statistics & Probability", color: "#A855F7" },
-    { id: "d4", code: "CS 106", shortName: "DSA", title: "Data Structures & Algorithms", color: "#F59E0B" }
+    { id: "d4", code: "CS 106", title: "Data Structures & Algorithms", color: "#F59E0B" }
   ];
   if (kind === "nocourses") return { courses: [], assignments: [] };
   if (kind === "empty") return { courses: demoCourses, assignments: [] };

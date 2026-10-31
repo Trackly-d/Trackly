@@ -8,6 +8,7 @@
       "worker/**",
       "worker-calendar/**",
       "worker-push/**",
+      "design/**",
       "tests/**",
       "*.md",
       "*.py",

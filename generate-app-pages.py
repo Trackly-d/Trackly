@@ -196,7 +196,7 @@ settings_content = '''        <div class="settings-page">
 
                   <!-- Shown only while push is on -->
                   <div class="st-push-types" id="st-push-types">
-                    <p class="st-sub st-push-intro">Things you do on this device are sent to your other devices, never to this one. Deadline alerts go to every device.</p>
+                    <p class="st-sub st-push-intro">Alerts about what you do, and your deadline alerts, go to every device where push is on, including this one.</p>
                   <h3 class="st-group">Deadlines</h3>
                   <div class="st-row st-row-static st-type">
                     <span class="st-text"><span class="st-label">Due soon</span><span class="st-sub">Uses the times you choose in Due soon alerts below</span></span>

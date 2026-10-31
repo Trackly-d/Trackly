@@ -7,17 +7,17 @@
 /* What a course looks like with no photo at all */
 export const CLEARED_PHOTO = { imageUrl: "", imagePublicId: "", imageSource: "", imageCredit: null };
 
-/* values: { title, code, shortName, instructor, color }
+/* values: { title, code, instructor, color }
    photo:  { kind: "keep" }                       leave the photo as it is
            { kind: "replace", fields: {...} }     save a new photo
            { kind: "clear" }                      remove the photo
 
-   Cleared text boxes are saved as empty text, so the old value is really gone. */
+   Cleared text boxes are saved as empty text, so the old value is really gone.
+   There is no Short Name box any more. An old course may still have a shortName saved: this never writes or erases it, and nothing reads it. */
 export function buildCourseUpdate(values, photo) {
   const data = {
     title: String(values.title || "").trim(),
     code: String(values.code || "").trim(),
-    shortName: String(values.shortName || "").trim(),
     instructor: String(values.instructor || "").trim(),
     color: values.color
   };
@@ -34,7 +34,7 @@ export function buildCourseUpdate(values, photo) {
 /* On the Add Course page: has the student typed or chosen anything yet?
    An untouched form has nothing to lose, so leaving it never shows the pop-up box. */
 export function isNewCourseDirty(values, photoKind, defaultColor = "#00D996") {
-  const typed = Boolean(values.title || values.code || values.shortName || values.instructor);
+  const typed = Boolean(values.title || values.code || values.instructor);
   const colorChanged = String(values.color || "").toLowerCase() !== defaultColor.toLowerCase();
   return typed || colorChanged || photoKind === "upload" || photoKind === "suggested";
 }

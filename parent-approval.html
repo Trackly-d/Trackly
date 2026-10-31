@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Approve a Trackly account | Trackly</title>
+  <meta name="description" content="A parent or guardian approves or declines a student's Trackly account.">
+  <!-- Account pages are kept out of Google on purpose. The public home page (index.html) is the one built to rank. -->
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles: base, components, then the consent screens -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/consent.css">
+  <!-- App install and push (PWA) -->
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#0E5C4A">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Trackly">
+</head>
+<body class="cs-page">
+  <!--
+    PARENT APPROVAL (the parent's screen, opened from the email link). We do not know the student's name here on purpose:
+    until the parent approves, we keep only their email address and the time of the request.
+    Views of the card (design only): parent-approval.html?state=ready | approving | approved | declined | expired
+  -->
+  <main>
+    <img class="cs-logo" src="assets/images/logo.webp" alt="Trackly" width="360" height="114">
+    <section class="cs-card" data-states="ready approving approved declined expired" data-view="ready" data-state="ready" aria-live="polite">
+
+      <!-- READY -->
+      <div class="cs-view cs-v-ready">
+        <div class="cs-card-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h1>Approve a Trackly account?</h1>
+        <p class="cs-lead">Someone asked to create a Trackly account and gave this email address as their parent or guardian.</p>
+        <div class="cs-info"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><p>Trackly is a free assignment tracker for students. If you approve, the student can create an account and Trackly will keep:</p></div>
+        <ul class="cs-points">
+          <li>their name and email address,</li>
+          <li>the courses, assignments and notes they add,</li>
+          <li>their Google Calendar reminders and push alerts, only if they switch them on.</li>
+        </ul>
+        <p class="cs-lead" style="text-align:left">We never sell this information or use it for advertising. Read our <a class="cs-link-inline" href="privacy.html">Privacy Policy</a>.</p>
+        <label class="cs-check"><input type="checkbox" id="parent-confirm"><span>I am this student's parent or legal guardian, and I consent to Trackly processing their personal data as described.</span></label>
+        <button class="cs-btn cs-btn-main" type="button"><span class="cs-idle">Approve</span><span class="cs-busy">Approving...</span></button>
+        <button class="cs-btn is-danger-ghost" type="button">Decline</button>
+        <p class="cs-note">You can ask us to delete the account at any time through our <a class="cs-link-inline" href="contact.html">contact page</a>.</p>
+      </div>
+
+      <!-- APPROVED -->
+      <div class="cs-view cs-v-approved">
+        <div class="cs-card-icon is-good"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <h1>Thank you, you approved</h1>
+        <p class="cs-lead">The student can now create their account. You can close this page.</p>
+      </div>
+
+      <!-- DECLINED -->
+      <div class="cs-view cs-v-declined">
+        <div class="cs-card-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+        <h1>You declined</h1>
+        <p class="cs-lead">No account will be created, and we are deleting this request. You can close this page.</p>
+      </div>
+
+      <!-- EXPIRED or already used -->
+      <div class="cs-view cs-v-expired">
+        <div class="cs-card-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <h1>This link is no longer valid</h1>
+        <p class="cs-lead">It has expired or was already used. Ask the student to send a new approval link.</p>
+      </div>
+    </section>
+    <p class="cs-lead-light" style="margin-top:18px">Design preview: <strong id="cs-state">ready</strong></p>
+  </main>
+  <script type="module" src="js/consent-design.js"></script>
+  <script type="module" src="/js/pwa.js"></script>
+</body>
+</html>

@@ -4,7 +4,7 @@ Sends push notifications to a student's phones and computers, even when Trackly 
 
 What it does, in plain words:
 
-1. **Events.** When a student adds, starts, edits or submits something on one device, Trackly tells this Worker, and the Worker pushes it to their OTHER devices.
+1. **Events.** When a student adds, starts, edits or submits something on one device, Trackly tells this Worker, and the Worker pushes it to ALL their devices, including the one that did it.
 2. **Timed alerts.** Every minute the Worker sends the "due soon" and "overdue" pushes whose time has come. It uses the same times as the alerts inside Trackly (`js/push-logic.js` is shared by the website and the Worker, and a test proves they agree).
 
 It stores, in a Cloudflare database (D1): each allowed device's push address, the student's push choices, and the title, course and due time of open assignments. All of it is removed when the student switches push off on their last device, logs out on that device, or deletes their account.
@@ -52,7 +52,7 @@ Then run `node tests/run-all.mjs` from the project folder. All tests must pass b
 
 - Open `https://YOUR-WORKER-ADDRESS/` in a browser. You should see `{"ok":true,"service":"trackly-push"}`.
 - In Trackly, open Settings, switch Push notifications on, and choose Allow.
-- On a second device signed in to the same account (with push on there too), add an assignment on the first device. The second device shows a notification.
+- Add an assignment. Every device with push on, including the one you added it on, shows a notification.
 - To watch the Worker work: `npx wrangler tail` (leave it running, press Ctrl+C to stop). It never prints push addresses or keys.
 
 ## Free plan limits (checked in October 2026)
