@@ -1,0 +1,31 @@
+# ==========================================================
+# TRACKLY consent worker: Wrangler settings
+# Secrets are NOT written here. Two are stored with:
+#   npx wrangler secret put RESEND_API_KEY     (the key from your Resend account)
+#   npx wrangler secret put CONSENT_PEPPER     (a long random text, see README.md)
+# ==========================================================
+
+name = "trackly-consent"
+main = "index.js"
+compatibility_date = "2025-10-01"
+
+# Runs every hour to delete requests that ran out. (The free plan allows 5 cron triggers in total.)
+[triggers]
+crons = ["0 * * * *"]
+
+# 1. Run:  npx wrangler d1 create trackly-consent
+# 2. Paste the database_id it prints in place of the text below.
+# 3. Run:  npx wrangler d1 execute trackly-consent --remote --file=schema.sql
+[[d1_databases]]
+binding = "DB"
+database_name = "trackly-consent"
+database_id = "98e2932e-4971-4fec-ab06-d5befa831280"
+
+# These are settings, not secrets. They are safe to keep in this file.
+[vars]
+FIREBASE_PROJECT_ID = "trackly-e18d8"
+# The website the approval link points to
+SITE_URL = "https://trackly.ng"
+# The sender. It must be an address on the domain you verified in Resend.
+MAIL_FROM = "Trackly <no-reply@trackly.ng>"
+ALLOWED_ORIGINS = "https://trackly.ng,https://www.trackly.ng,https://trackly-e18d8.web.app,https://trackly-e18d8.firebaseapp.com,http://127.0.0.1:5000,http://localhost:5000,http://127.0.0.1:5500,http://localhost:5500"

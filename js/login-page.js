@@ -69,8 +69,9 @@ async function handleGoogle(button, messageEl) {
   button.disabled = true;
   signingIn = true;
   try {
-    await signInWithGoogle();
-    window.location.assign(DASHBOARD_URL);
+    const { isNew } = await signInWithGoogle();
+    // A brand new Google account has not said "Who are you?" yet
+    window.location.assign(isNew ? "who-are-you.html?finish=1" : DASHBOARD_URL);
   } catch (err) {
     const message = friendlyError(err);
     if (message) showMessage(messageEl, message);

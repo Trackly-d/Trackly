@@ -25,6 +25,7 @@ import { passwordMode } from "./profile-rules.js";
 import { deleteAccount, deleteMessage, validateDeleteForm, DELETE_COLLECTIONS } from "./account-delete.js";
 import { createCalendarClient } from "./calendar-client.js";
 import { createPushController, removePushData } from "./push.js";
+import { createConsentClient } from "./consent-client.js";
 import { createImageDeleter, collectImageIds } from "./image-delete.js";
 import { IMAGE_WORKER_URL } from "./images.js";
 import { APP_VERSION, BUILD_MONTH } from "./app-info.js";
@@ -156,6 +157,10 @@ async function onDeleteSubmit(event) {
           if (record.calendar && record.calendar.connected) await calendarClient.disconnect(); // removes the reminders, revokes access
         },
         removePush: async () => removePushData(user, await readUserDoc()),
+        removeConsent: async () => { // the parent's approval record lives in the consent Worker; it goes with the account
+          const record = await readUserDoc();
+          if (record && record.parentalConsent) await createConsentClient().deleteAccountData(() => user.getIdToken());
+        },
         removePhotos: async () => {
           const [courses, record] = await Promise.all([
             getDocs(collection(db, "users", uid, "courses")),

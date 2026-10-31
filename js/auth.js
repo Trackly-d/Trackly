@@ -21,7 +21,8 @@ import {
   verifyPasswordResetCode,
   confirmPasswordReset
 } from "./firebase-config.js";
-import { saveUserProfileSafe, ensureUserProfile } from "./users.js";
+import { saveUserProfileSafe, saveUserProfileStrict, ensureUserProfile, fetchUserRecord } from "./users.js";
+import { consentErrorMessage } from "./consent-client.js";
 
 // Where students go after signing in, and where signed out students are sent.
 export const DASHBOARD_URL = "dashboard.html";
@@ -29,16 +30,35 @@ export const LOGIN_URL = "login.html#signin";
 
 /* Step 1: create the account, save the full name and the database record, then sign out
    so the student continues to Step 2 (sign in), as in the design. */
-export async function signUpWithEmail({ name, email, password }) {
+export async function signUpWithEmail({ name, email, password, beforeSave }) {
   const cred = await createUserWithEmailAndPassword(auth, email, password);
   try {
     await updateProfile(cred.user, { displayName: name });
   } catch (err) {
     console.warn("Could not save the display name:", err);
   }
-  // Save the student in the database while they are still signed in
-  await saveUserProfileSafe(cred.user);
+  // beforeSave (from the sign up page) confirms the parent's approval and returns the level fields.
+  // If anything about the level or the consent cannot be saved, the new account is removed again.
+  try {
+    const extra = beforeSave ? await beforeSave(cred.user) : {};
+    // Save the student in the database while they are still signed in
+    if (beforeSave) await saveUserProfileStrict(cred.user, extra);
+    else await saveUserProfileSafe(cred.user, extra);
+  } catch (err) {
+    await removeNewAccount(cred.user);
+    throw err;
+  }
   await signOut(auth);
+}
+
+/* A brand new account that cannot finish sign up is removed, so nothing half made is left behind */
+export async function removeNewAccount(user) {
+  try {
+    await user.delete();
+  } catch (err) {
+    console.warn("Could not remove the new account, signing out instead:", err);
+    try { await signOut(auth); } catch (e) { /* nothing more to do */ }
+  }
 }
 
 /* Step 2: sign in. "Remember me" decides if they stay signed in after closing the browser. */
@@ -48,14 +68,25 @@ export async function signInWithEmail({ email, password, remember }) {
 }
 
 /* Google works for both sign up and sign in. A record is saved only the first time. */
-export async function signInWithGoogle() {
+export async function signInWithGoogle({ beforeSave } = {}) {
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: "select_account" });
   const cred = await signInWithPopup(auth, provider);
   // Google has one button for sign up and sign in, so save only when the account is brand new.
   const info = getAdditionalUserInfo(cred);
-  if (info && info.isNewUser) await saveUserProfileSafe(cred.user);
-  return cred;
+  const isNew = Boolean(info && info.isNewUser);
+  if (isNew) {
+    try {
+      // From the sign up page the level is already chosen. From the login page it is not,
+      // so the account is marked "levelPending" and the app sends the student to "Who are you?" before anything else.
+      const extra = beforeSave ? await beforeSave(cred.user) : { levelPending: true };
+      await saveUserProfileStrict(cred.user, extra);
+    } catch (err) {
+      await removeNewAccount(cred.user);
+      throw err;
+    }
+  }
+  return { cred, isNew };
 }
 
 /* Sends the reset email */
@@ -98,8 +129,29 @@ export function requireAuth(onReady) {
       return;
     }
     ensureUserProfile(user); // no waiting, the page does not slow down
-    onReady(user);
+    levelGate(user).then((open) => { if (open) onReady(user); });
   });
+}
+
+/* A new Google account that has not chosen "Who are you?" yet (levelPending) cannot use the app until it has.
+   After one good check the browser remembers it, so this costs nothing later. A read problem never locks a student out. */
+const LEVEL_PAGE = "who-are-you.html?finish=1";
+const levelKey = (uid) => "trackly_level_ok_" + uid;
+async function levelGate(user) {
+  try {
+    if (localStorage.getItem(levelKey(user.uid)) === "1") return true;
+  } catch (err) { /* blocked storage: check every time */ }
+  try {
+    const record = await fetchUserRecord(user.uid);
+    if (record && record.levelPending === true) {
+      window.location.replace(LEVEL_PAGE);
+      return false;
+    }
+    try { localStorage.setItem(levelKey(user.uid), "1"); } catch (err) { /* ignore */ }
+  } catch (err) {
+    console.warn("Could not check the student level:", err);
+  }
+  return true;
 }
 
 /* Runs your function now and every time someone signs in or out. */
@@ -132,6 +184,7 @@ const SILENT = ["auth/popup-closed-by-user", "auth/cancelled-popup-request"];
 export function friendlyError(err) {
   const code = err && err.code ? err.code : "";
   if (SILENT.includes(code)) return "";
+  if (err && err.name === "ConsentError") return consentErrorMessage(err.code);
   console.error("Firebase error:", err);
   return MESSAGES[code] || "Something went wrong. Please try again.";
 }

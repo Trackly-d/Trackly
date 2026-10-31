@@ -160,6 +160,7 @@ privacy_sections = [
   "<strong>What you add:</strong> your courses (title, code, instructor, colour and photo), your assignments (title, assignment question or notes, due date, priority, status and reminder choices), and a profile photo if you upload one.",
   "<strong>Sign up record:</strong> the date you created your account, and the date and version of the terms you agreed to.",
   "<strong>Alerts and history:</strong> your alert choices in Settings, a short history of events in your account (such as an assignment or course being added, started, edited or marked as submitted), and which notifications you have read.",
+  "<strong>Your level and, for secondary school students, a parental consent record:</strong> whether you chose Higher Institution or Secondary School when you signed up and, for Secondary School, that your parent or guardian approved, when they approved, and a scrambled copy of their email address (see section 11).",
   "<strong>Push notifications,</strong> only if you switch them on in Settings: a push address for each device you allow (it lets your browser's push service reach that device), which kinds of push you chose, and, for assignments that are still open, the title, course name and due time, so Trackly can send due soon and overdue alerts while it is closed.",
   "<strong>Google Calendar details,</strong> only if you connect it: see section 4.",
   "<strong>Basic technical data:</strong> information such as device and browser type, which our service providers may collect to keep Trackly working and secure."]), ""),
@@ -167,6 +168,7 @@ privacy_sections = [
   "to create your account and keep you signed in;",
   "to show your courses and assignments;",
   "to show alerts and a short history in Trackly, such as when an assignment is due soon or overdue;",
+  "to check that a parent or guardian approved, when the student is under 18;",
   "to send push notifications to your devices, if you switch them on;",
   "to add and remove reminder events on your Google Calendar, if you connect it;",
   "to find a suitable photo for your course header;",
@@ -202,6 +204,7 @@ privacy_sections = [
    "<strong>Google (Firebase):</strong> sign in, our database and hosting, and Google Calendar if you connect it.",
    "<strong>Cloudinary:</strong> storing and delivering images, including photos you upload.",
    "<strong>Cloudflare:</strong> running the services that connect Trackly to Google Calendar, to photo search and to push notifications, and storing your encrypted Google Calendar token and your push settings.",
+  "<strong>Resend:</strong> sends the approval email to a parent or guardian, only when a student chooses Secondary School. It receives the parent or guardian's email address and the message.",
   "<strong>Your browser's push service</strong> (run by Google, Apple, Microsoft or Mozilla, depending on your browser): if you switch push on, it delivers each notification to your device. It receives your device's push address and the notification, which is encrypted so that only your device can read it.",
    "<strong>Pixabay:</strong> course photos. We send only the subject words of a course, never your name or email."]),
   p("We may also share information when the law requires it or to protect the rights and safety of Trackly or its users. We do not sell your personal information.")]), ""),
@@ -209,7 +212,7 @@ privacy_sections = [
   RAW('''
         <p>The Nigeria Data Protection Act 2023, together with the Nigeria Data Protection Commission's General Application and Implementation Directive 2025, says we must have a lawful reason to use your information. We rely on:</p>
         <ul>
-          <li><strong>Your consent,</strong> which you give when you create an account and agree to our terms, and when you choose to connect Google Calendar or switch on push notifications;</li>
+          <li><strong>Your consent,</strong> which you give when you create an account and agree to our terms, and when you choose to connect Google Calendar or switch on push notifications, and when a parent or guardian approves an account for a student under 18;</li>
           <li><strong>What we need to provide the service you asked for,</strong> such as saving your courses and assignments and showing you alerts;</li>
           <li><strong>Our legitimate interest</strong> in keeping Trackly safe and working, which never overrides your rights;</li>
           <li><strong>Our legal duties,</strong> where the law requires us to keep or share certain information.</li>
@@ -237,9 +240,10 @@ privacy_sections = [
   "<strong>Your Google Calendar token:</strong> until you switch Google Calendar Reminders off, remove Trackly in your Google Account, or ask us to delete your account.",
   "<strong>Calendar event ids waiting to be removed:</strong> deleted as soon as the events are removed.",
   "<strong>Your notification history:</strong> for 30 days, then it is removed.",
+  "<strong>Parental consent records:</strong> for as long as the student's account exists, then they are deleted with it. A request that is declined, or not answered within 7 days, is deleted.",
   "<strong>Push notification data:</strong> your device's push address until you switch push off, log out on that device, or delete your account. The title, course name and due time of an open assignment are kept only until it is submitted, deleted or past due, or you switch push off.",
   "<strong>Photos you upload:</strong> while your account is active. We remove them when your account is deleted, and when you remove or replace a photo.",
-  "<strong>When you delete your account in Settings,</strong> Trackly removes your Google Calendar reminders, your push notification data, your photos, your courses, assignments and notification history, and your login, straight away.",
+  "<strong>When you delete your account in Settings,</strong> Trackly removes your Google Calendar reminders, your push notification data, your parental consent record, your photos, your courses, assignments and notification history, and your login, straight away.",
   "<strong>If you ask us by email instead,</strong> we delete your personal information within 30 days, unless we must keep some of it for legal reasons."]), ""),
  ("s9", "Your rights",
   RAW('''
@@ -257,10 +261,11 @@ privacy_sections = [
         <p>If you are not happy with how we handle your information, please tell us first so we can try to put it right. You also have the right to complain to the Nigeria Data Protection Commission (<a href="https://ndpc.gov.ng">ndpc.gov.ng</a>).</p>
 '''), ""),
  ("s10", "Cookies and browser storage",
-  p("Trackly uses your browser's storage to keep you signed in (for longer if you choose \"Remember me\"), to keep a short-lived copy of recent screens so pages load faster (it clears when you close the tab), and to remember a few small settings, such as which list filter you chose. If you switch on push or install Trackly, your browser also keeps a small background program for Trackly (a service worker) and a push subscription. The service worker keeps only an offline page, never your courses or assignments. We do not use advertising cookies or third-party analytics tools."), ""),
+  p("Trackly uses your browser's storage to keep you signed in (for longer if you choose \"Remember me\"), to keep a short-lived copy of recent screens so pages load faster (it clears when you close the tab), and to remember a few small settings, such as which list filter you chose. If you switch on push or install Trackly, your browser also keeps a small background program for Trackly (a service worker) and a push subscription. The service worker keeps only an offline page, never your courses or assignments. While you sign up, your browser also remembers your choice on the Who are you screen, and for secondary school students a reference to the request sent to a parent or guardian, until you finish or close the tab. We do not use advertising cookies or third-party analytics tools."), ""),
  ("s11", "Children",
   RAW('''
-        <p>Trackly is meant for students aged 18 and over. Secondary school students under 18 may use Trackly only with permission from a parent or guardian. If you are under 18, you need permission from a parent or guardian before you create an account.</p>
+        <p>Trackly is meant for students aged 18 and over. Secondary school students under 18 may use Trackly only with the approval of a parent or guardian. When you choose Secondary School while signing up, we ask for your parent or guardian's email address and send them a link. You can create your account only after they approve.</p>
+        <p>We do not keep your parent or guardian's email address in readable form. After the email is sent, we keep only a scrambled copy of it that cannot be turned back into the address, and only if they approve, together with the time they approved, as proof of their consent. This record is kept for as long as your account exists and is deleted with it. If they decline, or do not answer within 7 days, the request is deleted. We also keep what you told us about your level (secondary school or higher institution) on your account.</p>
         <p>We take extra care with the information of children. We collect only what Trackly needs to work, we never use it for advertising, and we never sell it. If we learn that we hold information about a child without that permission, we will delete it. A parent or guardian can email us to see, correct or delete their child's information.</p>
 '''), ""),
  ("s12", "Changes to this policy",
@@ -277,14 +282,14 @@ build("privacy.html", "Privacy Policy",
    "Service providers (Google Firebase, Cloudinary, Cloudflare and Pixabay) help us run Trackly, as explained in section 5.",
    "You have rights over your information, including access, correction, deletion and objection. They are explained in <a href=\"#s9\">section 9</a>."],
   privacy_sections,
-  [("terms.html", "Terms of Service"), ("contact.html", "Contact"), ("signup.html", "Create an account"), ("login.html#signin", "Sign in")])
+  [("terms.html", "Terms of Service"), ("contact.html", "Contact"), ("who-are-you.html", "Create an account"), ("login.html#signin", "Sign in")])
 
 # ======================= TERMS =======================
 terms_sections = [
  ("s1", "Who we are", p("Trackly is run by the Trackly team in Nigeria (\"Trackly\", \"we\", \"us\"). You can reach us at %s." % MAIL), ""),
  ("s2", "Your account", ul([
   "You must give us correct information when you sign up and keep it up to date.",
-  "Trackly is meant for students aged 18 and over. If you are under 18, you need permission from a parent or guardian to use it.",
+  "Trackly is meant for students aged 18 and over. If you are under 18, you need the approval of a parent or guardian, which we ask for by email when you choose Secondary School during sign up. You can create your account only after they approve.",
   "Keep your password private. You are responsible for what happens under your account.",
   "Tell us straight away if you think someone else is using your account."]), ""),
  ("s3", "What Trackly does, and what it does not promise",
@@ -315,7 +320,7 @@ build("terms.html", "Terms of Service",
    "You can stop using Trackly and ask us to delete your account at any time.",
    "How we handle your information, including Google Calendar, is in our <a href=\"privacy.html\">Privacy Policy</a>."],
   terms_sections,
-  [("privacy.html", "Privacy Policy"), ("contact.html", "Contact"), ("signup.html", "Create an account"), ("login.html#signin", "Sign in")])
+  [("privacy.html", "Privacy Policy"), ("contact.html", "Contact"), ("who-are-you.html", "Create an account"), ("login.html#signin", "Sign in")])
 
 
 # ======================= CONTACT =======================
@@ -372,7 +377,7 @@ def build_contact():
   <footer class="legal-footer">
     <a href="privacy.html">Privacy Policy</a>
     <a href="terms.html">Terms of Service</a>
-    <a href="signup.html">Create an account</a>
+    <a href="who-are-you.html">Create an account</a>
     <a href="login.html#signin">Sign in</a>
   </footer>
   <script type="module" src="/js/pwa.js"></script>

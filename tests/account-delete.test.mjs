@@ -19,7 +19,7 @@ check("nothing typed", validateDeleteForm({ typed: "", password: "x" }, "change"
 function run(overrides = {}) {
   const log = [];
   const step = (name) => async () => { log.push(name); };
-  const deps = { reauth: step("reauth"), removeCalendar: step("calendar"), removePush: step("push"), removePhotos: step("photos"), removeData: step("data"), removeLogin: step("login"), ...overrides };
+  const deps = { reauth: step("reauth"), removeCalendar: step("calendar"), removePush: step("push"), removeConsent: step("consent"), removePhotos: step("photos"), removeData: step("data"), removeLogin: step("login"), ...overrides };
   const progress = [];
   const promise = deleteAccount({ deps, onProgress: (text, n, total) => progress.push([n, total]) });
   return { log, progress, promise };
@@ -27,8 +27,8 @@ function run(overrides = {}) {
 const err = (code) => Object.assign(new Error(code), { code });
 
 let r = run();
-check("all steps in order, the login last", [(await r.promise).ok, r.log], [true, ["reauth", "calendar", "push", "photos", "data", "login"]]);
-check("progress is reported for every step", r.progress, [[1, 6], [2, 6], [3, 6], [4, 6], [5, 6], [6, 6]]);
+check("all steps in order, the login last", [(await r.promise).ok, r.log], [true, ["reauth", "calendar", "push", "consent", "photos", "data", "login"]]);
+check("progress is reported for every step", r.progress, [[1, 7], [2, 7], [3, 7], [4, 7], [5, 7], [6, 7], [7, 7]]);
 
 r = run({ reauth: async () => { throw err("auth/wrong-password"); } });
 let e = await r.promise.catch((x) => x);
@@ -49,6 +49,9 @@ check("a push problem stops it, before photos or data go", [e.step, r.log], ["pu
 r = run({ removePhotos: async () => { throw err("network"); } });
 e = await r.promise.catch((x) => x);
 check("photos failing stops it, data and login are untouched", [e.step, r.log.includes("data"), r.log.includes("login")], ["photos", false, false]);
+r = run({ removeConsent: async () => { throw err("network"); } });
+e = await r.promise.catch((x) => x);
+check("a consent problem stops it, before photos or data go", [e.step, r.log], ["consent", ["reauth", "calendar", "push"]]);
 r = run({ removeData: async () => { throw err("x"); } });
 e = await r.promise.catch((x) => x);
 check("data failing keeps the login", [e.step, r.log.includes("login")], ["data", false]);
@@ -63,6 +66,7 @@ check("closing the Google window says nothing", msg("reauth", "auth/popup-closed
 check("calendar", msg("calendar", "network").includes("Google Calendar reminders"), true);
 check("photos", msg("photos", "network").includes("photos"), true);
 check("push", msg("push", "network").includes("push notifications"), true);
+check("consent", msg("consent", "network").includes("consent record"), true);
 check("data", msg("data", "x").includes("data"), true);
 check("login says the data is already gone", msg("login", "x").includes("Your data is deleted"), true);
 check("unknown", deleteMessage(new Error("?")).length > 5, true);

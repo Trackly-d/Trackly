@@ -13,7 +13,7 @@ import { db, doc, getDoc, setDoc, serverTimestamp } from "./firebase-config.js";
 
 /* The date of the Terms of Service and Privacy Policy students agree to.
    Change this whenever you change those pages (use the "Last updated" date). */
-export const TERMS_VERSION = "2026-10-30";
+export const TERMS_VERSION = "2026-10-31";
 
 const flagKey = (uid) => "trackly_profile_ok_" + uid;
 
@@ -29,7 +29,7 @@ function alreadyChecked(uid) {
 /* Creates the student's record.
    At sign up it also saves when they agreed to the terms.
    In repair mode we cannot know that date, so we do not invent one. */
-export async function saveUserProfile(user, { repair = false } = {}) {
+export async function saveUserProfile(user, { repair = false, extra = {} } = {}) {
   const data = {
     uid: user.uid,
     fullName: user.displayName || "",
@@ -47,6 +47,8 @@ export async function saveUserProfile(user, { repair = false } = {}) {
     data.termsAcceptedAt = serverTimestamp();
     data.termsVersion = TERMS_VERSION;
   }
+  // At sign up: studentLevel, and for secondary school students the parental consent record (see js/consent-logic.js)
+  Object.assign(data, extra);
 
   await setDoc(doc(db, "users", user.uid), data);
   rememberSaved(user.uid);
@@ -55,15 +57,24 @@ export async function saveUserProfile(user, { repair = false } = {}) {
 /* Same thing, but it never blocks or breaks the sign up.
    If the database is slow or offline, we wait at most 6 seconds, then carry on.
    If it fails, the quiet repair below fixes it on the student's next page visit. */
-export async function saveUserProfileSafe(user) {
+export async function saveUserProfileSafe(user, extra = {}) {
   try {
     await Promise.race([
-      saveUserProfile(user),
+      saveUserProfile(user, { extra }),
       new Promise((_, reject) => setTimeout(() => reject(new Error("Database save timed out")), 6000))
     ]);
   } catch (err) {
     console.warn("Could not save the user record at sign up:", err);
   }
+}
+
+/* The sign up version for the level and consent fields: these MUST be saved, so a failure is not hidden.
+   The caller removes the new account if this throws, so nobody is left without a record of their level. */
+export async function saveUserProfileStrict(user, extra) {
+  await Promise.race([
+    saveUserProfile(user, { extra }),
+    new Promise((_, reject) => setTimeout(() => reject(Object.assign(new Error("Database save timed out"), { code: "profile-timeout" })), 10000))
+  ]);
 }
 
 /* QUIET REPAIR: creates the record only if it is missing.

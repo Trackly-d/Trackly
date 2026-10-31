@@ -19,7 +19,7 @@ const meta = (name) => (new RegExp('<meta (?:name|property)="' + name + '" conte
 const canonical = (/<link rel="canonical" href="([^"]+)"/.exec(html) || [])[1];
 
 // ---------- every file this page needs must be in the project (the message names the missing ones)
-const required = ["index.html", "404.html", "sitemap.xml", "robots.txt", "favicon.ico", "privacy.html", "terms.html", "contact.html", "login.html", "signup.html",
+const required = ["index.html", "404.html", "sitemap.xml", "robots.txt", "favicon.ico", "privacy.html", "terms.html", "contact.html", "login.html", "who-are-you.html",
   "assets/images/logo.webp", "assets/images/og-image.png", "assets/images/favicon-96.png", "assets/images/apple-touch-icon.png"];
 check("every file the home page needs is in the project", required.filter((f) => !exists(f)), []);
 
@@ -69,16 +69,16 @@ for (const h of hrefs) {
   if (hash && !idsOf(file).has(hash)) broken.push(h);
 }
 check("every link goes somewhere real", broken, []);
-for (const must of ["privacy.html", "terms.html", "privacy.html#google", "signup.html", "login.html#signin", "contact.html"]) {
+for (const must of ["privacy.html", "terms.html", "privacy.html#google", "who-are-you.html", "login.html#signin", "contact.html"]) {
   check("links to " + must, hrefs.includes(must), true);
 }
 check("no email address on the page (Contact points to the privacy policy)", /[\w.+-]+@[\w-]+\.[\w.-]+/.test(html), false);
 
 // ---------- the top bar on a phone: only Sign in
 const header = /<header class="top">[\s\S]*?<\/header>/.exec(html)[0];
-check("the top bar has Sign in and Create account on wide screens", [header.includes('href="login.html#signin"'), header.includes('class="btn btn-primary signup-link" href="signup.html"')], [true, true]);
+check("the top bar has Sign in and Create account on wide screens", [header.includes('href="login.html#signin"'), header.includes('class="btn btn-primary signup-link" href="who-are-you.html"')], [true, true]);
 check("on phones the top bar hides Create account", /@media \(max-width:600px\)\{\.signup-link\{display:none\}\}/.test(html), true);
-check("only the top bar link is hidden, Create account stays in the hero, final section and footer", [(html.match(/signup-link/g) || []).length === 2, (html.match(/href="signup\.html"/g) || []).length], [true, 4]);
+check("only the top bar link is hidden, Create account stays in the hero, final section and footer", [(html.match(/signup-link/g) || []).length === 2, (html.match(/href="who-are-you\.html"/g) || []).length], [true, 4]);
 
 // ---------- what Google looks at: a public description, and the privacy link
 check("describes what Trackly does and does not do with Google Calendar", ["What Trackly does", "What Trackly does not do", "Read or change your other calendar events", "Sell your Google data"].every((s) => text.includes(s)), true);

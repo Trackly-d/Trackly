@@ -1,0 +1,8 @@
+{
+  "name": "trackly-consent",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": { "deploy": "wrangler deploy", "tail": "wrangler tail" },
+  "devDependencies": { "wrangler": "^4" }
+}

@@ -8,6 +8,7 @@
       "worker/**",
       "worker-calendar/**",
       "worker-push/**",
+      "worker-consent/**",
       "design/**",
       "tests/**",
       "*.md",

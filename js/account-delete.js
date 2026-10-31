@@ -37,12 +37,13 @@ export function validateDeleteForm({ typed = "", password = "" }, mode) {
 
 export const TOLERATED_CALENDAR = ["reconnect", "not_connected"]; // nothing more we can remove: carry on
 
-/* deps: { reauth, removeCalendar, removePush, removePhotos, removeData, removeLogin }, all async. onProgress(text, number, total). */
+/* deps: { reauth, removeCalendar, removePush, removeConsent, removePhotos, removeData, removeLogin }, all async. onProgress(text, number, total). */
 export async function deleteAccount({ deps, onProgress }) {
   const plan = [
     { step: "reauth", label: "Checking your sign in...", run: deps.reauth },
     { step: "calendar", label: "Removing your Google Calendar reminders...", run: deps.removeCalendar, tolerate: (err) => Boolean(err && TOLERATED_CALENDAR.includes(err.code)) },
     { step: "push", label: "Removing your push notifications...", run: deps.removePush },
+    { step: "consent", label: "Removing your parental consent record...", run: deps.removeConsent },
     { step: "photos", label: "Removing your photos...", run: deps.removePhotos },
     { step: "data", label: "Deleting your courses, assignments and settings...", run: deps.removeData },
     { step: "login", label: "Deleting your account...", run: deps.removeLogin }
@@ -69,6 +70,7 @@ export function deleteMessage(error) {
     if (code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") return "";
     return passwordError(code) || "We could not confirm your sign in. Please try again.";
   }
+  if (step === "consent") return "We could not remove your parental consent record. Check your connection and try again.";
   if (step === "push") return "We could not remove your push notifications. Check your connection and try again.";
   if (step === "calendar") return "We could not remove your Google Calendar reminders. Check your connection and try again.";
   if (step === "photos") return "We could not remove your photos. Check your connection and try again.";

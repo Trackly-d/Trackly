@@ -7,6 +7,8 @@
   <meta name="description" content="A parent or guardian approves or declines a student's Trackly account.">
   <!-- Account pages are kept out of Google on purpose. The public home page (index.html) is the one built to rank. -->
   <meta name="robots" content="noindex, nofollow">
+  <!-- The link in the email holds a secret code, so no other website is ever told which page the parent came from -->
+  <meta name="referrer" content="no-referrer">
 
   <!-- Inter font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,12 +30,15 @@
 <body class="cs-page">
   <!--
     PARENT APPROVAL (the parent's screen, opened from the email link). We do not know the student's name here on purpose:
-    until the parent approves, we keep only their email address and the time of the request.
-    Views of the card (design only): parent-approval.html?state=ready | approving | approved | declined | expired
+    until the parent approves, we keep only a scrambled copy of their email address and the time of the request.
+    The card shows one view at a time (its data-view): ready, approved, declined or expired. js/parent-approval.js chooses it.
   -->
   <main>
     <img class="cs-logo" src="assets/images/logo.webp" alt="Trackly" width="360" height="114">
-    <section class="cs-card" data-states="ready approving approved declined expired" data-view="ready" data-state="ready" aria-live="polite">
+    <section class="cs-card" id="pa-card" data-view="loading" data-state="loading" aria-live="polite">
+
+      <!-- LOADING: shown for a moment while the link is checked -->
+      <div class="cs-view cs-v-loading"><p class="cs-lead" style="margin:18px 0">Checking your link...</p></div>
 
       <!-- READY -->
       <div class="cs-view cs-v-ready">
@@ -47,10 +52,12 @@
           <li>their Google Calendar reminders and push alerts, only if they switch them on.</li>
         </ul>
         <p class="cs-lead" style="text-align:left">We never sell this information or use it for advertising. Read our <a class="cs-link-inline" href="privacy.html">Privacy Policy</a>.</p>
-        <label class="cs-check"><input type="checkbox" id="parent-confirm"><span>I am this student's parent or legal guardian, and I consent to Trackly processing their personal data as described.</span></label>
-        <button class="cs-btn cs-btn-main" type="button"><span class="cs-idle">Approve</span><span class="cs-busy">Approving...</span></button>
-        <button class="cs-btn is-danger-ghost" type="button">Decline</button>
-        <p class="cs-note">You can ask us to delete the account at any time through our <a class="cs-link-inline" href="contact.html">contact page</a>.</p>
+        <p class="cs-banner" id="pa-banner" role="alert">We could not save your answer. Please try again.</p>
+        <label class="cs-check" id="pa-confirm-row"><input type="checkbox" id="parent-confirm"><span>I am this student's parent or legal guardian, and I consent to Trackly processing their personal data as described.</span></label>
+        <p class="cs-error" id="pa-confirm-error" role="alert">Please tick the box to approve.</p>
+        <button class="cs-btn cs-btn-main" id="pa-approve" type="button"><span class="cs-idle">Approve</span><span class="cs-busy">Approving...</span></button>
+        <button class="cs-btn is-danger-ghost" id="pa-decline" type="button">Decline</button>
+        <p class="cs-note">We do not keep your email address in readable form. If you approve, we keep a scrambled copy and the time as proof of your consent. If you decline, we delete the request. You can ask us to delete the account at any time through our <a class="cs-link-inline" href="contact.html">contact page</a>.</p>
       </div>
 
       <!-- APPROVED -->
@@ -74,9 +81,8 @@
         <p class="cs-lead">It has expired or was already used. Ask the student to send a new approval link.</p>
       </div>
     </section>
-    <p class="cs-lead-light" style="margin-top:18px">Design preview: <strong id="cs-state">ready</strong></p>
   </main>
-  <script type="module" src="js/consent-design.js"></script>
+  <script type="module" src="js/parent-approval.js"></script>
   <script type="module" src="/js/pwa.js"></script>
 </body>
 </html>

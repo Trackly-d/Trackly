@@ -86,6 +86,7 @@
 .cs-view { display: none; }
 .cs-card[data-view="form"] .cs-v-form,
 .cs-card[data-view="sent"] .cs-v-sent,
+.cs-card[data-view="loading"] .cs-v-loading,
 .cs-card[data-view="ready"] .cs-v-ready,
 .cs-card[data-view="approved"] .cs-v-approved,
 .cs-card[data-view="declined"] .cs-v-declined,
@@ -106,3 +107,6 @@
 }
 
 .cs-link-inline { color: var(--color-brand-dark); font-weight: 600; }
+
+.cs-banner.is-on { display: block; }
+.cs-link[hidden] { display: none; }
